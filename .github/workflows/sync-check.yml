@@ -26,7 +26,8 @@ jobs:
         run: |
           cd zh
           # 非翻译文件（不要求对齐）：changeset/CI/脚本/agent 配置/废弃与进行中目录
-          EXCL='^(\.changeset/|\.github/|scripts/|\.agents/|\.out-of-scope/|skills/(deprecated|in-progress|personal)/)'
+          # .githooks/ 与 implement-spec 的 acpx 适配文件是刻意保留的本地差异
+          EXCL='^(\.changeset/|\.github/|\.githooks/|scripts/|\.agents/|\.out-of-scope/|skills/(deprecated|in-progress|personal)/|skills/engineering/implement-spec/(references/recovery\.md|templates/prompt-.*\.md))'
           SUFFIX='\.(yaml|yml|json|cjs|mjs|sh|png|svg)$'
           missing=$(comm -23 <(cd ../upstream && git ls-files | sort) <(git ls-files | sort) \
             | grep -v -E "$EXCL" | grep -v -E "$SUFFIX" || true)
