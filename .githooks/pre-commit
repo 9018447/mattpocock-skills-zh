@@ -4,6 +4,17 @@
 # 这一环，让每次内容提交合并后立即进入发布链路。
 set -euo pipefail
 
+# 密钥扫描：检查本次提交新增的行，命中已知密钥/令牌特征即拒绝。
+# 覆盖常见前缀与私钥；刻意不写"api_key=xxx"之类的泛化规则，避免文档
+# 教程内容误报。确认是误报可改写措辞，确属安全内容用 --no-verify 跳过。
+# ponytail: 前缀清单而非熵检测，漏检自签名/冷门令牌；需要时再升级 gitleaks。
+staged_adds=$(git diff --cached --diff-filter=AM -U0 | grep '^[+]' | grep -v '^[+][+][+]' || true)
+if [ -n "$staged_adds" ] && echo "$staged_adds" | grep -En \
+'sk-ant-[A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{36}|gho_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}|xox[baprs]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16}|glpat-[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{35}|hf_[A-Za-z0-9]{34}|npm_[A-Za-z0-9]{36}|-----BEGIN [A-Z ]*PRIVATE KEY-----'; then
+  echo "pre-commit: 疑似密钥/令牌，见上方标号行。误报请改写；确认安全可 git commit --no-verify 跳过。" >&2
+  exit 1
+fi
+
 # 触发面只限真正随插件分发的路径；docs/、README、CHANGELOG 不进安装包，
 # 改动它们不需要版本号变化。
 if ! git diff --cached --name-only -- \
