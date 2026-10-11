@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# 内容改动自动补 patch changeset：没有 changeset 的内容提交不会生成
+# "chore: version skills" 版本 PR，安装端也就拿不到新版本。此钩子补上
+# 这一环，让每次内容提交合并后立即进入发布链路。
+set -euo pipefail
+
+# 触发面只限真正随插件分发的路径；docs/、README、CHANGELOG 不进安装包，
+# 改动它们不需要版本号变化。
+if ! git diff --cached --name-only -- \
+    'skills/engineering/*' 'skills/productivity/*' '.claude-plugin/*' |
+    grep -q .; then
+  exit 0
+fi
+
+# 已手动准备 changeset 就不再生成（.changeset/README.md 不算）。
+if git diff --cached --name-only --diff-filter=ACMR -- '.changeset/*.md' |
+    grep -v 'README.md' | grep -q .; then
+  exit 0
+fi
+
+# 取提交信息的第一个非注释行作为 changeset 描述。
+subject=$(sed -n '/^#/q;p' "$(git rev-parse --git-dir)/COMMIT_EDITMSG" 2>/dev/null | head -1)
+subject=${subject:-内容更新}
+
+file=".changeset/auto-$(date +%Y%m%d%H%M%S)-$$.md"
+cat > "$file" <<EOF
+---
+"mattpocock-skills": patch
+---
+
+${subject}
+EOF
+git add "$file"
+echo "pre-commit: 内容改动，已自动生成 changeset：$file（patch）"
