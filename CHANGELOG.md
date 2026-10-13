@@ -1,5 +1,12 @@
 # mattpocock-skills
 
+## 1.3.8
+
+### Patch Changes
+
+- build: 升级 @changesets/cli 至 v3，findRoot 认 packageManager 字段，不再被家目录野 package.json 带偏
+- 更新会原始版本
+
 ## 1.3.7
 
 ### Patch Changes
