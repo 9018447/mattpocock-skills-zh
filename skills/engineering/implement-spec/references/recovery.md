@@ -4,7 +4,7 @@ SKILL.md 主流程的异常分支收在这里，命中对应情况才读本文�
 
 ## 额度撞限降级（不等重置）
 
-候补链任一 agent（omp/kimi/dsh 同样处理）撞 5h 用量上限——错误签名如 `1308`、`Usage limit reached for 5 hour`、`AccountQuotaExceeded`，retry-after 数小时——**不等重置、不干等**：同 prompt、同 worktree（半成品原样保留续做）改派链内下一 agent。旧 agent 日志换名留档，pane 已被回收则重建 tab 取新 pane_id。降级重派不改票面验收标准，续作 agent 从盘上现状接手（判据同「中断续作」）。（2026-10-09 用户裁定"别卡死 用kimi"）
+候补链任一 agent（omp/kimi/dsh/zcode 同样处理）撞 5h 用量上限——错误签名如 `1308`、`Usage limit reached for 5 hour`、`AccountQuotaExceeded`，retry-after 数小时——**不等重置、不干等**：同 prompt、同 worktree（半成品原样保留续做）改派链内下一 agent。旧 agent 日志换名留档，pane 已被回收则重建 tab 取新 pane_id。降级重派不改票面验收标准，续作 agent 从盘上现状接手（判据同「中断续作」）。（2026-10-09 用户裁定"别卡死 用kimi"）
 
 ## acpx 静默死亡恢复
 
@@ -29,4 +29,4 @@ SKILL.md 主流程的异常分支收在这里，命中对应情况才读本文�
 
 ## 配额错误签名的自动换链
 
-启动探针阶段日志出现 `quota|usage limit|403.*limit` 类签名即视为 agent 不可用，直接按候补链换派（omp→kimi→dsh），不等用户报障、不等重置——2026-10-10 t12 实证：kimi 周配额 403（7 天窗）与 dsh 5h 窗两种签名先后出现，链头 omp 救回，全程约 4 分钟。周配额与 5h 配额签名同处理，错误文本里带重置时间且重置点在几分钟内的，换链仍优先于等（等是链内无人可用时的兜底）。
+启动探针阶段日志出现 `quota|usage limit|403.*limit` 类签名即视为 agent 不可用，直接按候补链换派（omp→kimi→dsh→zcode；zcode 指 `~/.local/bin/zcode-acp` 包装，2026-10-13 加入链尾），不等用户报障、不等重置——2026-10-10 t12 实证：kimi 周配额 403（7 天窗）与 dsh 5h 窗两种签名先后出现，链头 omp 救回，全程约 4 分钟。周配额与 5h 配额签名同处理，错误文本里带重置时间且重置点在几分钟内的，换链仍优先于等（等是链内无人可用时的兜底）。

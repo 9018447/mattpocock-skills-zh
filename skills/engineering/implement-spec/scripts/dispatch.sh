@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # 派发降级链包装：按候补链逐个 agent 尝试 acpx 派发，命中撞限签名或静默死亡自动换下一个。
-# 链与错误签名依据 references/recovery.md（2026-10-09 定案：omp 到 kimi 到 dsh）；
-# rate_limited 为 2026-10-13 zcode 桥实测新增（GLM provider 429）。
+# 链与错误签名依据 references/recovery.md（2026-10-09 定案：omp 到 kimi 到 dsh，
+# 2026-10-13 追加 zcode 收尾链尾）；rate_limited 为同日 zcode 桥实测新增（GLM provider 429）。
 # 成功判据：退出码 0 且日志出现 [done] end_turn；静默死亡判据：无 end_turn 且 worktree 零改动。
 # ponytail: 不做进程存活轮询，同步 exec 阻塞到结束；要看进度由编排者 tail 日志。
 set -euo pipefail
@@ -20,17 +20,17 @@ done
 [ -d "$worktree" ] && [ -f "$prompt" ] && [ -n "$log" ] || { echo "dispatch: 参数不全" >&2; exit 1; }
 
 case "$chain" in
-  implement) default_agents="omp-acp kimi dsh" ;;
+  implement) default_agents="omp-acp kimi dsh zcode" ;;
   codex)     default_agents="codex" ;;
   *) echo "dispatch: 未知链 $chain" >&2; exit 1 ;;
 esac
-# 透传覆盖：空格分隔的短名（omp-acp/kimi/dsh/codex）或 ACP 桥路径。
+# 透传覆盖：空格分隔的短名（omp-acp/kimi/dsh/codex/zcode）或 ACP 桥路径。
 # 出口校验同 frontier 的信任边界思路：白名单之外只放行安全路径字符，
 # 派发串里的分号引号永远到不了 shell。
 agents="${agents:-$default_agents}"
 for a in $agents; do
   case "$a" in
-    omp-acp|kimi|dsh|codex) ;;
+    omp-acp|kimi|dsh|codex|zcode) ;;
     *) echo "$a" | grep -Eq '^[A-Za-z0-9_./-]+$' \
        || { echo "dispatch: 非法 agent 名: $a" >&2; exit 1; } ;;
   esac
@@ -47,6 +47,9 @@ run_agent() {
     dsh)     acpx --cwd "$worktree" --approve-all dsh exec -f "$prompt" ;;
     codex)   env HTTP_PROXY="$proxy" HTTPS_PROXY="$proxy" INITIAL_AGENT_MODE=agent-full-access \
              acpx --cwd "$worktree" --approve-all --model gpt-6-luna codex exec -f "$prompt" ;;
+    zcode)   zbin="$HOME/.local/bin/zcode-acp"  # 桥包装：动态定位 Linux 引擎 bundle；uv tool upgrade 会抹掉它
+             [ -x "$zbin" ] || { echo "dispatch: zcode-acp 包装缺失: $zbin" >&2; return 1; }
+             acpx --cwd "$worktree" --approve-all --agent "$zbin" exec -f "$prompt" ;;
     *)       # 其他值按 ACP 桥原始命令透传（--agent 是逃生舱，如 zcode-acp、omp acp）
              acpx --cwd "$worktree" --approve-all --agent "$agent" exec -f "$prompt" ;;
   esac

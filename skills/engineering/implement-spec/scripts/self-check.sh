@@ -76,6 +76,16 @@ else
   note "dispatch 非法 agent 名拒收通过"
 fi
 
+# 4.6) dispatch zcode 分支：包装缺失时按失败退出走换链，错误落日志
+if HOME=/nonexistent-dispatch-zcode bash "$here/dispatch.sh" --worktree "$fx" --prompt "$fx/goal.txt" --log "$fx/d-zcode.log" \
+     --chain implement --agents zcode 2>/dev/null; then
+  bad "dispatch zcode 包装缺失未报错"
+elif ! grep -q "zcode-acp 包装缺失" "$fx/d-zcode.log"; then
+  bad "dispatch zcode 失败原因不是包装缺失"
+else
+  note "dispatch zcode 包装缺失安全换链通过"
+fi
+
 # 5) workflow 引擎语法实测：夹具仓库 + stub lifecycle，三类 YAML 各跑一次
 repo="$fx/repo"; mkdir -p "$repo/.specify"
 git -C "$repo" init -q
