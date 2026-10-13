@@ -1,6 +1,6 @@
 ## 它的作用
 
-`implement-spec` 接下一份 [spec](https://www.aihero.dev/ai-coding-dictionary/spec) 和它的 [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket)，一次运行把整件事落地。编排循环由 specify workflow 引擎按确定性步骤执行：引擎把每张可领的 ticket 交给一个在自有 git worktree 里工作的实施者 [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent)，每条支线在通过一道**审查门**后合并进一条**集成分支**；你调用的 [agent](https://www.aihero.dev/ai-coding-dictionary/agent) 负责开工、处置故障，并在收尾对集成分支运行 [code-review](https://aihero.dev/skills-code-review)，然后解决这些 ticket。
+`implement-spec` 接下一份 [spec](https://www.aihero.dev/ai-coding-dictionary/spec) 和它的 [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket)，一次运行把整件事落地。编排 [agent](https://www.aihero.dev/ai-coding-dictionary/agent) 把每张 ticket 交给一个在自有 git worktree 里工作的实施者 [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent)，把每条完成的支线合并进一条**集成分支**，对结果运行 [code-review](https://aihero.dev/skills-code-review)，然后解决这些 ticket。
 
 它把 ticket 读成一张**任务图**，不是一张清单。阻塞边决定什么可以开始，所以任何时刻都存在一个**前沿**：所有阻塞项都已落地的 ticket，前沿上的每张 ticket 同时开跑。这就是与逐张推进 ticket 的区别：决定节奏的是图的形状，而不是它在跟踪器上的顺序。
 
@@ -20,7 +20,6 @@
 - **一个 issue 跟踪器。** 技能从 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 配置的跟踪器上读取 ticket、并在其上解决它们。如果还没有配置，它会停下并让你先运行那个技能，而不是瞎猜。
 - **带阻塞边的 ticket**，即 [to-tickets](https://aihero.dev/skills-to-tickets) 写出的那种。没有边，图就是平的，每张 ticket 会同时开跑。
 - **一个能在后台运行 subagent、并给每个 subagent 一个 git worktree 的 [harness](https://www.aihero.dev/ai-coding-dictionary/harness)。** 并发是重点；一次只跑一个 subagent 的 harness，得到的只是一个更慢的 `implement`。
-- **specify workflow 引擎与派发链工具（`specify` ≥1.1、`acpx`、`jev-decide`、`gh`、`python3`）。** 循环由引擎执行，实施者经 acpx 派发，审查门调 jev 判官。任一缺失时技能回退到内置的 prompts 式编排（`references/prompts-fallback.md`），行为与引擎化之前一致。
 
 ## 集成分支
 
@@ -28,9 +27,7 @@
 
 1. 开始前确认其 worktree 基于集成分支，
 2. 用 [tdd](https://aihero.dev/skills-tdd) 构建自己的 ticket，一次一个红-绿切片，
-3. 在报告完成之前，把集成分支的顶部合并进自己的分支；落地是合并提交，撞上的冲突会退回实施者在自己的 worktree 里解决。
-
-每张 ticket 在合并之前过一道**审查门**：该票 diff、票面验收标准与测试回执被拼成一份判定请求，交给本地运行的 jev 判官，判定值决定放行或打回。打回会带着判定意见生成一张修复票重新派发，两轮封顶；用尽仍不过，整个运行转入 failed 等人接手。审查门的考卷由脚本自动拼装，判定不通过的代码到不了集成分支。
+3. 在报告完成之前，把集成分支的顶部合并进自己的分支，这样落地它就是一个 fast-forward。
 
 是否开 PR 完全由跟踪器决定。如果你的跟踪器通过 PR 关闭工作，或者你主动要求，draft PR 会在第一次合并后打开，并在最后标记为 ready。否则，运行会停在集成分支上，每张 ticket 都按跟踪器关闭工作的方式解决——这在本地 markdown 跟踪器上完全离线可用。
 
@@ -48,7 +45,7 @@
 
 **它的评审-修复循环跑了好几个小时，或者一直在"修"还没构建的 ticket。**
 
-两者都来自 `code-review` 跑到了技能给它划定的那一个位置之外。它拿代码对照整份 spec，所以只有在每张 ticket 都已落地之后它才说得通；在一次运行中途跑它，每张未构建的 ticket 都会被读成失败，agent 就开始去构建它，于是又触发一次评审。在最后，技能只跑一次 `code-review`，并把每条发现送给单个修复 subagent。ticket 级的审查-修复循环现在两轮封顶，用尽即转 failed 交人处置，不再无限修下去。一位用户报告过一个五张 ticket 的功能里"评审-修复循环花了大约四小时"，这个上限就是对着那段经历加的。对第一轮评审要预期它找到真问题：这次运行的产出是一份由评审来收尾的草稿，不是可以单独发布的东西。
+两者都来自 `code-review` 跑到了技能给它划定的那一个位置之外。它拿代码对照整份 spec，所以只有在每张 ticket 都已落地之后它才说得通；在一次运行中途跑它，每张未构建的 ticket 都会被读成失败，agent 就开始去构建它，于是又触发一次评审。在最后，技能只跑一次 `code-review`，并把每条发现送给单个修复 subagent，但它还没有规定那次修复之后何时收手。一位用户报告过一个五张 ticket 的功能里"评审-修复循环花了大约四小时"。如果你看到第二轮大范围评审开始，告诉它针对已修复的发现跑聚焦检查然后停下。对第一轮评审要预期它找到真问题：这次运行的产出是一份由评审来收尾的草稿，不是可以单独发布的东西。
 
 **它会像 implement 那样驱动 tdd 吗？**
 
@@ -75,7 +72,7 @@ worktree 只装 git 跟踪的东西。读取 gitignore 的 fixture、本地数�
 - 图允许时，多个实施者同时运行，而不是一个接一个。
 - 一张 ticket 在它的最后一个阻塞项落到集成分支上时就开始，而不是等整次运行结束。
 - 每张 ticket 的痕迹都显示 `tdd` 在运行，代码之前先有失败的测试。
-- 每张 ticket 都在通过审查门之后才落到集成分支上；审查-修复循环两轮内收敛，收敛不了时运行停在 failed 等人，而不是无限修。
+- 合并进集成分支都是 fast-forward，而不是解决冲突。
 - 运行结束在一条分支上、每张 ticket 都已解决；只有你的跟踪器想要时才有 PR。
 
 ## 它的定位
