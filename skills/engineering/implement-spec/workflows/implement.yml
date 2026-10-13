@@ -2,9 +2,9 @@ schema_version: "1.0"
 workflow:
   id: implement-tickets
   name: Implement Spec Tickets
-  version: "1.0.0"
+  version: "1.2.0"
   author: "devcxl"
-  description: "前沿循环领票，fan-out 派发实现，票级 jev 审查与修复循环"
+  description: "编排者显式给定本地票清单（逐票携带当次存活派发链），fan-out 派发实现，票级 jev 审查与修复循环；引擎不扫描票库"
 inputs:
   repo_root:
     type: string
@@ -18,10 +18,10 @@ inputs:
     type: string
     required: true
     prompt: "整体目标文本文件的绝对路径（一段话说清 spec 目标与当前主要矛盾）"
-  frontier_label:
+  ticket_files:
     type: string
-    default: ""
-    prompt: "可领票的 issue label，空为全部开放票"
+    required: true
+    prompt: "本波票清单 JSON 数组，元素须为 {\"file\": <票文件绝对路径>, \"agents\": <当次存活派发链>}；链由编排者当次按各 agent 存活状态逐票指定，不写死默认"
   max_fix_rounds:
     type: number
     default: 2
@@ -29,51 +29,34 @@ inputs:
   open_pr:
     type: boolean
     default: false
-    prompt: "是否在首次合并后创建 draft PR 并在收尾时标记 ready"
+    prompt: "是否在首次合并后创建 draft PR 并在收尾时标记 ready（需要 GitHub 远端）"
 steps:
   - id: preflight
     type: shell
     run: >-
       test -d '{{ inputs.repo_root }}' && git -C '{{ inputs.repo_root }}' rev-parse --verify
       '{{ inputs.integration_branch }}' && test -f '{{ inputs.spec_goal_file }}' && command -v acpx
-      >/dev/null && command -v jev-decide >/dev/null && command -v gh >/dev/null && echo preflight-ok
-  - id: ticket-loop
-    type: do-while
-    condition: "{{ steps.scan.output.stdout | from_json | length }}"
-    max_iterations: 200
-    steps:
-      - id: scan
-        type: shell
-        run: >-
-          bash '{{ context.workflow_dir }}/../scripts/frontier.sh' '{{ inputs.repo_root }}'
-          '{{ inputs.frontier_label }}'
-      - id: has-tickets
-        type: if
-        condition: "{{ steps.scan.output.stdout | from_json | length }}"
-        then:
-          - id: work
-            type: fan-out
-            items: "{{ steps.scan.output.stdout | from_json }}"
-            # 引擎不解析本字段的表达式，调并发直接编辑此数字
-            max_concurrency: 3
-            step:
-              id: ticket
-              type: shell
-              timeout: 86400
-              run: >-
-                bash '{{ context.workflow_dir }}/../scripts/ticket-lifecycle.sh' --repo
-                '{{ inputs.repo_root }}' --branch '{{ inputs.integration_branch }}' --ticket
-                '{{ item }}' --type implement --goal-file '{{ inputs.spec_goal_file }}'
-                --skill-dir '{{ context.workflow_dir }}/..' --max-rounds
-                '{{ inputs.max_fix_rounds }}' --open-pr '{{ inputs.open_pr }}' --agents '{{ inputs.agents }}'
-          - id: collect
-            type: fan-in
-            wait_for: [work]
-  - id: assert-drained
-    type: shell
-    run: >-
-      n='{{ steps.scan.output.stdout | from_json | length }}'; test "$n" = '0' || { echo
-      "前沿未排空：$n 张票因循环上限滞留" >&2; exit 1; }
+      >/dev/null && command -v jev-decide >/dev/null && echo '{{ inputs.ticket_files }}' | python3 -c
+      'import json,sys,os; items=json.load(sys.stdin); [sys.exit("票文件缺失或路径不存在: "+repr(i)) for i in items if not isinstance(i,dict) or not i.get("file") or not os.path.isfile(i["file"])]; [sys.exit("票未指定当次存活派发链 agents: "+repr(i.get("file"))) for i in items if not str(i.get("agents") or "").strip()]'
+      && echo preflight-ok
+  - id: work
+    type: fan-out
+    items: "{{ inputs.ticket_files | from_json }}"
+    # 引擎不解析本字段的表达式，调并发直接编辑此数字
+    max_concurrency: 3
+    step:
+      id: ticket
+      type: shell
+      timeout: 86400
+      run: >-
+        bash '{{ context.workflow_dir }}/../scripts/ticket-lifecycle.sh' --repo
+        '{{ inputs.repo_root }}' --branch '{{ inputs.integration_branch }}' --ticket-file
+        '{{ item.file }}' --type implement --goal-file '{{ inputs.spec_goal_file }}'
+        --skill-dir '{{ context.workflow_dir }}/..' --max-rounds
+        '{{ inputs.max_fix_rounds }}' --open-pr '{{ inputs.open_pr }}' --agents '{{ item.agents }}'
+  - id: collect
+    type: fan-in
+    wait_for: [work]
   - id: finalize
     type: shell
     run: >-

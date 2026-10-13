@@ -2,7 +2,7 @@ schema_version: "1.0"
 workflow:
   id: test-suite
   name: Full Test Suite
-  version: "1.0.0"
+  version: "1.1.0"
   author: "devcxl"
   description: "实现闭环后的全量测试：codex 跑套件，jev 审覆盖，不过即转 failed 交编排者"
 inputs:
@@ -18,22 +18,23 @@ inputs:
     type: string
     required: true
     prompt: "整体目标文本文件的绝对路径"
-  ticket:
-    type: number
+  ticket_file:
+    type: string
     required: true
-    prompt: "本轮全量测试票的 issue 号"
+    prompt: "本轮全量测试票的本地文件路径"
 steps:
   - id: preflight
     type: shell
     run: >-
       test -d '{{ inputs.repo_root }}' && git -C '{{ inputs.repo_root }}' rev-parse --verify
-      '{{ inputs.integration_branch }}' && test -f '{{ inputs.spec_goal_file }}' && command -v acpx
-      >/dev/null && command -v jev-decide >/dev/null && command -v gh >/dev/null && echo preflight-ok
+      '{{ inputs.integration_branch }}' && test -f '{{ inputs.spec_goal_file }}' && test -f
+      '{{ inputs.ticket_file }}' && command -v acpx >/dev/null && command -v jev-decide
+      >/dev/null && echo preflight-ok
   - id: suite
     type: shell
     timeout: 86400
     run: >-
       bash '{{ context.workflow_dir }}/../scripts/ticket-lifecycle.sh' --repo
-      '{{ inputs.repo_root }}' --branch '{{ inputs.integration_branch }}' --ticket
-      '{{ inputs.ticket }}' --type test --goal-file '{{ inputs.spec_goal_file }}'
+      '{{ inputs.repo_root }}' --branch '{{ inputs.integration_branch }}' --ticket-file
+      '{{ inputs.ticket_file }}' --type test --goal-file '{{ inputs.spec_goal_file }}'
       --skill-dir '{{ context.workflow_dir }}/..' --max-rounds 0

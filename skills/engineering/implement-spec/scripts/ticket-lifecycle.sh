@@ -2,14 +2,16 @@
 # 单票生命周期：worktree 就绪、填模板派发、拼考卷、jev 审查、合并或修复循环。
 # 修复轮上限 --max-rounds（默认 2），用尽仍未过则退出码 1，run 转 failed，编排者按 recovery.md 接手。
 # test 票只测不改：不合并，审查不过同样转 failed 交编排者。
+# 票源为本地 markdown 票文件（--ticket-file，文件名须以「数字-」开头），票面零远程查询；
+# 仅 open_pr=true 的 PR 收尾用 gh（需 GitHub 远端）。
 set -euo pipefail
 
-repo="" branch="" ticket="" type="" goal_file="" skill_dir="" max_rounds=2 open_pr=false agents=""
+repo="" branch="" ticket_file="" type="" goal_file="" skill_dir="" max_rounds=2 open_pr=false agents=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --repo) repo=$2; shift 2 ;;
     --branch) branch=$2; shift 2 ;;
-    --ticket) ticket=$2; shift 2 ;;
+    --ticket-file) ticket_file=$2; shift 2 ;;
     --type) type=$2; shift 2 ;;
     --goal-file) goal_file=$2; shift 2 ;;
     --skill-dir) skill_dir=$2; shift 2 ;;
@@ -19,7 +21,7 @@ while [ $# -gt 0 ]; do
     *) echo "lifecycle: 未知参数 $1" >&2; exit 1 ;;
   esac
 done
-[ -n "$repo" ] && [ -n "$branch" ] && [ -n "$ticket" ] && [ -n "$type" ] \
+[ -n "$repo" ] && [ -n "$branch" ] && [ -n "$ticket_file" ] && [ -n "$type" ] \
   && [ -n "$goal_file" ] && [ -n "$skill_dir" ] || { echo "lifecycle: 参数不全" >&2; exit 1; }
 case "$type" in implement|run|test) ;; *) echo "lifecycle: 未知类型 $type" >&2; exit 1 ;; esac
 
@@ -27,7 +29,11 @@ die() { echo "lifecycle: $*" >&2; exit 1; }
 script_dir=$(cd "$(dirname "$0")" && pwd)
 R=$(cd "$repo" && pwd)
 D=$(cd "$skill_dir" && pwd)
-t=$(printf 't%02d' "$ticket")
+[ -f "$ticket_file" ] || die "票文件不存在: $ticket_file"
+stem=$(basename "$ticket_file" .md)
+num=${stem%%-*}
+case "$num" in ''|*[!0-9]*) die "票文件名须以「数字-」开头（如 04-column.md）: $stem" ;; esac
+t=$(printf 't%02d' "$num")
 wt="$R/.worktrees/$t"
 br="ticket/$t"
 res="$R/.agent-results"
@@ -40,15 +46,8 @@ if [ ! -d "$wt" ]; then
 fi
 git -C "$wt" checkout -q "$br" || die "无法切换 $wt 到 $br"
 
-# 票面落盘（标题加正文，作为 prompt 的本票作用与考卷的 ticket 段）
-gh issue view "$ticket" --json title,body > "$res/ticket-$t.json" || die "拉取票 #$ticket 失败"
-python3 - "$res/ticket-$t.json" > "$res/ticket-$t.md" <<'PY'
-import json, sys
-d = json.load(open(sys.argv[1]))
-print("# " + str(d.get("title", "")))
-print()
-print(str(d.get("body", "")))
-PY
+# 票面落盘（本地票文件即标题加正文，作为 prompt 的本票作用与考卷的 ticket 段）
+cp "$ticket_file" "$res/ticket-$t.md" || die "读取票面失败: $ticket_file"
 
 case "$type" in
   implement) chain=implement ;;
@@ -127,7 +126,7 @@ NOTE
   if [ "$open_pr" = true ]; then
     if ! (cd "$R" && gh pr list --head "$branch" --state open --json url | grep -q '"url"'); then
       (cd "$R" && gh pr create --draft --head "$branch" \
-        --title "spec: $branch" --body "集成实现，关联票 #$ticket（关闭逻辑见 issue tracker）") \
+        --title "spec: $branch" --body "集成实现，关联票 $stem（关闭逻辑见 issue tracker）") \
         || echo "lifecycle: draft PR 创建失败，收尾时重试" >&2
     fi
   fi

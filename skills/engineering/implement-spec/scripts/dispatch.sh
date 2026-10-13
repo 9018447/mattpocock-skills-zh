@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # 派发降级链包装：按候补链逐个 agent 尝试 acpx 派发，命中撞限签名或静默死亡自动换下一个。
-# 链与错误签名依据 references/recovery.md（2026-10-09 定案：omp 到 kimi 到 dsh，
-# 2026-10-13 追加 zcode 收尾链尾）；rate_limited 为同日 zcode 桥实测新增（GLM provider 429）。
+# 链与错误签名依据 references/recovery.md（2026-10-09 定案：omp 到 kimi 到 dsh，zcode 收尾）；
+# rate_limited 为 2026-10-13 zcode 桥实测新增（GLM provider 429）。
+# 存活原则：implement 链不写死默认——派发链是活的决定，由编排者当次按各 agent 存活状态
+# 逐票显式指定（--agents）；codex 单 agent 是运行/测试票的常设裁定（用户 2026-10-10），不属存活链。
 # 成功判据：退出码 0 且日志出现 [done] end_turn；静默死亡判据：无 end_turn 且 worktree 零改动。
 # ponytail: 不做进程存活轮询，同步 exec 阻塞到结束；要看进度由编排者 tail 日志。
 set -euo pipefail
@@ -20,14 +22,14 @@ done
 [ -d "$worktree" ] && [ -f "$prompt" ] && [ -n "$log" ] || { echo "dispatch: 参数不全" >&2; exit 1; }
 
 case "$chain" in
-  implement) default_agents="omp-acp kimi dsh zcode" ;;
-  codex)     default_agents="codex" ;;
+  implement)
+    [ -n "$agents" ] || { echo "dispatch: implement 链必须当次显式指定存活 agent（--agents \"短名…\"），技能不写死默认链" >&2; exit 1; } ;;
+  codex) agents="${agents:-codex}" ;;
   *) echo "dispatch: 未知链 $chain" >&2; exit 1 ;;
 esac
 # 透传覆盖：空格分隔的短名（omp-acp/kimi/dsh/codex/zcode）或 ACP 桥路径。
-# 出口校验同 frontier 的信任边界思路：白名单之外只放行安全路径字符，
+# 出口校验的信任边界思路：白名单之外只放行安全路径字符，
 # 派发串里的分号引号永远到不了 shell。
-agents="${agents:-$default_agents}"
 for a in $agents; do
   case "$a" in
     omp-acp|kimi|dsh|codex|zcode) ;;
