@@ -1,5 +1,13 @@
 # mattpocock-skills
 
+## 1.3.6
+
+### Patch Changes
+
+- 增加了 zcode
+
+- implement-spec: 本地票源、逐票存活派发链（去死默认）、引擎输入完备性自检
+
 ## 1.3.5
 
 ### Patch Changes
