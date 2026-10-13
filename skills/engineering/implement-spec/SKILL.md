@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 ## Workflow 模式（默认）
 
-编排逻辑已固化为三份 specify workflow（`workflows/`，按票型分：实现 / 运行 / 全量测试），派发降级链、模板填装、考卷拼装与票级 jev 审查由 `scripts/` 承担。**票源是本地 markdown 票文件**（issue 跟踪器的 `.scratch/**/issues/*.md`，文件名以「数字-」开头）：编排者每次运行显式给定票清单（合法 JSON），脚本与引擎对票库零扫描、票面零远程查询——远端托管（GitHub 或其他）与本技能的票源无关。**派发链是活的决定，逐票显式指定**：每张票的清单元素携带当次存活的 agent 链（`{"file":…,"agents":"…"}`），撞限、停用、额度未恢复的不进链，技能不写死默认链——preflight 对缺 agents 的票直接拒跑。prompt 按票面生成：票面正文进「任务背景」，票面类型标签选工作原则。`gh` 仅 `open_pr=true` 的 PR 收尾需要。前置：`specify`（≥1.1）、`acpx`、`jev-decide`、`python3` 可用，任一缺失走下方旧版编排。改动本目录后先跑 `scripts/self-check.sh`。
+编排逻辑已固化为三份 specify workflow（`workflows/`，按票型分：实现 / 运行 / 全量测试），派发降级链、模板填装、考卷拼装与票级 jev 审查由 `scripts/` 承担。**票源是本地 markdown 票文件**（issue 跟踪器的 `.scratch/**/issues/*.md`，文件名以「数字-」开头）：编排者每次运行显式给定票清单（合法 JSON）**派发链是活的决定，逐票显式指定**：每张票的清单元素携带当次存活的 agent 链（`{"file":…,"agents":"…"}`），撞限、停用、额度未恢复的不进链，技能不写死默认链——preflight 对缺 agents 的票直接拒跑。prompt 按票面生成：票面正文进「任务背景」，票面类型标签选工作原则。`gh` 仅 `open_pr=true` 的 PR 收尾需要。前置：`specify`（≥1.1）、`acpx`、`jev-decide`、`python3` 可用，任一缺失走下方旧版编排。改动本目录后先跑 `scripts/self-check.sh`。
 
 编排者职责五步：
 
