@@ -1,5 +1,11 @@
 # mattpocock-skills
 
+## 1.3.4
+
+### Patch Changes
+
+- chore: pre-commit 增加密钥扫描
+
 ## 1.3.3
 
 ### Patch Changes
