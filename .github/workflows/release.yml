@@ -1,9 +1,8 @@
 name: Release
 
+# 中文版改为手动更新版本：push 触发的自动 Version PR 已停用。
+# 版本流程：本地 npx changeset version + 提交，或在此手动 dispatch。
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
