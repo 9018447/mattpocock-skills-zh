@@ -15,6 +15,7 @@
 - **[to-tickets](./to-tickets/SKILL.md)**：把任何计划、spec 或对话拆成一组示踪子弹式 ticket，每个都声明其阻塞边，无论是本地文件中的文本，还是真实跟踪器上的原生阻塞链接。
 - **[implement](./implement/SKILL.md)**：构建 spec 或一组 ticket 所描述的工作，在预先约定的接缝处驱动 `/tdd`，并在提交前用 `/code-review` 收尾。
 - **[implement-spec](./implement-spec/SKILL.md)**：在一条集成分支上实现整份 spec。把 ticket 当任务图推进，在可领取的前沿并行运行实施者子 agent 以获得最大并发，最后以 `/code-review` 收尾。
+- **[problem-atlas](./problem-atlas/SKILL.md)**：为跨会话的大型项目维护一份目标/问题地图：记录 Goal、Problem、核心矛盾与双工作前沿，基于研究与你的决策更新 ADR、SPEC 与实施 issue，并把产物生成交给 `domain-modeling`、`to-spec`、`to-tickets`。
 - **[wayfinder](./wayfinder/SKILL.md)**：把一大块工作（超过一个 agent 会话能容纳的量）规划成 issue 跟踪器上一张由决策 ticket 组成的共享地图，逐个解决，直到通往目的地的道路清晰。
 - **[retro](./retro/SKILL.md)**：在一次会话之后，为编码 agent 的**环境**（导航、自动化检查、编码规范、引导文件、工具）提出改进建议，按严重程度排序。
 

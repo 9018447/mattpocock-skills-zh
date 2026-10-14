@@ -237,6 +237,7 @@ npx skills@latest add devcxl/mattpocock-skills-zh -a <agent>  # cursor, opencode
 - **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**：把任何计划、规格或对话拆成一组 tracer-bullet 工单，每条声明其阻塞边：以本地文件中的文本，或真实跟踪器上的原生阻塞链接形式编写。
 - **[implement](./skills/engineering/implement/SKILL.md)**：按规格或工单集合构建工作，在预先约定的 seam 上驱动 `/tdd`，并在提交前以 `/code-review` 收尾。
 - **[implement-spec](./skills/engineering/implement-spec/SKILL.md)**：在一条集成分支上实现整份规格。把工单当任务图推进，在可领取的前沿并行运行实施者子代理以获得最大并发，最后以 `/code-review` 收尾。
+- **[problem-atlas](./skills/engineering/problem-atlas/SKILL.md)**：为跨会话的大型项目维护一份目标/问题地图：记录 Goal、Problem、核心矛盾与双工作前沿，基于研究与你的决策更新 ADR、SPEC 与实施 issue，并把产物生成交给 `domain-modeling`、`to-spec`、`to-tickets`。
 - **[wayfinder](./skills/engineering/wayfinder/SKILL.md)**：把一项远大于一次 agent 会话能装下的工作，作为一份共享的决策 ticket 地图规划到 Issue 跟踪器上：一次解析一个，直到通往目的地的路清晰。
 - **[retro](./skills/engineering/retro/SKILL.md)**：在一次会话之后，为编码 agent 的**环境**（导航、自动化检查、编码规范、引导文件、工具）提出改进建议，按严重程度排序。
 

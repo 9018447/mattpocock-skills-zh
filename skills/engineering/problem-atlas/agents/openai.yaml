@@ -1,0 +1,5 @@
+interface:
+  display_name: "Problem Atlas"
+  short_description: "为跨会话项目维护目标/问题地图与双工作前沿"
+policy:
+  allow_implicit_invocation: false

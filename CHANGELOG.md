@@ -1,5 +1,11 @@
 # mattpocock-skills
 
+## 1.3.11
+
+### Patch Changes
+
+- 添加了一个problem skill in progress
+
 ## 1.3.10
 
 ### Patch Changes
