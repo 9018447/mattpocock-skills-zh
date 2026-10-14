@@ -1,5 +1,11 @@
 # mattpocock-skills
 
+## 1.3.10
+
+### Patch Changes
+
+- 更新了版本号
+
 ## 1.3.9
 
 ### Patch Changes
