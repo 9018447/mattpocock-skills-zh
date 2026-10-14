@@ -1,5 +1,11 @@
 # mattpocock-skills
 
+## 1.3.9
+
+### Patch Changes
+
+- 更新了派发提示词 开始提交commit和codereview
+
 ## 1.3.8
 
 ### Patch Changes
