@@ -1,5 +1,15 @@
 # mattpocock-skills
 
+## 1.4.0
+
+### Minor Changes
+
+- 新增工作流护栏钩子：往 `.scratch/*/issues/` 建实施票前要求存在 SPEC 与 ADR（`docs/adr/` 或 `.agents/adr/`）；通过 acpx 派发 omp/dsh/kimi/zcode 前要求存在实施票，codex 派发不受限
+
+### Patch Changes
+
+- add to eng
+
 ## 1.3.11
 
 ### Patch Changes
