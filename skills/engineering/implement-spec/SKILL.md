@@ -26,7 +26,7 @@ disable-model-invocation: true
 | `templates/prompt-run.md` | 票面标注 `含 N 次真实运行` 或预计真实运行总时长 ≥20 分钟的票 |
 | `templates/prompt-test.md` | 实现票闭环后，编排者单独派发的全量测试票 |
 
-- **实施者**：`deepseek harness`、`kimi code`、`zcode-acp(第三方acp桥)` 或 `omp`，都支持 ACP 协议。撞限降级沿候补链换派。
+- **实施者**：`deepseek harness`、`kimi code`、`omp`或`pi`，都支持 ACP 协议。撞限互补。
 - **合并 / 探查 / 测试 / 运行**：`codex`。
 
 异常与恢复协议（额度撞限降级、acpx 静默死亡、中断续作、进程存活核查）在 `references/recovery.md`，命中对应情况才读。
