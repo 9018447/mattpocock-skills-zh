@@ -1,5 +1,12 @@
 # mattpocock-skills
 
+## 1.4.1
+
+### Patch Changes
+
+- 重新路由了一下
+- 更新了skill
+
 ## 1.4.0
 
 ### Minor Changes

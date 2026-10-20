@@ -1,6 +1,6 @@
 ## 它的作用
 
-`writing-for-agents` 是撰写 agent 文档的参考，适用于技能、`AGENTS.md` 或 `CLAUDE.md`、[spec](https://www.aihero.dev/ai-coding-dictionary/spec)、运行时 prompt、README，以及任何 [agent](https://www.aihero.dev/ai-coding-dictionary/agent) 会读的文档。格式各异，写作原则不变。同样的杠杆让每份文档都可预测，于是 agent 每次运行都遵循相同的*过程*，但不一定产出相同的结果。
+`writing-for-agents` 是撰写 agent 文档的参考，适用于技能、`AGENTS.md` 或 `CLAUDE.md`、[spec](https://www.aihero.dev/ai-coding-dictionary/spec)、运行时 prompt、系统提示词、工具描述与失败尾注、README，以及任何 [agent](https://www.aihero.dev/ai-coding-dictionary/agent) 会读的文档。格式各异，写作原则不变。同样的杠杆让每份文档都可预测，于是 agent 每次运行都遵循相同的*过程*，但不一定产出相同的结果。
 
 它的默认动作是删除，而不是解释。让 agent 给另一个 agent 写指令，它会把大部分词花在解释 [model](https://www.aihero.dev/ai-coding-dictionary/model) 已经知道的东西上：那些行里的每一行都是**空操作**，付了 [context](https://www.aihero.dev/ai-coding-dictionary/context) 却没改变任何行为。这份参考是找到它们的透镜，这就是为什么它在一份你手上已经有的文档上跟在一份空文件上一样能挣到自己的位置。
 
@@ -8,7 +8,7 @@
 
 ## 何时使用
 
-键入 `/writing-for-agents`，或者当你在创建或编辑技能、或修改 `AGENTS.md` 或 `CLAUDE.md` 时，agent 会自动触发它。
+键入 `/writing-for-agents`，或者当你在创建或编辑技能、修改 `AGENTS.md` 或 `CLAUDE.md`，或设计 agent 的系统提示词、工具描述与失败尾注时，agent 会自动触发它。
 
 其他所有 agent 会读的文档（你的 docs、specs、[tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)、system 和 [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) prompts）都可以手动调用它。判断标准只有一个：agent 会读这份文档吗？文档如何交到 agent 手里并不重要：可能是指针提到它、人直接粘贴，或它就放在仓库里。要弄清代码库包含什么，使用 [grill-with-docs](https://aihero.dev/skills-grill-with-docs)。这份参考规范文档的写法，而不是文档包含的信息。
 
