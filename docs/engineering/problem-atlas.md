@@ -31,7 +31,7 @@
 
 ## 它只登记，不写产物
 
-- ADR 由 [domain-modeling](https://aihero.dev/skills-domain-modeling) 判断是否值得长期保留并产出；Atlas 只登记路径与出处，没有 ADR 的决定记录用户确认及其来源。
+- ADR 由用户显式调用 [domain-modeling](https://aihero.dev/skills-domain-modeling)、指定 Agent 并经 acpx 派发后判断和产出；Atlas 只登记路径与出处，没有 ADR 的决定记录用户确认及其来源。
 - SPEC 由 to-spec 发布，可能在跟踪器里表现为一个规格 issue，但不是实施 [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket)。
 - 实施 Issues 由 [to-tickets](https://aihero.dev/skills-to-tickets) 拆出，保留其原生依赖与验收约定；Map 只引用，不复制正文。
 

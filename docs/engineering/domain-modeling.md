@@ -1,12 +1,12 @@
 ## 它的作用
 
-`domain-modeling` 在你做设计的过程中构建并打磨一个项目的**统一语言（ubiquitous language）**。它会质疑与词汇表冲突的术语，在你用词含糊时要求给出精确说法，并用具体场景检验关系，直到边界明确。
+`domain-modeling` 通过 acpx 把领域建模工作交给**用户明确指定的 Agent**。该 Agent 对照项目代码、Glossary 和 ADR，核对冲突的术语、用具体场景检验概念边界，并维护已确认的统一语言（ubiquitous language）。编排者只派发和转交澄清，不自行写文档。
 
-它是**主动**的纪律，而不是被动的。读 `GLOSSARY.md` 来借用它的词汇是任何技能都能做的一行习惯；这个技能是为你正在*改变*这个模型的时候准备的。这就是它会打断你的原因。它在对话进行中、术语敲定的那一刻就把一条已敲定的术语写进 `GLOSSARY.md`，而不是在末尾产出一份整齐的词汇表，因为批量版本是某次 [session](https://www.aihero.dev/ai-coding-dictionary/session) 的摘要，而内联版本才是那次 session 的真实产出。
+它是**主动**的纪律，不是单纯读取 `GLOSSARY.md`。Agent 需要根据证据挑战术语、向用户澄清必要的边界，在术语敲定时及时写入，而不是最后批量生成词汇表。未确认的推测不能写成定义。领域执行规则在 Skill 的 `references` 中，Glossary 和 ADR 格式在 `templates` 中，派发时均全文交付。
 
 ## 何时使用
 
-键入 `/domain-modeling`，或者当任务合适时 agent 会自动使用它。实践中，自动调用是这个技能最弱的一环：当 `grill-with-docs` 或 `wayfinder` 说要加载它时，[model](https://www.aihero.dev/ai-coding-dictionary/model) 经常加载 `grilling` 而跳过这一个。如果一次 [盘问（grilling）](https://www.aihero.dev/ai-coding-dictionary/grilling) 跑完而 `GLOSSARY.md` 末尾没被动过，那就是这种情况；按名字把它和其他技能一起调用。
+你通过键入 `/domain-modeling` 来调用它；它不再由模型自动触发。**你必须为本次任务明确指定一个执行 Agent**，编排者只能通过 acpx 派发。目标 Agent 需要澄清时，编排者负责转交问题和答复，再由同一 Agent 继续执行。没有指定 Agent 就不会派发。
 
 当*话术*本身是问题时使用它：
 
@@ -21,7 +21,7 @@
 
 ## 先决条件
 
-开箱即无。这个技能往两个地方写，两者都惰性创建：
+必须明确指定执行 Agent，并具备可用的 acpx 派发环境。无需事先配置 issue tracker。目标 Agent 会在必要时更新以下两类文件，均采用惰性创建：
 
 - 仓库根目录的 **`GLOSSARY.md`**，由第一条被敲定的术语创建。在带根目录 `GLOSSARY-MAP.md` 的仓库里，术语进入那张图所指向的、对应上下文的 `GLOSSARY.md`。
 - **`docs/adr/`**，由第一份过关的 ADR 创建。
@@ -81,7 +81,7 @@ ADR 的三条测试缺任何一条，就不写 ADR。一个容易逆转的决策
 
 ## 怎样算成功
 
-- 它在你说到一半时打断你、问你到底指的是两个中的哪一个，而不是自己挑一个继续。
+- 它目标 Agent 遇到领域术语歧义时会提出精确问题，由编排者转交给你，不自行选定。
 - `GLOSSARY.md` 在**对话进行中**变化，而不是在末尾一次性爆发。
 - 它拒绝为一件你明天就能撤销的事写 ADR，并指出三条测试中哪条挂了。
 - 新条目用一两句话定义一个事物*是*什么，并在 `_Avoid_` 下点明你放弃的那些词。
@@ -91,4 +91,4 @@ ADR 的三条测试缺任何一条，就不写 ADR。一个容易逆转的决策
 
 ## 它的定位
 
-`domain-modeling` 是一个**模型调用的参考**，*在*其他技能*之下*运行的次数比单独运行更多。[grill-with-docs](https://aihero.dev/skills-grill-with-docs) 在盘问中驱动它，[wayfinder](https://aihero.dev/skills-wayfinder) 在绘制地图时加载它，[triage](https://aihero.dev/skills-triage) 用它让 [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) 保持项目自己的话术，[improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) 在决策敲定时调用它。它最近的同伴是 [codebase-design](https://aihero.dev/skills-codebase-design)。两者一起构成其他技能之下的词汇层：一个面向*领域*，一个面向模块*形状*。你也可以直接调用它，获得这套规范，而不必执行通常会加载它的其他技能的流程。拿不准哪个技能合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。
+`domain-modeling` 是一个需要用户显式调用的**领域建模派发入口**。它在 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 澄清需求后帮助落实领域词汇和必要的 ADR；只想查看既有术语时直接读 Glossary 即可，不必派发。与它相邻的 [codebase-design](https://aihero.dev/skills-codebase-design) 负责模块形态和接口设计，而非概念定义。整个技能集合的入口见 [ask-matt](https://aihero.dev/skills-ask-matt)。

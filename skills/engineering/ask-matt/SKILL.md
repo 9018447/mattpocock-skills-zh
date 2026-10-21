@@ -22,7 +22,7 @@ disable-model-invocation: true
    - **`/prototype`** 用一次性代码回答问题，
    - **`/handoff`** 把你学到的东西带回来，并在原始想法线程中引用它。
 3. **分支：这是多会话构建吗？**
-   - **是** → **`/to-spec`**（把对话变成 spec），然后 **`/to-tickets`** 把它拆成示踪子弹式 ticket，每个都声明自己的**阻塞边**。接着用两种方式之一推进 ticket：
+   - **是** → **`/to-spec`**（通过 acpx 派发给用户指定的 Agent，把对话变成 spec），然后 **`/to-tickets`** 经用户批准拆票方案后由指定 Agent 发布示踪子弹式 ticket，每个都声明自己的**阻塞边**。接着用两种方式之一推进 ticket：
      - **`/implement`** 逐个 ticket 实现，**每个之间用 `/clear` 清空上下文**。在本地跟踪器上，每个 ticket 是 `.scratch/<feature>/issues/` 下的一个文件，按阻塞优先的顺序人工推进；在真实跟踪器上，阻塞边变成原生阻塞链接，所以任何阻塞项已完成的 ticket 都可以被领取。每个 ticket 自包含，所以上一个的上下文可以丢弃。
      - **`/implement-spec`** 一次性实现整份 spec。它把 ticket 读成一张**任务图**，在可领取的**前沿**上并行运行实施者子代理，把一切落到一条**集成分支**上。当你更想编排整个构建、而不是亲自逐张驱动 ticket 时用它。
    - **否** → 就在同一个上下文窗口里 **`/implement`**。
@@ -53,7 +53,7 @@ disable-model-invocation: true
 
   当地图清晰时，**它交接，不构建**：在 **`/to-spec`** 并入主干流程，把地图上相互关联的决策折叠成可构建的计划，然后照常 `/to-tickets` 和 `/implement`。把地图直接循环进 `/implement` 会跳过这个折叠，把关联的细节丢掉，所以只有当工作量确实很小的时候才直接进 `/implement`。
 
-- **一个跨会话、长期演进的项目规划：问题不断生长，新决策会推翻已发布的规格** → **`/problem-atlas`**。它维护一张权威的 **Map**：以 **Problem**（不补足就无法实现 Goal 的重大缺口）为规划待办主体，以 **Tension**（Problem 内的真实取舍或重大不确定性）为决策推进单位，并让两条**工作前沿**始终可见：**决策前沿**是下一个可以调查或 `/grilling` 的 Tension，**执行前沿**是 `/to-tickets` 已发布的就绪 Issues。它自己不写产物：ADR 由 `/domain-modeling` 判断并产出，SPEC 由 `/to-spec` 发布，实施 Issues 由 `/to-tickets` 拆出，Atlas 只登记证据、状态、依赖与指针，再把真实链接写回地图。对*一块*大到装不下、路线未明的工作，用 `/wayfinder`；对*一个项目*需要长期维护的规划账本，用 `/problem-atlas`。
+- **一个跨会话、长期演进的项目规划：问题不断生长，新决策会推翻已发布的规格** → **`/problem-atlas`**。它维护一张权威的 **Map**：以 **Problem**（不补足就无法实现 Goal 的重大缺口）为规划待办主体，以 **Tension**（Problem 内的真实取舍或重大不确定性）为决策推进单位，并让两条**工作前沿**始终可见：**决策前沿**是下一个可以调查或 `/grilling` 的 Tension，**执行前沿**是 `/to-tickets` 已发布的就绪 Issues。它自己不写产物：ADR 由用户指定的 Agent 经 `/domain-modeling` 判断并产出，SPEC 由 `/to-spec` 派发发布，实施 Issues 由 `/to-tickets` 派发拆出，Atlas 只登记证据、状态、依赖与指针，再把真实链接写回地图。对*一块*大到装不下、路线未明的工作，用 `/wayfinder`；对*一个项目*需要长期维护的规划账本，用 `/problem-atlas`。
 
 ## 代码库健康
 
@@ -63,9 +63,9 @@ disable-model-invocation: true
 
 ## 底层词汇
 
-两个模型调用的参考，运行在*其他技能之下*：各自是其词汇的唯一真实来源。当问题出在**词语**而不是流程时，直接伸手去拿；或者让上面的技能把它们拉进来。
+这里有两种不同的词汇工具。`/domain-modeling` 现在是**用户调用的 acpx 派发入口**，必须由用户指定目标 Agent；其他技能不能自动触发它。`/codebase-design` 仍是模型调用的模块设计参考。
 
-- **`/domain-modeling`**：打磨项目的*领域*语言：挑战含糊的术语、消解过载的词（"account" 身兼三职）、把难以逆转的决策记为 ADR。它是 `/grill-with-docs` 驱动、让 `GLOSSARY.md` 保持为干净词汇表的主动训练。
+- **`/domain-modeling`**：打磨项目的*领域*语言：挑战含糊的术语、消解过载的词（"account" 身兼三职）、把难以逆转的决策记为 ADR。它通过 acpx 派发，由用户指定的 Agent 负责核对术语、澄清概念，并让 `GLOSSARY.md` 保持为干净词汇表。
 - **`/codebase-design`**：设计模块*形态*的深度模块词汇（module、interface、depth、seam、adapter、leverage、locality）：在干净的接缝后面，用一个小接口承载大量行为。`/tdd` 和 `/improve-codebase-architecture` 都讲这套语言。
 
 ## 阶段边界

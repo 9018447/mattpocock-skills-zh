@@ -29,7 +29,7 @@
 
 运行它没有先决条件。如果 `GLOSSARY.md` 或 `docs/adr/` 下有 ADR，它会读取这些文件并使用你领域自己的名词。候选因此会写成"加深 Order intake 模块"，而不是"重构 FooBarHandler"。
 
-它会写到两个地方。报告写入仓库外的 `<tmpdir>/architecture-review-<timestamp>.html`。盘问期间，它会补充或打磨 `GLOSSARY.md` 中的术语，并在文件不存在时创建它。它还会提议把被拒绝的候选记录为 ADR，避免未来再次提出。
+它会写到两个地方。报告写入仓库外的 `<tmpdir>/architecture-review-<timestamp>.html`。盘问期间发现新的领域术语或值得记录的重大决策时，它会提醒你显式调用 [domain-modeling](https://aihero.dev/skills-domain-modeling) 并指定 acpx 执行 Agent。Glossary 和 ADR 由该 Agent 按约定维护，此技能不会自动代写。
 
 ## 深度，以及那份猎取它的报告
 

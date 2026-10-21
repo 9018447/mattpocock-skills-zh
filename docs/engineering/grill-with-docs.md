@@ -2,7 +2,7 @@
 
 `grill-with-docs` 就一份计划或设计盘问你，直到你和 [agent](https://www.aihero.dev/ai-coding-dictionary/agent) 对它拥有一份共识理解，并在过程中把词汇和艰难的决策写进你的仓库。它和 [grill-me](https://aihero.dev/skills-grill-me) 运行的是同一种访谈（一轮问题，然后等待，然后下一轮），只是指向一个代码库。
 
-它是 **[stateful](https://www.aihero.dev/ai-coding-dictionary/stateful)** 的。其他盘问技能都把 [session](https://www.aihero.dev/ai-coding-dictionary/session) 留在你的脑子里；这个会把文件留在磁盘上。术语一经敲定，技能就立刻写入 `GLOSSARY.md`，而不是等到最后批量写入；决策通过三道门槛后，技能就把它写成 ADR。这就是全部区别，也是人们遇到的大多数问题的来源：工件是仓库里的真实文件，所以可能在你期待时缺失，也可能因多人同时编辑而漂移。
+这是带工作目录的盘问流程，但**领域文档写入现在需要单独派发**。`/grill-with-docs` 调用 [grilling](https://aihero.dev/skills-grilling) 来澄清事实和决策；想把已确认的概念写入 `GLOSSARY.md` 或审查是否需要 ADR，须再由用户显式调用 [domain-modeling](https://aihero.dev/skills-domain-modeling)，指定执行 Agent，并通过 acpx 完成。盘问者不代写这两类文件。
 
 ## 何时使用
 
@@ -24,7 +24,7 @@
 
 技能会写入你的仓库，所以你需要待在一个写入安全的地方。敲定的术语进入根目录的 `GLOSSARY.md` 词汇表，或者在根目录的 `GLOSSARY-MAP.md` 将仓库标记为多上下文时，进入对应上下文的 `GLOSSARY.md`。决策进入 `docs/adr/`。技能只会在需要时创建这些文件：第一个术语或决策敲定之前什么都不会出现，因此无需预先搭建。
 
-它还需要另外两个技能在场，因为它自己的 `SKILL.md` 只有一行，把工作委派给它们：[grilling](https://aihero.dev/skills-grilling) 提供访谈，[domain-modeling](https://aihero.dev/skills-domain-modeling) 提供写入。单独安装 `grill-with-docs` 会得到一个不工作的技能。
+它依赖 [grilling](https://aihero.dev/skills-grilling) 执行盘问。领域文档维护不再是自动加载的第二个技能，改由用户显式调用 [domain-modeling](https://aihero.dev/skills-domain-modeling) 并指定 acpx 目标 Agent。
 
 ## 书面记录
 
@@ -52,7 +52,7 @@
 
 **它一次把所有问题都甩出来，没有推荐，也从来没提 `GLOSSARY.md`。**
 
-那是技能没能加载它的两个依赖。因为 `SKILL.md` 是一行委派，一个没有捡起 [grilling](https://aihero.dev/skills-grilling) 和 [domain-modeling](https://aihero.dev/skills-domain-modeling) 的 agent 会猜 grilling 是什么意思，你得到的就是一次无差别的倾倒式提问。部分加载是更让人困惑的情况——`grilling` 加载了，`domain-modeling` 没有，你得到一场不错的访谈却没有书面记录。它与 model 和 [effort](https://www.aihero.dev/ai-coding-dictionary/effort) 级别相关，是这个技能被报告最多的问题。如果你怀疑，直接问 agent 它加载了哪些技能。
+盘问过程应由 [grilling](https://aihero.dev/skills-grilling) 驱动。领域文档没有变化不代表盘问失败：你需要在确认术语和决策后单独调用 [domain-modeling](https://aihero.dev/skills-domain-modeling) 并指定派发 Agent。原来依赖自动加载领域建模的行为已经取消。`grilling` 加载了，`domain-modeling` 没有，你得到一场不错的访谈却没有书面记录。它与 model 和 [effort](https://www.aihero.dev/ai-coding-dictionary/effort) 级别相关，是这个技能被报告最多的问题。如果你怀疑，直接问 agent 它加载了哪些技能。
 
 **我所有其他决策去哪了？**
 

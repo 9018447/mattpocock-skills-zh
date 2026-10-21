@@ -11,8 +11,9 @@
 - **[triage](./triage/SKILL.md)**：让 issue 走一遍由分类角色组成的状态机。
 - **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)**：扫描代码库寻找深化机会，以可视化 HTML 报告呈现，然后对你挑中的那个进行盘问。
 - **[setup-matt-pocock-skills](./setup-matt-pocock-skills/SKILL.md)**：为本仓库配置工程技能（issue 跟踪器、分类标签、领域文档布局）。每个仓库运行一次。
-- **[to-spec](./to-spec/SKILL.md)**：把当前对话变成一份 spec 并发布到 issue 跟踪器。
-- **[to-tickets](./to-tickets/SKILL.md)**：把任何计划、spec 或对话拆成一组示踪子弹式 ticket，每个都声明其阻塞边，无论是本地文件中的文本，还是真实跟踪器上的原生阻塞链接。
+- **[domain-modeling](./domain-modeling/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，核对术语并维护 Glossary 与必要的 ADR。
+- **[to-spec](./to-spec/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，把当前对话整理为 spec 并发布 Issue。
+- **[to-tickets](./to-tickets/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，将计划或 spec 拆成 tracer-bullet Issues；批准拆票草案后再发布并创建阻塞边。
 - **[implement](./implement/SKILL.md)**：构建 spec 或一组 ticket 所描述的工作，在预先约定的接缝处驱动 `/tdd`，并在提交前用 `/code-review` 收尾。
 - **[implement-spec](./implement-spec/SKILL.md)**：在一条集成分支上实现整份 spec。把 ticket 当任务图推进，在可领取的前沿并行运行实施者子 agent 以获得最大并发，最后以 `/code-review` 收尾。
 - **[problem-atlas](./problem-atlas/SKILL.md)**：为跨会话的大型项目维护一份目标/问题地图：记录 Goal、Problem、核心矛盾与双工作前沿，基于研究与你的决策更新 ADR、SPEC 与实施 issue，并把产物生成交给 `domain-modeling`、`to-spec`、`to-tickets`。
@@ -28,7 +29,6 @@
 - **[diagnosing-bugs](./diagnosing-bugs/SKILL.md)**：针对疑难 bug 和性能回归的训练有素的诊断循环：构建一个对*这个* bug 变红的反馈循环 → 最小化 → 假设 → 插桩 → 修复 → 回归测试。
 - **[research](./research/SKILL.md)**：对照高信任度的一手来源调查问题，并把发现作为带引用的 Markdown 文件留在仓库里，作为后台 agent 运行。
 - **[tdd](./tdd/SKILL.md)**：带红-绿-重构循环的测试驱动开发。一次一个垂直切片地构建功能或修复 bug。
-- **[domain-modeling](./domain-modeling/SKILL.md)**：主动构建和打磨项目的领域模型：挑战术语、用场景压力测试、内联更新 `GLOSSARY.md` 和 ADR。
 - **[codebase-design](./codebase-design/SKILL.md)**：设计深度模块的共享训练和词汇：小接口、干净接缝、通过接口可测试。
 - **[code-review](./code-review/SKILL.md)**：对自某个固定点以来的 diff 做双轴审查：**标准**（是否遵循仓库的编码标准，外加 Fowler 坏味道基线？）和**规格**（是否忠实实现了源 issue/spec？），作为并行子代理运行。
 - **[pr](./pr/SKILL.md)**：PR body 应有的形状：以能说清变更的最小可视化做摘要，加上证明其可行的 before/after 证据，再加上合并风险判断（单向门或双向门，外加爆炸半径）。

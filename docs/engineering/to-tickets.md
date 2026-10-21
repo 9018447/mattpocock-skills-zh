@@ -1,12 +1,12 @@
 ## 它的作用
 
-`to-tickets` 拿一份计划、一份 [spec](https://www.aihero.dev/ai-coding-dictionary/spec)，或者你正在进行的对话，把它切成你 issue 追踪器上的一组 **[tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)**。每张 ticket 声明它的**阻塞边**：那些必须先完成才能开始它的其他 tickets。
+`to-tickets` 通过 acpx 把拆票任务交给**用户明确指定的 Agent**。目标 Agent 读取计划、[spec](https://www.aihero.dev/ai-coding-dictionary/spec) 或当前对话，先提出拆票草案；你批准后才把它发布成 Issue 追踪器上的一组 **[tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)**。每张 ticket 声明它的**阻塞边**：那些必须先完成才能开始它的其他 tickets。
 
 每张 ticket 都是一发**示踪弹**：穿过这次变更每一层（schema、API、UI、tests）的一条窄而完整的路径，在它落地的那一刻能独立被演示。这正是让它表现不同于"切工作"的明显方式（一次切一层、最后集成）的约束。它也把每张 ticket 的大小调成装得下一次全新的 [context window](https://www.aihero.dev/ai-coding-dictionary/context-window)，因为会来接这张 ticket 的是一次从未见过你的 spec 的 [session](https://www.aihero.dev/ai-coding-dictionary/session)。
 
 ## 何时使用
 
-你通过键入 `/to-tickets` 来调用它。[agent](https://www.aihero.dev/ai-coding-dictionary/agent) 不会主动使用它。
+你通过键入 `/to-tickets` 来调用它，**同时明确指定这次执行的 Agent**。该技能不会由模型自动触发，编排者只通过 acpx 派发、转交草案和你的审批反馈，不自行拆票或发布。
 
 | 你在哪 | 跑什么 |
 | --- | --- |
@@ -20,7 +20,7 @@
 
 ## 先决条件
 
-`to-tickets` 把内容发布进追踪器，所以 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 必须已经为本仓库配置好一份追踪器，连同 triage 标签词汇。两种都可以：像 GitHub 或 Linear 这样的真实追踪器，或者 `.scratch/` 下的本地 markdown 文件——开箱支持。
+必须先指定目标 Agent 并确保 acpx 可派发。`to-tickets` 把内容发布进追踪器，所以 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 也必须已经为本仓库配置好追踪器和 triage 标签词汇。两种都可以：像 GitHub 或 Linear 这样的真实追踪器，或者 `.scratch/` 下的本地 markdown 文件——开箱支持。
 
 ## 示踪弹，不是分层
 
@@ -28,7 +28,7 @@
 
 这是人们最常违反的规则，后果也记录得很充分。一个团队跑了一份 26 张 ticket 的栈、按层切（语料、生产者、聚合器、选择器），结果每张关掉的 ticket 大约二十次 agent 跑动、四分之三是返工。他们自己的复盘把每一类失败都追回到水平切片，而不是实现。
 
-两件事在任何东西发布之前发生。`to-tickets` 寻找 prefactoring（"先让变更容易，再做容易的变更"那条原则）并把那些工作排在最前。然后它把分解呈现为一张编号清单并考你：颗粒度对吗、阻塞边是真的吗、有没有要合并或拆分的。在你批准之前什么都没有到达追踪器，那次提问就是推回去的地方。
+两件事在任何东西发布之前发生。`to-tickets` 寻找 prefactoring（"先让变更容易，再做容易的变更"那条原则）并把那些工作排在最前。然后目标 Agent 把完整分解草案交给编排者，由编排者转给你审批：粒度是否合适、阻塞边是否真实、哪些需要合并或拆分？你要求修改时由**同一个 Agent**继续调整；**未经明确批准，不能创建任何 Issue 或本地 ticket 文件**。每次派发都全文包含执行规范和两份 ticket 模板。
 
 ## 阻塞边
 
@@ -61,7 +61,7 @@
 
 **Tickets 出来时是一层一张：所有 schema 在一张，所有 API 在另一张。**
 
-这是垂直切片规则所针对的失败，技能有时仍然会产出。在提问那一步用一个问题抓住它：每张 ticket 完成时我能 demo 什么？答不上来的那张就是水平切片。有人因此给每张 ticket 加一行"demo path"，并报告它会把 model 推向垂直分解。
+这是垂直切片规则所针对的失败，技能有时仍然会产出。在批准草案前用一个问题抓住它：每张 ticket 完成时我能 demo 什么？答不上来的那张就是水平切片。有人因此给每张 ticket 加一行"demo path"，并报告它会把 model 推向垂直分解。
 
 **在 GitHub 上这些 tickets 不是作为 spec issue 的 sub-issues 被创建的。**
 
@@ -85,7 +85,7 @@
 
 **Tickets 发布了。我到底怎么跑它们？**
 
-技能停在工件上，没有自动派发模式。派发是手动的：看板，数没有未关闭 blocker 的 ticket，开那么多 agent 会话。一次全新上下文一张 ticket，它们之间清空。要意识到 [implement](https://aihero.dev/skills-implement) 在 GitHub 或本地 markdown 上都不那么可靠地关闭或勾掉 ticket，所以 ticket 的状态由你来更新。
+本技能用 acpx 派发的是**拆票和发布工作**，不自动派发后续的实现任务。实施派发仍由你安排：查看没有未关闭 blocker 的 ticket，并为它们开启独立的实现会话。一次全新上下文一张 ticket，它们之间清空。要意识到 [implement](https://aihero.dev/skills-implement) 在 GitHub 或本地 markdown 上都不那么可靠地关闭或勾掉 ticket，所以 ticket 的状态由你来更新。
 
 ## 怎样算成功
 

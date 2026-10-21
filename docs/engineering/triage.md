@@ -8,6 +8,8 @@
 
 ## 何时使用
 
+`triage` 的盘问仍可使用 `grilling`。但 `domain-modeling` 已是用户调用的 acpx 派发入口：需要改动领域术语或补写 ADR 时，提示用户显式调用它并指定执行 Agent，不自动代写领域文档。
+
 你通过键入 `/triage` 然后用平实语言描述你想要什么来调用它。[agent](https://www.aihero.dev/ai-coding-dictionary/agent) 不会主动使用它。"Show me anything that needs my attention"、"let's look at #42"、"move #42 to ready-for-agent"。
 
 | 你拥有什么 | 去哪里 |
