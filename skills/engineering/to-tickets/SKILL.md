@@ -1,105 +1,64 @@
 ---
 name: to-tickets
-description: 将计划、规范或当前对话拆分为一组 tracer-bullet ticket，每个 ticket 声明其阻塞边（blocking edges），发布到已配置的跟踪器——本地文件中每个 ticket 一个文件以文本表示边，真实跟踪器上以原生阻塞链接表示。
+description: 通过 acpx 将计划、spec 或对话拆分为 tracer-bullet Issues 的任务派发给用户明确指定的 Agent；先转交拆票草案取得用户批准，再由同一 Agent 发布 Issues 和阻塞关系。
 disable-model-invocation: true
 ---
 
-# 拆分为 Ticket
+# To Tickets：用户指定 Agent，acpx 纯派发
 
-将计划、规范或对话拆分为一组 **ticket**——tracer-bullet 垂直切片，每个都声明阻塞它的其他 ticket。
+本 Skill 不绑定任何 Agent。**目标 Agent 必须由用户明确指定**，只能通过 **acpx** 派发。编排者不分析代码、不拆 ticket、不设计依赖边、不编写验收标准，也不发布 Issue。
 
-Issue 跟踪器和分类标签词汇表应已提供给你——如果没有，请告诉用户运行 `/setup-matt-pocock-skills`。
+## 前置条件
 
-## 流程
+- 目标 Agent 必须来自用户对本任务的明确指定（可沿用当前对话中明确适用于本任务的指定）。没有指定时只询问目标 Agent 并停止；不得默认 Kimi 或自行选择。
+- 项目的 issue tracker 与分类标签词汇应已提供；若缺失，提示运行 `/setup-matt-pocock-skills` 并停止。不猜测 tracker、项目或标签。
+- 目标 Agent 无法通过 acpx 使用时报告阻塞，不更换 Agent、不回退本地执行。
+- **发布前必须取得用户对拆票草案的批准**。Agent 的建议或编排者的判断都不能代替用户批准。
 
-### 1. 收集上下文
+## 职责边界
 
-从对话上下文中已有的内容开始。如果用户传入引用（规范路径、Issue 编号或 URL）作为参数，获取它并读取其完整正文和评论。
+**编排者**：确认 Agent 和 tracker 配置、传递已有对话与来源引用、装配完整强制文件、经 acpx 派发、转交草案给用户审批、将用户的批准或修改意见续派给同一 Agent、回传执行结果。
 
-### 2. 探索代码库（可选）
+**目标 Agent**：读取完整源 spec/计划/Issue 及评论、检查仓库和 ADR、设计 tracer-bullet 垂直切片、验证阻塞边、起草方案、根据用户反馈修改、经批准后在正确 tracker 发布并设置标签及依赖。
 
-如果你尚未探索代码库，请先了解代码的当前状态。Ticket 标题和描述应使用项目的领域术语表词汇，并尊重你正在接触的区域的 ADR(docs/ADR*)。
+编排者不得自行获取来源并据此拆票、改动草案、推导依赖或验收标准、创建文件/Issue，也不得在 Agent 失败时接管。
 
-寻找预重构代码的机会，使实现更简单。"让改动变得容易，然后再做容易的改动。"
+## 必须全文交付给 Agent 的文件
 
-### 3. 起草垂直切片
+每一次派发（包括审批后的继续执行）必须先读取并将以下三个文件的**完整原文**放入 acpx 消息：
 
-将本次设计的ADR和SPEC聚合, 将其中的所有工作拆分为 **tracer bullet** ticket, 不要留下任何未拆分的工作。每个 ticket 都应是一个垂直切片，并且是可演示或可验证的。 如果部分工作被阻塞,按照轻重缓急和先后顺序排列tickets序号. 不要遗留.
+1. `references/agent-instructions.md`：读取来源、垂直拆分、重构例外、审批门槛、各 tracker 发布要求及结果协议。
+2. `templates/local-ticket.md`：本地文件式 ticket 的完整模板。
+3. `templates/issue-ticket.md`：真实 Issue tracker 的完整模板。
 
-<vertical-slice-rules>
+这些文件是目标 Agent 的强制执行契约。不得只传路径、文件名、链接、摘要或“请自行阅读”，不得改写、截断或省略。无法完整传递时停止派发并报告。
 
-- 每个切片在每个层面（schema、API、UI、测试）走一条狭窄但**完整**的通路——是垂直的，而不是某一层的水平切片
-- 一个完成的切片本身是可演示或可验证的
-- 每个切片大小适合单个全新的上下文窗口
-- 任何预重构应首先完成
+## 两阶段派发
 
-</vertical-slice-rules>
+### 阶段 A：草案
 
-为每个 ticket 指定其**阻塞边**——必须先完成才能开始的其他 ticket。没有阻塞项的 ticket 可以立即开始。
+1. 确认用户指定的目标 Agent 和 issue tracker 配置。
+2. 从当前对话忠实提取已有目标、spec/ADR、决策、限制和用户提供的源 Issue ID、路径或 URL；不擅自填充未知事实。
+3. 通过 acpx 派发，消息按顺序包含：
+   - `【目标 Agent】`：用户指定的精确 Agent 标识。
+   - `【任务上下文和来源】`：对话事实、项目配置、spec/ADR/计划及原始引用。
+   - `【执行阶段】`：`draft_only`，禁止发布。
+   - `【Agent 执行指令｜必须遵守】`：reference 全文。
+   - `【本地 Ticket 模板｜必须严格使用】`：local template 全文。
+   - `【Issue Ticket 模板｜必须严格使用】`：issue template 全文。
+   - `【交付指令】`：返回带编号的完整草案、每张 ticket 的交付行为及依赖，状态为 `needs_approval`。
+4. 将 Agent 返回的草案原样呈现给用户，征求粒度、阻塞边、合并和拆分的意见。此阶段**不创建 Issue 或本地 ticket 文件**。
 
-**大范围重构是垂直切片的例外。** **大范围重构** 是一种机械性变更（重命名列、更改共享符号类型），其**影响范围**波及整个代码库，一次编辑会同时破坏数千个调用点，导致没有任何垂直切片能保持绿色。不要硬塞进 tracer bullet；按 **扩展-收缩（expand–contract）** 序列化。首先扩展：在旧形式旁边添加新形式，确保任何东西都没坏。然后按影响范围大小分批迁移调用点（按包、按目录），每批一个 ticket 被扩展阻塞，由于旧形式仍存在，CI 在批次之间保持绿色。最后收缩：所有调用者迁移完后删除旧形式，作为一个被每个迁移批次阻塞的 ticket。当批次本身也无法单独保持绿色时，保留这个序列，但让它们共享一个集成分支，所有批次都阻塞一个最终的"集成并验证" ticket——绿色只在那里承诺。
+### 阶段 B：批准后发布
 
-### 4. 征求用户意见
+5. 用户要求调整时，把完整反馈连同原始草案、原任务上下文、三个强制文件的全文再次经 acpx 派发给**同一 Agent**，执行阶段仍是 `draft_only`；反复进行，直到获得明确批准。
+6. 用户明确批准某一确定版本后，再经 acpx 向同一 Agent 派发 `publish_approved`，附上**获得批准的草案全文、用户批准内容、原始来源信息和三个强制文件全文**。不得让 Agent 在缺少被批准版本时发布。
+7. 仅根据 Agent 的实际返回反馈已发布的 ticket 列表、Issue 链接、阻塞关系与标签状态；若部分失败，如实报告并停止，不自行修复或声称成功。
 
-以编号列表的形式展示提议的拆解方案。对每个 ticket，展示：
+## 硬性约束
 
-- **标题**：简短描述性名称
-- **被以下阻塞**：哪些其他 ticket（如果有）必须先完成
-- **交付内容**：此 ticket 让哪个端到端行为生效
-
-询问用户：
-
-- 粒度是否合适？（太粗 / 太细）
-- 阻塞边是否正确：每个 ticket 是否只依赖真正制约它的 ticket？
-- 是否需要合并或进一步拆分某些 ticket？
-
-迭代直到用户批准拆解方案。
-
-### 5. 将 ticket 发布到已配置的跟踪器
-
-发布已批准的 ticket。**发布方式**取决于 `/setup-matt-pocock-skills` 配置的跟踪器——ticket 本身相同，只有阻塞边的形式不同：
-
-- **本地文件** → 在 `.scratch/<feature-slug>/issues/<NN>-<slug>.md` 下为每个 ticket 写入一个文件，按依赖顺序从 `01` 开始编号（阻塞项优先）。每个文件的 "Blocked by" 列出它依赖的编号/标题。使用下面的 per-ticket 文件模板：一个 ticket 一个文件，绝不合并为一个文件。
-- **真实 issue 跟踪器（GitHub、Linear……）** → 按依赖顺序每个 ticket 发布一个 issue（阻塞项优先），这样每个 ticket 的阻塞边可以引用真实标识符。平台支持原生阻塞关系时就使用；否则把每个 ticket 的 "Blocked by" 设为阻塞它的 issue。如果来源是一个已有 issue，则把每张 ticket 设为它的子 issue（使用 tracker 文档中的操作）。除非另有指示，应用 `ready-for-agent` triage 标签——这些 ticket 本身就具备 agent 可领取性。
-
-按**前沿**推进：任意一个阻塞项已全部完成的 ticket。对纯粹的线性链来说就是从上到下。
-
-不要关闭或修改任何父 issue。
-
-<local-ticket-template>
-
-# <NN>: <Ticket 标题>
-
-**What to build:** 此 ticket 让哪个端到端行为生效——从用户视角出发，而不是逐层的实现清单。
-
-**Blocked by:** 制约此 ticket 的其他 ticket 的编号/标题，或 "None (can start immediately)"。
-
-**Status:** ready-for-agent
-
-- [ ] 验收标准 1
-- [ ] 验收标准 2
-
-</local-ticket-template>
-
-<issue-template>
-
-## Parent
-
-跟踪器上父 issue 的引用（若源为已有 issue，否则省略本节）。
-
-## What to build
-
-此 ticket 让哪个端到端行为生效——从用户视角出发，而不是逐层实现。
-
-## Acceptance criteria
-
-- [ ] 标准 1
-- [ ] 标准 2
-
-## Blocked by
-
-- 每个阻塞 ticket 的引用，或 "None (can start immediately)"。若阻塞关系已通过原生边设置，则省略本节。
-
-</issue-template>
-
-无论哪种形式，避免具体的文件路径或代码片段——它们很快就会过时。例外情况：如果原型产出的代码片段比文字更精确地编码了某个决策（状态机、reducer、schema、类型结构），将其内联并简要说明来自原型。精简到决策密集的部分——不是可工作的演示，只是重要的那些。
+- 只通过 acpx 派发给用户明确指定的 Agent。本 Skill 不定义 acpx 命令。
+- **references 和 templates 全文传递**是草案、修改和发布阶段都不可绕过的条件。
+- **无用户明确批准，不发布任何 tickets**。用户要求修改不等于批准。
+- 不得关闭、修改源父 Issue；目标 Agent 负责创建子 Issue（tracker 支持时）。
+- 除非用户明确另有指示，已发布 ticket 应使用配置中 `ready-for-agent` 的真实标签映射，无需再次分诊。

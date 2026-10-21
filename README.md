@@ -233,8 +233,9 @@ npx skills@latest add devcxl/mattpocock-skills-zh -a <agent>  # cursor, opencode
 - **[triage](./skills/engineering/triage/SKILL.md)**：让 Issue 在 triage 角色状态机中流转。
 - **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)**：扫描代码库中的深化机会，将它们以可视化的 HTML 报告呈现，然后盘问你选中的那一个。
 - **[setup-matt-pocock-skills](./skills/engineering/setup-matt-pocock-skills/SKILL.md)**：为工程类技能配置本仓库（Issue 跟踪器、triage 标签、领域文档布局）。在使用其他工程技能之前，每个仓库运行一次。
-- **[to-spec](./skills/engineering/to-spec/SKILL.md)**：把当前对话变成规格，并发布到 Issue 跟踪器。不访谈：只是综合你已经讨论过的内容。
-- **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**：把任何计划、规格或对话拆成一组 tracer-bullet 工单，每条声明其阻塞边：以本地文件中的文本，或真实跟踪器上的原生阻塞链接形式编写。
+- **[domain-modeling](./skills/engineering/domain-modeling/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，核对领域术语并维护 Glossary 与必要的 ADR。
+- **[to-spec](./skills/engineering/to-spec/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，由它综合当前对话并发布 spec Issue。
+- **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，将计划或 spec 拆成 tracer-bullet Issues；经用户批准后发布并建立阻塞边。
 - **[implement](./skills/engineering/implement/SKILL.md)**：按规格或工单集合构建工作，在预先约定的 seam 上驱动 `/tdd`，并在提交前以 `/code-review` 收尾。
 - **[implement-spec](./skills/engineering/implement-spec/SKILL.md)**：在一条集成分支上实现整份规格。把工单当任务图推进，在可领取的前沿并行运行实施者子代理以获得最大并发，最后以 `/code-review` 收尾。
 - **[problem-atlas](./skills/engineering/problem-atlas/SKILL.md)**：为跨会话的大型项目维护一份目标/问题地图：记录 Goal、Problem、核心矛盾与双工作前沿，基于研究与你的决策更新 ADR、SPEC 与实施 issue，并把产物生成交给 `domain-modeling`、`to-spec`、`to-tickets`。
@@ -247,7 +248,6 @@ npx skills@latest add devcxl/mattpocock-skills-zh -a <agent>  # cursor, opencode
 - **[diagnosing-bugs](./skills/engineering/diagnosing-bugs/SKILL.md)**：对硬核 bug 和性能回归的有纪律诊断循环：构建一个对这个 bug 变红的反馈循环→最小化→假设→插桩→修复→回归测试。
 - **[research](./skills/engineering/research/SKILL.md)**：针对高可信度的原始来源调查一个问题，并把发现以带引用的 Markdown 文件形式保存到仓库，作为后台 agent 运行。
 - **[tdd](./skills/engineering/tdd/SKILL.md)**：红绿重构循环下的测试驱动开发。一次一条垂直切片地构建特性或修复 bug。
-- **[domain-modeling](./skills/engineering/domain-modeling/SKILL.md)**：主动构建并打磨项目的领域模型：对照术语表挑战术语、用边缘场景压力测试，并就地更新 `GLOSSARY.md` 与 ADR。
 - **[codebase-design](./skills/engineering/codebase-design/SKILL.md)**：用于设计深度模块的共享纪律与词汇：小接口背后的大量行为，安放在干净的 seam 上，通过这个 seam 可测。
 - **[code-review](./skills/engineering/code-review/SKILL.md)**：对一个固定点以来的 diff 进行双轴评审：**规范（Standards）**（它是否遵循仓库的编码规范，外加 Fowler 异味基线？）与**规格（Spec）**（它是否忠实地实现了原始 Issue/规格？），作为并行子 agent 运行以免互相污染。
 - **[pr](./skills/engineering/pr/SKILL.md)**：PR body 应有的形状：以能说清变更的最小可视化做摘要，加上证明其可行的 before/after 证据，再加上合并风险判断（单向门或双向门，外加爆炸半径）。

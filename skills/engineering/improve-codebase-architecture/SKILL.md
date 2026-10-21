@@ -63,9 +63,9 @@ disable-model-invocation: true
 
 一旦用户选中一个候选方案，调用 Skill 工具并传入 "grilling" 与他们一起遍历决策树——约束条件、依赖关系、deepened module 的形状、seam 背后是什么、哪些测试能够存活。
 
-副作用在决策明确时即时产生——调用 Skill 工具并传入 "domain-modeling" 以保持领域模型的最新状态：
+领域文档写入现由用户显式调用的 `/domain-modeling` 执行。决策明确时收集下列证据并提示用户指定 Agent，通过 acpx 派发领域建模，不得自动调用此 Skill 或自行代写 Glossary/ADR：
 
-- **将一个 deepened module 命名为 `GLOSSARY.md` 中不存在的概念？** 将该术语添加到 `GLOSSARY.md`。如果文件不存在，延迟创建。
-- **在对话过程中澄清了一个模糊的术语？** 立即更新 `GLOSSARY.md`。
-- **用户因一个重要原因拒绝了候选方案？** 提议创建一个 ADR，措辞为：_"需要我将此记录为 ADR，以便未来的架构审查不再重新提出此建议吗？"_ 只有当原因确实对未来探索者避免重复提出相同建议有实际帮助时才提出——跳过临时性原因（"现在不值得做"）和自明的原因。
+- **将一个 deepened module 命名为 `GLOSSARY.md` 中不存在的概念？** 把该术语及其确认依据交给获派发的 Agent，由它按规则懒创建或更新 `GLOSSARY.md`。
+- **在对话过程中澄清了一个模糊的术语？** 把澄清结果交给获派发的 Agent，由它更新 `GLOSSARY.md`。
+- **用户因一个重要原因拒绝了候选方案？** 提醒用户可派发 Agent 评估是否满足 ADR 三项门槛，措辞为：_"需要我将此记录为 ADR，以便未来的架构审查不再重新提出此建议吗？"_ 只有当原因确实对未来探索者避免重复提出相同建议有实际帮助时才提出——跳过临时性原因（"现在不值得做"）和自明的原因。
 - **想探索 deepened module 的替代 interface？** 调用 Skill 工具并传入 "codebase-design" 并使用其 design-it-twice 并行子代理模式。
