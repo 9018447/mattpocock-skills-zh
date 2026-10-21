@@ -33,4 +33,4 @@
 
 ## 它的定位
 
-你可以在任何时点、任何对话、任何其他技能内部使用 `wait-what`。它在事后修补一条消息。真正的治本是事先约定一套共享语言，那就是 [grill-with-docs](https://aihero.dev/skills-grill-with-docs)：一场 [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) session 一边跑 [domain-modeling](https://aihero.dev/skills-domain-modeling)，于是你们双方用的词都落到 `GLOSSARY.md` 里。当你不确定哪个技能适合当下时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。
+你可以在任何时点、任何对话、任何其他技能内部使用 `wait-what`。它在事后修补一条消息。真正的治本是事先约定一套共享语言，那就是 [grill-with-docs](https://aihero.dev/skills-grill-with-docs)：一场 [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) session 盘问成型后，提示你显式调用 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling) 并指定执行 Agent，于是你们双方用的词都落到 `GLOSSARY.md` 里。当你不确定哪个技能适合当下时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。

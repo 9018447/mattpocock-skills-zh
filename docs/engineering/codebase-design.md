@@ -15,7 +15,7 @@
 | 问题 | 技能 |
 |---|---|
 | 单个模块的形状——它的接口、它的接缝、它的深度 | `codebase-design` |
-| *领域的话术*——"account" 有三个意思，两个人对 "cancellation" 的理解不同 | [domain-modeling](https://aihero.dev/skills-domain-modeling) |
+| *领域的话术*——"account" 有三个意思，两个人对 "cancellation" 的理解不同 | [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling) |
 | 你还不知道*该*重新设计哪个模块 | [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture)（找出候选的勘察） |
 | 你想要设计被盘问，而不只是被命名 | [grilling](https://aihero.dev/skills-grilling) |
 | 有一个具体的行为了要构建，你想要能扛住重构的测试 | [tdd](https://aihero.dev/skills-tdd) |
@@ -85,4 +85,4 @@
 
 ## 它的定位
 
-`codebase-design` 是一个**随时可调用的独立技能**，位于工程技能之下的词汇层，不是任何链上的一步。它最近的邻居是 [domain-modeling](https://aihero.dev/skills-domain-modeling)——为*问题域*的话术、而不是模块形状设立的平行参考。两者通常要一起用，因为给一个深模块起好名字需要两者兼具。[improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) 是另一个：它勘察代码库寻找可深化之处，并用这份词汇表描述每个候选；它负责找出模块，你则用本技能的术语来设计它。拿不准哪个技能或流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。
+`codebase-design` 是一个**随时可调用的独立技能**，位于工程技能之下的词汇层，不是任何链上的一步。它最近的邻居是 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling)——为*问题域*的话术、而不是模块形状设立的平行参考。两者通常要一起用，因为给一个深模块起好名字需要两者兼具。[improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) 是另一个：它勘察代码库寻找可深化之处，并用这份词汇表描述每个候选；它负责找出模块，你则用本技能的术语来设计它。拿不准哪个技能或流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。

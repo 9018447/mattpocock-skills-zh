@@ -1,0 +1,7 @@
+[client] initialize (running)
+
+[client] _auth/status_update (running)
+
+[client] session/new (running)
+
+[error] RUNTIME: Authentication required

@@ -1,5 +1,12 @@
 # mattpocock-skills
 
+## 1.4.4
+
+### Patch Changes
+
+- 把文档划分也交给派发
+- 三个 acpx 派发包装技能改名并加 acpx- 前缀（acpx-to-spec、acpx-to-tickets、acpx-domain-modeling）
+
 ## 1.4.3
 
 ### Patch Changes

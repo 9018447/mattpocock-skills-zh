@@ -13,25 +13,25 @@
 - 将信息分为 `已证实事实（附出处）`、`推论（附依据）`、`待验证假设`、`用户确认的决定（附记录）`。
 - 对每个 Tension 描述实际冲突、备选路径、代价、依赖及影响 Goal 的部分。简单事实问题先研究，只有真实取舍才进入决策环节。
 
-## 3. `/grilling` 与 `domain-modeling`
+## 3. `/grilling` 与 `acpx-domain-modeling`
 
 每个需要用户取舍的主要 Tension 分别进入 `/grilling`，陈列证据、可选方案、利弊与风险。不能代替用户作答；没有确认就保持待决策状态。
 
-在术语、边界或架构选择需要明确时调用 `domain-modeling`，遵循它自己的术语、Glossary 与 ADR 生成规范。**ADR 不是每个 Tension 的强制模板**：该 Skill 只在决策难以撤销、缺少背景令人困惑、且存在真实取舍时建议写 ADR。无 ADR 的已确认决策保留在 Problem 的决策历史中，并作为后续规格输入。
+在术语、边界或架构选择需要明确时调用 `acpx-domain-modeling`，遵循它自己的术语、Glossary 与 ADR 生成规范。**ADR 不是每个 Tension 的强制模板**：该 Skill 只在决策难以撤销、缺少背景令人困惑、且存在真实取舍时建议写 ADR。无 ADR 的已确认决策保留在 Problem 的决策历史中，并作为后续规格输入。
 
-## 4. 交给 `/to-spec`，再交给 `/to-tickets`
+## 4. 交给 `/acpx-to-spec`，再交给 `/acpx-to-tickets`
 
 Problem Atlas 只准备并维护交接上下文：Goal、相关 Problem/Tension、明确选择及确认来源、ADR 链接（若有）、证据指针、范围外内容和未决风险。**不要自己撰写 SPEC 或实施 Issue，也不要强行使用 Atlas 模板。**
 
-- 当问题已决策、工作大到需要跨会话实施时，提示用户显式执行 `/to-spec`。`to-spec` 负责从已确认信息综合规格，不重新访谈；测试边界的确认和发布格式由它负责。
-- `to-spec` 成功后，将真实 SPEC 链接记录到 Problem 与 Map；之后提示用户显式执行 `/to-tickets`。`to-tickets` 负责自带的 tracer-bullet 任务拆分、依赖和发布，不由 Atlas 决定票据格式。尽量在同一上下文中依次运行两个技能，避免长规格重新读取时丢失内容。
+- 当问题已决策、工作大到需要跨会话实施时，提示用户显式执行 `/acpx-to-spec`。`acpx-to-spec` 负责从已确认信息综合规格，不重新访谈；测试边界的确认和发布格式由它负责。
+- `acpx-to-spec` 成功后，将真实 SPEC 链接记录到 Problem 与 Map；之后提示用户显式执行 `/acpx-to-tickets`。`acpx-to-tickets` 负责自带的 tracer-bullet 任务拆分、依赖和发布，不由 Atlas 决定票据格式。尽量在同一上下文中依次运行两个技能，避免长规格重新读取时丢失内容。
 - 获取真实产物后才更新 Map 的 SPEC/Issue 指针、任务依赖和执行前沿。若产物未生成，就保留 `待生成`，不伪造链接或创建替代模板。
-- 原版 `to-spec` 和 `to-tickets` 标记 `disable-model-invocation: true`；不能假定 Atlas 能自动调用它们。用户显式调用或其宿主提供合法编排机制后才能使用其结果。
+- 原版 `acpx-to-spec` 和 `acpx-to-tickets` 标记 `disable-model-invocation: true`；不能假定 Atlas 能自动调用它们。用户显式调用或其宿主提供合法编排机制后才能使用其结果。
 
-如果规模足够小，`to-spec` / `to-tickets` 自身的适用条件可能不成立。Atlas 应如实说明并保留已确认的决策，而不是为了填满链条制造规格和任务。
+如果规模足够小，`acpx-to-spec` / `acpx-to-tickets` 自身的适用条件可能不成立。Atlas 应如实说明并保留已确认的决策，而不是为了填满链条制造规格和任务。
 
 ## 5. 变更与回溯
 
-发生重新决策时，先通过 `/grilling` 确认变更并由 `domain-modeling` 按自身规则维护 ADR（若需要）；保留旧决定、日期、原因和新决定指针。检查受影响的 SPEC，交由 `/to-spec` 处理需要重新规格化的范围，再交由 `/to-tickets` 处理受影响的任务。旧版任务在复核之前不得进入执行前沿。
+发生重新决策时，先通过 `/grilling` 确认变更并由 `acpx-domain-modeling` 按自身规则维护 ADR（若需要）；保留旧决定、日期、原因和新决定指针。检查受影响的 SPEC，交由 `/acpx-to-spec` 处理需要重新规格化的范围，再交由 `/acpx-to-tickets` 处理受影响的任务。旧版任务在复核之前不得进入执行前沿。
 
 每次会话结束时更新 Map 的 Problem 索引、决策历史、Tension 状态及两类前沿。默认一次只解决一个 Tension；不自动执行实施 Issues。

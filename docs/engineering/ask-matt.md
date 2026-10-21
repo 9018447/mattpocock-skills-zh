@@ -20,7 +20,7 @@
 
 路由器只点名技能，不负责安装。它指向的一切都必须已安装，推荐才可执行；而且它只认识本仓库中晋升出来的技能。
 
-依赖追踪器的路由（triage、`to-spec`、`to-tickets`、`implement`）假设 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 已经在仓库中配置好了一个 issue 追踪器；即使尚未配置，路由器仍会推荐它们。
+依赖追踪器的路由（triage、`acpx-to-spec`、`acpx-to-tickets`、`implement`）假设 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 已经在仓库中配置好了一个 issue 追踪器；即使尚未配置，路由器仍会推荐它们。
 
 ## 是流程，不是技能
 
@@ -50,7 +50,7 @@
 
 **难道就没有一个按正确顺序排列的技能清单吗？**
 
-人们一直要求在 README 里放一个。这份技能就是那份清单——它就是为此而存在的。一张静态表格会写成 `wayfinder → to-spec → to-tickets → implement → code-review → retro`，而对大多数情况来说是错的，因为有趣的在于分支：有没有现成的代码库、构建是否跨会话、这个问题能否靠对话解决。诚实的代价是路由器人工维护，会落后于仓库。`/grilling` 在路由器能点名它之前很久就已发布。
+人们一直要求在 README 里放一个。这份技能就是那份清单——它就是为此而存在的。一张静态表格会写成 `wayfinder → acpx-to-spec → acpx-to-tickets → implement → code-review → retro`，而对大多数情况来说是错的，因为有趣的在于分支：有没有现成的代码库、构建是否跨会话、这个问题能否靠对话解决。诚实的代价是路由器人工维护，会落后于仓库。`/grilling` 在路由器能点名它之前很久就已发布。
 
 **它告诉我一半的技能没安装。**
 
@@ -58,7 +58,7 @@
 
 **它描述了某个技能的行为，但该技能并不那样做。**
 
-同样真实，同样未修复。路由器是根据自己对每个技能的一行摘要来回答，而不是根据技能本身。一份详细报告在一次会话中追踪到了三处，其中包括仅凭"把这条线索变成 spec"那句概述就建议跳过 [to-spec](https://aihero.dev/skills-to-spec)——`to-spec/SKILL.md` 从未被打开。在每一个案例里，它都是在用户提出质疑之后才去核实，而且从不会主动核实。在那里跳过 `to-spec` 代价是一次真实的接缝检查，产出的 tickets 也低估了工作量。当路由器对另一个技能断言了某种承重性内容时，让它先打开那个 `SKILL.md`。地图完全没有覆盖的问题也一样，比如是否使用 [plan mode](https://www.aihero.dev/ai-coding-dictionary/agent-mode)：那个答案来自 [model](https://www.aihero.dev/ai-coding-dictionary/model) 的推断，不是写在这里的。
+同样真实，同样未修复。路由器是根据自己对每个技能的一行摘要来回答，而不是根据技能本身。一份详细报告在一次会话中追踪到了三处，其中包括仅凭"把这条线索变成 spec"那句概述就建议跳过 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)——`acpx-to-spec/SKILL.md` 从未被打开。在每一个案例里，它都是在用户提出质疑之后才去核实，而且从不会主动核实。在那里跳过 `acpx-to-spec` 代价是一次真实的接缝检查，产出的 tickets 也低估了工作量。当路由器对另一个技能断言了某种承重性内容时，让它先打开那个 `SKILL.md`。地图完全没有覆盖的问题也一样，比如是否使用 [plan mode](https://www.aihero.dev/ai-coding-dictionary/agent-mode)：那个答案来自 [model](https://www.aihero.dev/ai-coding-dictionary/model) 的推断，不是写在这里的。
 
 **为什么是散文而不是编号清单？**
 
@@ -74,7 +74,7 @@
 
 **它点名了一个我没有的技能，或者漏掉了一个我有的。**
 
-先查变更日志看看是否改名了，再假设它消失了。`writing-great-skills` 变成了 [writing-for-agents](https://aihero.dev/skills-writing-for-agents)，没有别名；`to-prd` 变成了 [to-spec](https://aihero.dev/skills-to-spec)；`pathfinder` 变成了 [wayfinder](https://aihero.dev/skills-wayfinder)。还有四个技能被整体退役、并入吸收它们的技能：`ubiquitous-language`、`design-an-interface`、`qa` 和 `request-refactor-plan`。反过来就是上面说的路由器自身的滞后。
+先查变更日志看看是否改名了，再假设它消失了。`writing-great-skills` 变成了 [writing-for-agents](https://aihero.dev/skills-writing-for-agents)，没有别名；`to-prd` 变成了 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)；`pathfinder` 变成了 [wayfinder](https://aihero.dev/skills-wayfinder)。还有四个技能被整体退役、并入吸收它们的技能：`ubiquitous-language`、`design-an-interface`、`qa` 和 `request-refactor-plan`。反过来就是上面说的路由器自身的滞后。
 
 ## 怎样算成功
 

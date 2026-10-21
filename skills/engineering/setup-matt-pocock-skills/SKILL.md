@@ -37,7 +37,7 @@ disable-model-invocation: true
 
 **A 节 — Issue 跟踪器。**
 
-> 解释：这个仓库的 "issue tracker" 就是 issue 存放的地方。`to-tickets`、`triage`、`to-spec` 等技能会读写它——它们需要知道该调用 `gh issue create`、在 `.scratch/` 下写 markdown 文件，还是遵循你描述的其他工作流。选一个你实际为本仓库跟踪工作的位置。
+> 解释：这个仓库的 "issue tracker" 就是 issue 存放的地方。`acpx-to-tickets`、`triage`、`acpx-to-spec` 等技能会读写它——它们需要知道该调用 `gh issue create`、在 `.scratch/` 下写 markdown 文件，还是遵循你描述的其他工作流。选一个你实际为本仓库跟踪工作的位置。
 
 默认姿态：这些技能是为 GitHub 设计的。如果 `git remote` 指向 GitHub，就提议 GitHub。如果 `git remote` 指向 GitLab（`gitlab.com` 或自托管主机），就提议 GitLab。否则（或用户偏好），提供：
 

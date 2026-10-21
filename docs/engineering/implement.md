@@ -6,14 +6,14 @@
 
 ## 何时使用
 
-你自己键入 `/implement` 来调用它——agent 不会主动使用它。它随附 `disable-model-invocation: true`，所以其他技能也不能调用它。无论 [ask-matt](https://aihero.dev/skills-ask-matt) 还是 [to-tickets](https://aihero.dev/skills-to-tickets) 说"然后每个 ticket 跑一次 `/implement`"，那都是给你的指示，不是 agent 会未经提示去做的事。
+你自己键入 `/implement` 来调用它——agent 不会主动使用它。它随附 `disable-model-invocation: true`，所以其他技能也不能调用它。无论 [ask-matt](https://aihero.dev/skills-ask-matt) 还是 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 说"然后每个 ticket 跑一次 `/implement`"，那都是给你的指示，不是 agent 会未经提示去做的事。
 
 工作目前在哪里决定了这是不是对的技能：
 
 | 工作在…… | 使用 |
 | --- | --- |
 | 追踪器上的一个 ticket | `/implement #42`，每个 [session](https://www.aihero.dev/ai-coding-dictionary/session) 一个 ticket，ticket 之间 [clearing](https://www.aihero.dev/ai-coding-dictionary/clearing) 上下文 |
-| 一个 spec，还没拆分，构建跨会话 | 先 [to-tickets](https://aihero.dev/skills-to-tickets)，然后每个 ticket 跑一次 `/implement` |
+| 一个 spec，还没拆分，构建跨会话 | 先 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets)，然后每个 ticket 跑一次 `/implement` |
 | 一个 spec，构建很小 | 直接对着 spec 跑 `/implement` |
 | 只存在于你刚进行的对话里，而且仍然很小 | 就地 `/implement`，同一个窗口里 |
 | 还没写在任何地方 | [grill-with-docs](https://aihero.dev/skills-grill-with-docs)，如果没有代码库就用 [grill-me](https://aihero.dev/skills-grill-me) |
@@ -26,7 +26,7 @@
 
 `implement` 提交到你所在的分支。它不创建分支，也不问。开始之前，确认你正待在你想让工作落地的分支上。
 
-如果 tickets 来自 [to-tickets](https://aihero.dev/skills-to-tickets)，它们所在的追踪器由 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 配置。`code-review` 读取同一份配置，在收尾时找到发起它的 spec。
+如果 tickets 来自 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets)，它们所在的追踪器由 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 配置。`code-review` 读取同一份配置，在收尾时找到发起它的 spec。
 
 ## 一次运行做什么
 
@@ -38,7 +38,7 @@
 4. 在最后跑一次完整测试套件。
 5. 跑 [code-review](https://aihero.dev/skills-code-review)，然后提交到当前分支。
 
-一次运行覆盖一个 ticket。[to-tickets](https://aihero.dev/skills-to-tickets) 产出的 tickets 是穿透式（tracer-bullet）的垂直切片，每片都恰好适配一次全新的 [context window](https://www.aihero.dev/ai-coding-dictionary/context-window)，所以预期的节奏是：清空上下文，跑一个 ticket，提交，再清空。每张 ticket 都自成一体，因此可以丢弃上一张 ticket 的上下文。
+一次运行覆盖一个 ticket。[acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 产出的 tickets 是穿透式（tracer-bullet）的垂直切片，每片都恰好适配一次全新的 [context window](https://www.aihero.dev/ai-coding-dictionary/context-window)，所以预期的节奏是：清空上下文，跑一个 ticket，提交，再清空。每张 ticket 都自成一体，因此可以丢弃上一张 ticket 的上下文。
 
 ## 预先约定的接缝
 
@@ -50,7 +50,7 @@
 
 **它跑完了，但我的 ticket 还是开着的，验收标准也没勾。**
 
-对，这是预期的。`implement` 没有收尾步骤。它在 commit 处结束，从不碰 work item——GitHub Issues 和本地 markdown 追踪器上都确认了，所以这不是追踪器集成的问题。它也不会去执行 `code-review` 产出的发现，也不会去勾原始 issue 上的 `- [ ]` 方框。关掉 ticket 并对账验收标准要你自己来。这在依赖链上影响最大，因为 `to-tickets` 把 frontier 定义为"所有 blocker 都已关闭"的 tickets。如果没人关东西，就永远没有可见的解除阻塞。
+对，这是预期的。`implement` 没有收尾步骤。它在 commit 处结束，从不碰 work item——GitHub Issues 和本地 markdown 追踪器上都确认了，所以这不是追踪器集成的问题。它也不会去执行 `code-review` 产出的发现，也不会去勾原始 issue 上的 `- [ ]` 方框。关掉 ticket 并对账验收标准要你自己来。这在依赖链上影响最大，因为 `acpx-to-tickets` 把 frontier 定义为"所有 blocker 都已关闭"的 tickets。如果没人关东西，就永远没有可见的解除阻塞。
 
 **我能把它一次性指向所有 tickets，或者并行跑几个吗？**
 
@@ -68,7 +68,7 @@
 
 **一个 ticket 烧了 150k token。我用错了吗？**
 
-可能不是用错了。更可能是 ticket 太大。一次运行要做代码库探索、每个接缝的红绿循环、整套测试、一次 review，所以一个不简单的 ticket 超过 100k [tokens](https://www.aihero.dev/ai-coding-dictionary/token) 是正常的，不是什么出问题的征兆。修正要从上游做：在 [to-tickets](https://aihero.dev/skills-to-tickets) 中把 ticket 大小调对，让每个都恰好装下一次全新的窗口。如果某张 ticket 一直超量，就拆开，而不是调高 [effort](https://www.aihero.dev/ai-coding-dictionary/effort) 等级。
+可能不是用错了。更可能是 ticket 太大。一次运行要做代码库探索、每个接缝的红绿循环、整套测试、一次 review，所以一个不简单的 ticket 超过 100k [tokens](https://www.aihero.dev/ai-coding-dictionary/token) 是正常的，不是什么出问题的征兆。修正要从上游做：在 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 中把 ticket 大小调对，让每个都恰好装下一次全新的窗口。如果某张 ticket 一直超量，就拆开，而不是调高 [effort](https://www.aihero.dev/ai-coding-dictionary/effort) 等级。
 
 **`/implement #2` 在一次新会话里跑去处理完全不相关的东西。**
 
@@ -87,11 +87,11 @@ agent 曾会把 `#2` 解析成上下文中的另一份编号列表，例如 todo
 `implement` 是主链上的构建一环：
 
 ```txt
-grill-with-docs → to-spec → to-tickets → implement → code-review → retro
+grill-with-docs → acpx-to-spec → acpx-to-tickets → implement → code-review → retro
 ```
 
-它的邻居是 [to-tickets](https://aihero.dev/skills-to-tickets)——产出它消费的 tickets，并声明决定它们顺序的阻塞边；[tdd](https://aihero.dev/skills-tdd)——它内部在每个接缝上驱动它；以及 [code-review](https://aihero.dev/skills-code-review)——它在提交前跑。它坐在规划技能的下游，并信任它们。它不复验交给它的形状，所以一张结构糟糕的 map 或一条水平切层的 ticket 会按原样被构建。
+它的邻居是 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets)——产出它消费的 tickets，并声明决定它们顺序的阻塞边；[tdd](https://aihero.dev/skills-tdd)——它内部在每个接缝上驱动它；以及 [code-review](https://aihero.dev/skills-code-review)——它在提交前跑。它坐在规划技能的下游，并信任它们。它不复验交给它的形状，所以一张结构糟糕的 map 或一条水平切层的 ticket 会按原样被构建。
 
-这份信任就是为什么 [wayfinder](https://aihero.dev/skills-wayfinder) 在 [to-spec](https://aihero.dev/skills-to-spec) 处合入主链，而不是把它的 map 直接接进 `implement`。只有当工作量最终真的很小时，才从 map 直接跳到 `implement`。
+这份信任就是为什么 [wayfinder](https://aihero.dev/skills-wayfinder) 在 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 处合入主链，而不是把它的 map 直接接进 `implement`。只有当工作量最终真的很小时，才从 map 直接跳到 `implement`。
 
 [ask-matt](https://aihero.dev/skills-ask-matt) 在你拿不准自己身处哪条流程时，是整套技能的路由器。

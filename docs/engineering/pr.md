@@ -71,7 +71,7 @@
 
 ## 它的定位
 
-当构建以 pull request 的形式交付时，`pr` 位于 review 和 retro 之间：`to-spec → to-tickets → implement → code-review → pr → retro`。它是模型调用的，所以 agent 在这条链之外写 PR body 时也会自动触发它。
+当构建以 pull request 的形式交付时，`pr` 位于 review 和 retro 之间：`acpx-to-spec → acpx-to-tickets → implement → code-review → pr → retro`。它是模型调用的，所以 agent 在这条链之外写 PR body 时也会自动触发它。
 
 - [code-review](https://aihero.dev/skills-code-review) 在它之前运行，因为 PR body 应当描述一份已经评审过的 diff。
 - [implement](https://aihero.dev/skills-implement) 产出 body 所描述的 commit。

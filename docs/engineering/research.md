@@ -70,4 +70,4 @@
 
 ## 它的定位
 
-`research` 是一项随时可用的独立技能。它为思考型技能提供材料，不是构建链中的一步。你需要把它产出的文件*带进*流程：[盘问（grilling）](https://aihero.dev/skills-grilling) 和 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 已掌握事实后能提出更尖锐的问题，[to-spec](https://aihero.dev/skills-to-spec) 也能据此综合。[wayfinder](https://aihero.dev/skills-wayfinder) 是唯一会直接调用它的技能：它用 `/research` subagent 处理地图上的每张 research ticket。整张地图见 [ask-matt](https://aihero.dev/skills-ask-matt)。
+`research` 是一项随时可用的独立技能。它为思考型技能提供材料，不是构建链中的一步。你需要把它产出的文件*带进*流程：[盘问（grilling）](https://aihero.dev/skills-grilling) 和 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 已掌握事实后能提出更尖锐的问题，[acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 也能据此综合。[wayfinder](https://aihero.dev/skills-wayfinder) 是唯一会直接调用它的技能：它用 `/research` subagent 处理地图上的每张 research ticket。整张地图见 [ask-matt](https://aihero.dev/skills-ask-matt)。

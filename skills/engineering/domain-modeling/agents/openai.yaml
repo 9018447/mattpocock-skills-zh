@@ -1,6 +1,0 @@
-interface:
-  display_name: "Domain Modeling"
-  short_description: "通过 acpx 派发用户指定 Agent 维护领域模型"
-
-policy:
-  allow_implicit_invocation: false

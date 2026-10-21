@@ -13,7 +13,7 @@
 | 你的情况 | 去哪里 |
 | --- | --- |
 | 一个带定义好的输入和输出的行为（业务逻辑、请求/响应契约、一次转换、校验） | `tdd` |
-| 那个行为还没钉死 | [to-spec](https://aihero.dev/skills-to-spec)，它也在任何代码写下之前约定测试接缝 |
+| 那个行为还没钉死 | [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，它也在任何代码写下之前约定测试接缝 |
 | 真正的问题是接口的形状，而不是测试 | [codebase-design](https://aihero.dev/skills-codebase-design) |
 | 你有一份 [spec](https://www.aihero.dev/ai-coding-dictionary/spec) 或 [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)、并且希望整个构建替你跑 | [implement](https://aihero.dev/skills-implement)，它按 ticket 驱动 `tdd` |
 | 配置、接线、粘合、类型标注、直白的 CRUD 委托 | 这里没有合适的；见下面那条开放的缺口 |
@@ -32,7 +32,7 @@
 
 **垂直切片（Vertical slice）。** 一道接缝、一条测试、一份最小实现、然后重复，第一个循环是一发**示踪弹**（tracer bullet），证明一条端到端路径走通。相对的是水平切片：先所有测试，再所有代码。批量测试验证的是*想象中的*行为，它们检查的是事物的形状而不是用户做什么，并且它们在你理解实现之前就让你锁定了一份测试结构。
 
-**预先约定的接缝（Pre-agreed seam）。** 接缝是你不深入其内部就能观察行为的公共边界。规则没有例外：测试不能放在未经确认的接缝上。在完整链里，接缝在更早的 [to-spec](https://aihero.dev/skills-to-spec) 阶段就被约定好："`/tdd` 被告知只在预先约定的测试接缝上工作，`/code-review` 检查只用了约定好的测试接缝。" 单独调用 `tdd` 时，它会直接问你。
+**预先约定的接缝（Pre-agreed seam）。** 接缝是你不深入其内部就能观察行为的公共边界。规则没有例外：测试不能放在未经确认的接缝上。在完整链里，接缝在更早的 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 阶段就被约定好："`/tdd` 被告知只在预先约定的测试接缝上工作，`/code-review` 检查只用了约定好的测试接缝。" 单独调用 `tdd` 时，它会直接问你。
 
 它被写出来要预防的三种反模式：
 
@@ -52,7 +52,7 @@ Mocks 只用于系统边界：外部 API、时间、随机性，有时也包括�
 
 **它让我选一个测试接缝，而我完全不知道挑哪个。**
 
-这是这份技能被报告最多的摩擦点（[issue #607](https://github.com/mattpocock/skills/issues/607)）。提示只按名字列出候选接缝，不讲每一个能抓到什么、漏掉什么，所以你是在标签之间做选择。还没发布的修复。实际的变通办法是先让 agent 给出权衡再回答：组件级接缝漏掉的哪部分被集成接缝抓到、它要慢多少。这也是为什么那条链在 `to-spec` 里就把接缝约定好——在那里你有整个功能在视野里，而不是一条提示。
+这是这份技能被报告最多的摩擦点（[issue #607](https://github.com/mattpocock/skills/issues/607)）。提示只按名字列出候选接缝，不讲每一个能抓到什么、漏掉什么，所以你是在标签之间做选择。还没发布的修复。实际的变通办法是先让 agent 给出权衡再回答：组件级接缝漏掉的哪部分被集成接缝抓到、它要慢多少。这也是为什么那条链在 `acpx-to-spec` 里就把接缝约定好——在那里你有整个功能在视野里，而不是一条提示。
 
 **它在测试之前写了实现，尽管技能说先红。**
 
@@ -88,7 +88,7 @@ v1.0 进了 [codebase-design](https://aihero.dev/skills-codebase-design)，泛�
 `tdd` 在主链的构建步骤中运行，不是独立的一步：
 
 ```txt
-grill-with-docs → to-spec → to-tickets → implement → code-review → retro
+grill-with-docs → acpx-to-spec → acpx-to-tickets → implement → code-review → retro
 ```
 
-[to-spec](https://aihero.dev/skills-to-spec) 预先约定测试接缝，[implement](https://aihero.dev/skills-implement) 按 ticket 驱动 `tdd`，[code-review](https://aihero.dev/skills-code-review) 事后检查是否只用了约定好的接缝，并负责 `tdd` 不再做的重构。另一个邻居是 [codebase-design](https://aihero.dev/skills-codebase-design)，它是 `tdd` 使用的接缝与深模块词汇的共享来源。只要有具体行为要构建、又没有完整 spec，也可以单独调用 `tdd`。拿不准哪个技能适合你的情况时，[ask-matt](https://aihero.dev/skills-ask-matt) 为你路由。
+[acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 预先约定测试接缝，[implement](https://aihero.dev/skills-implement) 按 ticket 驱动 `tdd`，[code-review](https://aihero.dev/skills-code-review) 事后检查是否只用了约定好的接缝，并负责 `tdd` 不再做的重构。另一个邻居是 [codebase-design](https://aihero.dev/skills-codebase-design)，它是 `tdd` 使用的接缝与深模块词汇的共享来源。只要有具体行为要构建、又没有完整 spec，也可以单独调用 `tdd`。拿不准哪个技能适合你的情况时，[ask-matt](https://aihero.dev/skills-ask-matt) 为你路由。

@@ -62,7 +62,7 @@ When grilling, ask one question at a time.
 说出来。"我不知道"是一个真实的回答；一个你答不出来的问题通常意味着该去做 prototype，而不是去猜。
 
 **我是不是该在写规格之前新开一个 session？**
-不用。这次 session 的价值就是你刚建立起来的 [context](https://www.aihero.dev/ai-coding-dictionary/context)。把同一段对话直接交给 [to-spec](https://aihero.dev/skills-to-spec)。
+不用。这次 session 的价值就是你刚建立起来的 [context](https://www.aihero.dev/ai-coding-dictionary/context)。把同一段对话直接交给 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)。
 
 **模型重要吗？**
 比大多数技能更看模型。grilling 依赖 [model](https://www.aihero.dev/ai-coding-dictionary/model) 自己对系统如何出错的判断，所以用你最好的那个。实现阶段主要靠上下文，能容忍差一些的模型。
@@ -73,4 +73,4 @@ When grilling, ask one question at a time.
 
 这种便携性正是它和 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 的全部区别：后者跑同样的访谈，但会读一份代码库来对照，并把学到的东西记录为 `GLOSSARY.md` 和 ADR。两者都在底层使用 [grilling](https://aihero.dev/skills-grilling) 技能；`grill-me` 是不携带状态、由用户调用的入口。
 
-如果你盘问的东西结果确实是软件，你可以把同一段对话交给 [to-spec](https://aihero.dev/skills-to-spec)，继续走构建流程：这是一个可选，而不是这个技能的目的。不确定哪条流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。
+如果你盘问的东西结果确实是软件，你可以把同一段对话交给 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，继续走构建流程：这是一个可选，而不是这个技能的目的。不确定哪条流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。

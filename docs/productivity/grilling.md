@@ -75,10 +75,10 @@ When grilling, ask one question at a time.
 不能，而且上限被刻意排除在范围之外。有的计划需要三个问题，有的需要五十个；硬上限要么砍掉难题，要么在简单题上显得武断。用自然语言引导才是设计内的控制：告诉它收尾，或者停在那里接受计划。如果一次 session 跑得特别长，原因通常是范围太大；把工作拆开，分别盘问各个部分。
 
 **我单独装了 `grill-me`，结果什么也没发生。**
-`grill-me` 是个一句话技能，整个正文就是"运行一次 `/grilling` session"，所以这个技能也得一起装。`grill-with-docs` 也一样，只是它还需要 [domain-modeling](https://aihero.dev/skills-domain-modeling)。装整个集合可以避免这个问题；选择性装则要把原语一起装上。
+`grill-me` 是个一句话技能，整个正文就是"运行一次 `/grilling` session"，所以这个技能也得一起装。`grill-with-docs` 也一样，只是它还需要 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling)。装整个集合可以避免这个问题；选择性装则要把原语一起装上。
 
 **`grill-with-docs` 跑了，但它从未加载 `grilling`。**
-一个真实存在、尚未修复的粗糙边角，在各 [harnesses](https://www.aihero.dev/ai-coding-dictionary/harness) 和模型上都有报告：一个技能在文案里提到另一个技能，并不能可靠地让那个技能被加载，而 `grill-with-docs` 提到了两个。迹象是一场 session 一次性把所有问题倒出来，且没有附推荐答案：那是模型在即兴访谈，而不是在跑这个技能。直接问 agent 是否加载了 `grilling` 和 `domain-modeling`，通常能恢复。
+一个真实存在、尚未修复的粗糙边角，在各 [harnesses](https://www.aihero.dev/ai-coding-dictionary/harness) 和模型上都有报告：一个技能在文案里提到另一个技能，并不能可靠地让那个技能被加载，而 `grill-with-docs` 提到了两个。迹象是一场 session 一次性把所有问题倒出来，且没有附推荐答案：那是模型在即兴访谈，而不是在跑这个技能。直接问 agent 是否加载了 `grilling`，并确认它是否提示你显式调用 `/acpx-domain-modeling`，通常能恢复。
 
 ## 怎样算成功
 
@@ -94,4 +94,4 @@ When grilling, ask one question at a time.
 
 ## 它的定位
 
-`grilling` 是一个**原语**，不是一个排上日程的步骤：访谈技巧的唯一事实来源，留在一个地方，让所有需要访谈的技能都来用它，而不是各自发明一份。[grill-me](https://aihero.dev/skills-grill-me) 和 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 是它的两个用户调用入口，`grill-with-docs` 是主要构建链的起点，在 [to-spec](https://aihero.dev/skills-to-spec) 之前。[wayfinder](https://aihero.dev/skills-wayfinder) 跑它来解析决策 ticket，[triage](https://aihero.dev/skills-triage) 跑它把一份模糊的报告盘成可执行的，[improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) 跑它在挑中一个候选之后遍历那棵树。不确定哪个入口合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。
+`grilling` 是一个**原语**，不是一个排上日程的步骤：访谈技巧的唯一事实来源，留在一个地方，让所有需要访谈的技能都来用它，而不是各自发明一份。[grill-me](https://aihero.dev/skills-grill-me) 和 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 是它的两个用户调用入口，`grill-with-docs` 是主要构建链的起点，在 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 之前。[wayfinder](https://aihero.dev/skills-wayfinder) 跑它来解析决策 ticket，[triage](https://aihero.dev/skills-triage) 跑它把一份模糊的报告盘成可执行的，[improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) 跑它在挑中一个候选之后遍历那棵树。不确定哪个入口合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。

@@ -18,12 +18,12 @@
 - 状态：<待调查 / 待 grilling / 已决策 / 阻塞 / 重开>
 - 依赖与认领：<前置 Tension / 当前负责人>
 - 决策：<确认结果与记录链接；未决则留空>
-- ADR：<domain-modeling 创建的标题链接 / 不需要 / 待判断>
+- ADR：<acpx-domain-modeling 创建的标题链接 / 不需要 / 待判断>
 
 ## 下游产物指针
 
-- SPEC：[<to-spec 发布的标题>](<spec-link>) / 待生成
-- 实施 Issues：<to-tickets 发布的任务链接或索引> / 待生成
+- SPEC：[<acpx-to-spec 发布的标题>](<spec-link>) / 待生成
+- 实施 Issues：<acpx-to-tickets 发布的任务链接或索引> / 待生成
 
 ## 决策历史
 

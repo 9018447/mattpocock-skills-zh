@@ -70,7 +70,7 @@
 `retro` 是主链的最后一步，用来回顾整条流程的执行情况：
 
 ```txt
-grill-with-docs → to-spec → to-tickets → implement → code-review → retro
+grill-with-docs → acpx-to-spec → acpx-to-tickets → implement → code-review → retro
 ```
 
 在一次值得学习的构建之后运行它，同一次会话里，或指向那次会话的日志。顺利的构建可以跳过。

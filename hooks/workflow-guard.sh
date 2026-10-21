@@ -21,7 +21,7 @@ if [[ "$tool" == "Write" || "$tool" == "Edit" || "$tool" == "MultiEdit" ]]; then
       missing+=("ADR：$root 下没有 docs/adr/ 或 .agents/adr/ 决策记录")
     fi
     if ((${#missing[@]})); then
-      deny "建票被拦（本项目规矩：没有 ADR/SPEC 不建票）。缺：$(printf '%s；' "${missing[@]}") 先走 /grilling 裁定、/to-spec 出规格，再回来建票。"
+      deny "建票被拦（本项目规矩：没有 ADR/SPEC 不建票）。缺：$(printf '%s；' "${missing[@]}") 先走 /grilling 裁定、/acpx-to-spec 出规格，再回来建票。"
     fi
   fi
 fi

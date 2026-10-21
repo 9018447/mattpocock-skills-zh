@@ -29,7 +29,7 @@
 
 运行它没有先决条件。如果 `GLOSSARY.md` 或 `docs/adr/` 下有 ADR，它会读取这些文件并使用你领域自己的名词。候选因此会写成"加深 Order intake 模块"，而不是"重构 FooBarHandler"。
 
-它会写到两个地方。报告写入仓库外的 `<tmpdir>/architecture-review-<timestamp>.html`。盘问期间发现新的领域术语或值得记录的重大决策时，它会提醒你显式调用 [domain-modeling](https://aihero.dev/skills-domain-modeling) 并指定 acpx 执行 Agent。Glossary 和 ADR 由该 Agent 按约定维护，此技能不会自动代写。
+它会写到两个地方。报告写入仓库外的 `<tmpdir>/architecture-review-<timestamp>.html`。盘问期间发现新的领域术语或值得记录的重大决策时，它会提醒你显式调用 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling) 并指定 acpx 执行 Agent。Glossary 和 ADR 由该 Agent 按约定维护，此技能不会自动代写。
 
 ## 深度，以及那份猎取它的报告
 
@@ -53,7 +53,7 @@
 
 ## 你挑了之后会发生什么
 
-选中候选后，会围绕它启动一次 [盘问（grilling）](https://aihero.dev/skills-grilling) 会话，讨论约束、接缝后面的内容、哪些测试可以保留，以及加深后的接口应该是什么样。该会话产出的是决策，而不是 diff。之后进入正常流程：把决策带入 [to-spec](https://aihero.dev/skills-to-spec)，再到 [to-tickets](https://aihero.dev/skills-to-tickets)，最后交给 [implement](https://aihero.dev/skills-implement)。
+选中候选后，会围绕它启动一次 [盘问（grilling）](https://aihero.dev/skills-grilling) 会话，讨论约束、接缝后面的内容、哪些测试可以保留，以及加深后的接口应该是什么样。该会话产出的是决策，而不是 diff。之后进入正常流程：把决策带入 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，再到 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets)，最后交给 [implement](https://aihero.dev/skills-implement)。
 
 ## 常见问题
 
@@ -67,7 +67,7 @@
 
 **它给了我十二个候选。我该在同一个会话里逐个做，还是另开一个新会话？**
 
-每个会话只处理一条候选。如果在一次对话里处理多条，[context window](https://www.aihero.dev/ai-coding-dictionary/context-window) 会被报告、盘问、领域模型编辑和代码修改填满。报告只是临时文件，所以应带着候选继续，而不是带着报告文件：选一条、对它进行盘问，并把决策交给 `/to-spec`。把其余候选变成可单独处理的 [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)。把选中的改进写入 spec，而不是直接开始实现。人们经常问这个问题，但技能本身没有说明相应流程。
+每个会话只处理一条候选。如果在一次对话里处理多条，[context window](https://www.aihero.dev/ai-coding-dictionary/context-window) 会被报告、盘问、领域模型编辑和代码修改填满。报告只是临时文件，所以应带着候选继续，而不是带着报告文件：选一条、对它进行盘问，并把决策交给 `/acpx-to-spec`。把其余候选变成可单独处理的 [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)。把选中的改进写入 spec，而不是直接开始实现。人们经常问这个问题，但技能本身没有说明相应流程。
 
 **我该怎么给它提示？**
 
@@ -108,6 +108,6 @@
 
 - [codebase-design](https://aihero.dev/skills-codebase-design)，负责每条候选所用的 depth 和 seam 词汇。
 - [盘问（grilling）](https://aihero.dev/skills-grilling)，在你选定候选后带你走过决策树。
-- [domain-modeling](https://aihero.dev/skills-domain-modeling)，在你作出决策时维护 `GLOSSARY.md` 和 ADR。
+- [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling)，在你作出决策时维护 `GLOSSARY.md` 和 ADR。
 
-它产出一个想法，再通过 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 或 [to-spec](https://aihero.dev/skills-to-spec) 重新进入主构建流程。主流程末端与之对应的是 [retro](https://aihero.dev/skills-retro)：本技能改善 agent 所工作的代码，`retro` 则在构建之后改善周边环境（检查、规范、引导文件）。不确定某个场景适合哪个技能时，[ask-matt](https://aihero.dev/skills-ask-matt) 会为整套技能路由。
+它产出一个想法，再通过 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 或 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 重新进入主构建流程。主流程末端与之对应的是 [retro](https://aihero.dev/skills-retro)：本技能改善 agent 所工作的代码，`retro` 则在构建之后改善周边环境（检查、规范、引导文件）。不确定某个场景适合哪个技能时，[ask-matt](https://aihero.dev/skills-ask-matt) 会为整套技能路由。

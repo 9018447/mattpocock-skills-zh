@@ -1,26 +1,26 @@
 ## 它的作用
 
-`to-tickets` 通过 acpx 把拆票任务交给**用户明确指定的 Agent**。目标 Agent 读取计划、[spec](https://www.aihero.dev/ai-coding-dictionary/spec) 或当前对话，先提出拆票草案；你批准后才把它发布成 Issue 追踪器上的一组 **[tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)**。每张 ticket 声明它的**阻塞边**：那些必须先完成才能开始它的其他 tickets。
+`acpx-to-tickets` 通过 acpx 把拆票任务交给**用户明确指定的 Agent**。目标 Agent 读取计划、[spec](https://www.aihero.dev/ai-coding-dictionary/spec) 或当前对话，先提出拆票草案；你批准后才把它发布成 Issue 追踪器上的一组 **[tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)**。每张 ticket 声明它的**阻塞边**：那些必须先完成才能开始它的其他 tickets。
 
 每张 ticket 都是一发**示踪弹**：穿过这次变更每一层（schema、API、UI、tests）的一条窄而完整的路径，在它落地的那一刻能独立被演示。这正是让它表现不同于"切工作"的明显方式（一次切一层、最后集成）的约束。它也把每张 ticket 的大小调成装得下一次全新的 [context window](https://www.aihero.dev/ai-coding-dictionary/context-window)，因为会来接这张 ticket 的是一次从未见过你的 spec 的 [session](https://www.aihero.dev/ai-coding-dictionary/session)。
 
 ## 何时使用
 
-你通过键入 `/to-tickets` 来调用它，**同时明确指定这次执行的 Agent**。该技能不会由模型自动触发，编排者只通过 acpx 派发、转交草案和你的审批反馈，不自行拆票或发布。
+你通过键入 `/acpx-to-tickets` 来调用它，**同时明确指定这次执行的 Agent**。该技能不会由模型自动触发，编排者只通过 acpx 派发、转交草案和你的审批反馈，不自行拆票或发布。
 
 | 你在哪 | 跑什么 |
 | --- | --- |
-| 你有一份 spec issue，构建跨几次会话 | `/to-tickets`，或 `/to-tickets #<spec_issue>` |
-| 计划只在对话里，从未被写成 spec | `/to-tickets` 直接读线程，不需要 spec |
+| 你有一份 spec issue，构建跨几次会话 | `/acpx-to-tickets`，或 `/acpx-to-tickets #<spec_issue>` |
+| 计划只在对话里，从未被写成 spec | `/acpx-to-tickets` 直接读线程，不需要 spec |
 | 整个变更装得下一次 context window | [implement](https://aihero.dev/skills-implement)，跳过 tickets |
-| 什么都还没决定 | [grill-with-docs](https://aihero.dev/skills-grill-with-docs)，然后 [to-spec](https://aihero.dev/skills-to-spec) |
-| 一张 [wayfinder](https://aihero.dev/skills-wayfinder) 地图已经清完 | 先 [to-spec](https://aihero.dev/skills-to-spec) 把地图折成一份 spec，然后 `/to-tickets` |
+| 什么都还没决定 | [grill-with-docs](https://aihero.dev/skills-grill-with-docs)，然后 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) |
+| 一张 [wayfinder](https://aihero.dev/skills-wayfinder) 地图已经清完 | 先 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 把地图折成一份 spec，然后 `/acpx-to-tickets` |
 
-`to-tickets` 产出的 tickets 按构造是 agent-ready 的。别对它们跑 [triage](https://aihero.dev/skills-triage)。Triage 是为从别人那里到达的工作准备的。
+`acpx-to-tickets` 产出的 tickets 按构造是 agent-ready 的。别对它们跑 [triage](https://aihero.dev/skills-triage)。Triage 是为从别人那里到达的工作准备的。
 
 ## 先决条件
 
-必须先指定目标 Agent 并确保 acpx 可派发。`to-tickets` 把内容发布进追踪器，所以 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 也必须已经为本仓库配置好追踪器和 triage 标签词汇。两种都可以：像 GitHub 或 Linear 这样的真实追踪器，或者 `.scratch/` 下的本地 markdown 文件——开箱支持。
+必须先指定目标 Agent 并确保 acpx 可派发。`acpx-to-tickets` 把内容发布进追踪器，所以 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 也必须已经为本仓库配置好追踪器和 triage 标签词汇。两种都可以：像 GitHub 或 Linear 这样的真实追踪器，或者 `.scratch/` 下的本地 markdown 文件——开箱支持。
 
 ## 示踪弹，不是分层
 
@@ -28,7 +28,7 @@
 
 这是人们最常违反的规则，后果也记录得很充分。一个团队跑了一份 26 张 ticket 的栈、按层切（语料、生产者、聚合器、选择器），结果每张关掉的 ticket 大约二十次 agent 跑动、四分之三是返工。他们自己的复盘把每一类失败都追回到水平切片，而不是实现。
 
-两件事在任何东西发布之前发生。`to-tickets` 寻找 prefactoring（"先让变更容易，再做容易的变更"那条原则）并把那些工作排在最前。然后目标 Agent 把完整分解草案交给编排者，由编排者转给你审批：粒度是否合适、阻塞边是否真实、哪些需要合并或拆分？你要求修改时由**同一个 Agent**继续调整；**未经明确批准，不能创建任何 Issue 或本地 ticket 文件**。每次派发都全文包含执行规范和两份 ticket 模板。
+两件事在任何东西发布之前发生。`acpx-to-tickets` 寻找 prefactoring（"先让变更容易，再做容易的变更"那条原则）并把那些工作排在最前。然后目标 Agent 把完整分解草案交给编排者，由编排者转给你审批：粒度是否合适、阻塞边是否真实、哪些需要合并或拆分？你要求修改时由**同一个 Agent**继续调整；**未经明确批准，不能创建任何 Issue 或本地 ticket 文件**。每次派发都全文包含执行规范和两份 ticket 模板。
 
 ## 阻塞边
 
@@ -39,13 +39,13 @@
 | 本地 markdown | `.scratch/<feature>/issues/<NN>-<slug>.md` 下一文件一份，编号按 blocker-first | 自上而下手工处理 |
 | 真实追踪器（GitHub、Linear） | 原生阻塞链接，或追踪器有 sub-issues 时用 sub-issues | 任意一张 blocker 都完成的 ticket 处于**前沿**，可被领取 |
 
-无论如何，边都活在 ticket 里。追踪器只决定有没有东西能并行处理它们。`to-tickets` 产出这份工件；运行它（一次会话一张，或一支舰队）是你自己的事，不是技能的事。
+无论如何，边都活在 ticket 里。追踪器只决定有没有东西能并行处理它们。`acpx-to-tickets` 产出这份工件；运行它（一次会话一张，或一支舰队）是你自己的事，不是技能的事。
 
 ## 宽重构例外
 
 一种形状打破示踪弹规则。**宽重构**是一次单一的机械变更（重命名一个列、改类型一个共享符号），其**爆炸半径**扇形散过整个代码库，所以一次编辑会弄坏成千上万的调用点，没有一张垂直切片能绿色落地。
 
-`to-tickets` 把那种按**expand–contract** 排序：
+`acpx-to-tickets` 把那种按**expand–contract** 排序：
 
 - **Expand**：把新形式放在老形式旁边，所以什么都不破。
 - **Migrate**：按爆炸半径分批（按 package、按目录）挪动调用点，一批一张 ticket，每张被 expand 阻塞。CI 保持绿色，因为老形式还在。
@@ -65,7 +65,7 @@
 
 **在 GitHub 上这些 tickets 不是作为 spec issue 的 sub-issues 被创建的。**
 
-这个问题曾在十余次跑动和多个 model 上被报告，[最完整的报告见 issue #554](https://github.com/mattpocock/skills/issues/554)。现已修复：`to-tickets` 会把每张 ticket 建为来源 issue 的子 issue，GitHub tracker 模板也给出了相应命令（`gh` 2.94+ 的 `gh issue create --parent <n>`）。重新运行 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills)，以刷新旧版 `docs/agents/issue-tracker.md`。
+这个问题曾在十余次跑动和多个 model 上被报告，[最完整的报告见 issue #554](https://github.com/mattpocock/skills/issues/554)。现已修复：`acpx-to-tickets` 会把每张 ticket 建为来源 issue 的子 issue，GitHub tracker 模板也给出了相应命令（`gh` 2.94+ 的 `gh issue create --parent <n>`）。重新运行 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills)，以刷新旧版 `docs/agents/issue-tracker.md`。
 
 **"Blocked by" 被写进了 issue 正文里、而不是真实的阻塞链接。**
 
@@ -77,7 +77,7 @@
 
 **它试图读我的 spec 时一直在截断。**
 
-非常大的 spec 可能长到一份追踪器 issue 不能干净地服务回来，并且没有本地副本可作兜底，所以 agent 然后烧一堆 [tool calls](https://www.aihero.dev/ai-coding-dictionary/tool-call) 反复取片段、永远到不了末尾。在 `/to-spec` 和 `/to-tickets` 之间不要 [clear](https://www.aihero.dev/ai-coding-dictionary/clearing) 或 [compact](https://www.aihero.dev/ai-coding-dictionary/compaction)。在同一个 context window 里跑它们，spec 就完全不需要被重新取回来。
+非常大的 spec 可能长到一份追踪器 issue 不能干净地服务回来，并且没有本地副本可作兜底，所以 agent 然后烧一堆 [tool calls](https://www.aihero.dev/ai-coding-dictionary/tool-call) 反复取片段、永远到不了末尾。在 `/acpx-to-spec` 和 `/acpx-to-tickets` 之间不要 [clear](https://www.aihero.dev/ai-coding-dictionary/clearing) 或 [compact](https://www.aihero.dev/ai-coding-dictionary/compaction)。在同一个 context window 里跑它们，spec 就完全不需要被重新取回来。
 
 **验收标准什么都没评：有些在任何工作做完之前就已经通过了。**
 
@@ -98,10 +98,10 @@
 
 ## 它的定位
 
-`to-tickets` 是主构建链上的一步：
+`acpx-to-tickets` 是主构建链上的一步：
 
 ```txt
-grill-with-docs → to-spec → to-tickets → implement → code-review → retro
+grill-with-docs → acpx-to-spec → acpx-to-tickets → implement → code-review → retro
 ```
 
-上游是 [to-spec](https://aihero.dev/skills-to-spec)——交给它一份被敲定的 spec 来切；让两者留在同一个未被打断的 context window 里。下游是 [implement](https://aihero.dev/skills-implement)——每次全新会话构建一张 ticket，为测试驱动 [tdd](https://aihero.dev/skills-tdd)、以 [code-review](https://aihero.dev/skills-code-review) 收尾。[implement-spec](https://aihero.dev/skills-implement-spec) 是另一条向下的路：它把同样的阻塞边读成任务图，在一条集成分支上并行构建每一张就绪的 ticket。拿不准哪个技能或流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。
+上游是 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)——交给它一份被敲定的 spec 来切；让两者留在同一个未被打断的 context window 里。下游是 [implement](https://aihero.dev/skills-implement)——每次全新会话构建一张 ticket，为测试驱动 [tdd](https://aihero.dev/skills-tdd)、以 [code-review](https://aihero.dev/skills-code-review) 收尾。[implement-spec](https://aihero.dev/skills-implement-spec) 是另一条向下的路：它把同样的阻塞边读成任务图，在一条集成分支上并行构建每一张就绪的 ticket。拿不准哪个技能或流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。

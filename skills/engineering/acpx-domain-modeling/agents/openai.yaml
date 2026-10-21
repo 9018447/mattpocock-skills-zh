@@ -1,0 +1,5 @@
+interface:
+  display_name: "ACPX Domain Modeling"
+  short_description: "把领域建模派发给指定 Agent，维护 GLOSSARY 与必要的 ADR"
+policy:
+  allow_implicit_invocation: false

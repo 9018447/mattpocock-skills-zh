@@ -14,7 +14,7 @@
 | --- | --- |
 | 一块大到一次会话装不下、路线仍不清楚的工作 | [wayfinder](https://aihero.dev/skills-wayfinder)：解到路线清晰就交班，地图随之完结 |
 | 一个跨会话持续演进的项目，规划需要一本长期账 | `/problem-atlas` |
-| 决策已经做完、只差规格化的一段对话 | [to-spec](https://aihero.dev/skills-to-spec)：直接进主干流程，不需要地图 |
+| 决策已经做完、只差规格化的一段对话 | [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)：直接进主干流程，不需要地图 |
 
 ## 先决条件
 
@@ -27,13 +27,13 @@
 - **Tension**：Problem 内的真实取舍，一个 Tension 只归一个 Problem，相关联的其他 Problem 用链接引用。
 - **决策变更历史**：原决定、新决定、原因与确认来源，以及被波及的 SPEC 和 Issues。
 
-两条**工作前沿**是地图的出口：**决策前沿**列出依赖齐备、未认领、可以调查或进入 [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) 的 Tension；**执行前沿**列出 to-tickets 已发布、规格仍有效、前置任务已完成的实施 Issue。任何时刻打开地图，两边各能说出一个明确的下一步。
+两条**工作前沿**是地图的出口：**决策前沿**列出依赖齐备、未认领、可以调查或进入 [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) 的 Tension；**执行前沿**列出 acpx-to-tickets 已发布、规格仍有效、前置任务已完成的实施 Issue。任何时刻打开地图，两边各能说出一个明确的下一步。
 
 ## 它只登记，不写产物
 
-- ADR 由用户显式调用 [domain-modeling](https://aihero.dev/skills-domain-modeling)、指定 Agent 并经 acpx 派发后判断和产出；Atlas 只登记路径与出处，没有 ADR 的决定记录用户确认及其来源。
-- SPEC 由 to-spec 发布，可能在跟踪器里表现为一个规格 issue，但不是实施 [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket)。
-- 实施 Issues 由 [to-tickets](https://aihero.dev/skills-to-tickets) 拆出，保留其原生依赖与验收约定；Map 只引用，不复制正文。
+- ADR 由用户显式调用 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling)、指定 Agent 并经 acpx 派发后判断和产出；Atlas 只登记路径与出处，没有 ADR 的决定记录用户确认及其来源。
+- SPEC 由 acpx-to-spec 发布，可能在跟踪器里表现为一个规格 issue，但不是实施 [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket)。
+- 实施 Issues 由 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 拆出，保留其原生依赖与验收约定；Map 只引用，不复制正文。
 
 交接之后，真实路径或 ID 必须**写回地图**。新决策使已发布的 SPEC 或实施 Issue 失效时，受影响任务标记待复核，复核完成前不得继续执行。实施 Issue 的真实状态以跟踪器为准：地图副本过期时，跟跟踪器走。
 
@@ -56,4 +56,4 @@ wayfinder 面向一块工作：地图清空、路线清晰，它就交班，地�
 
 ## 它的定位
 
-一个常设的规划层。它不在 grill-with-docs → to-spec → to-tickets → implement 这条主干链上，而是从项目层面喂养这条链：把规划待办和两条前沿维护到随时可以交接的程度。最近的邻居是 wayfinder，它解的是一块看不清路的工作，解完即止；当规划本身成为长期对象，就轮到 Atlas。整张技能地图见 [ask-matt](https://aihero.dev/skills-ask-matt)。
+一个常设的规划层。它不在 grill-with-docs → acpx-to-spec → acpx-to-tickets → implement 这条主干链上，而是从项目层面喂养这条链：把规划待办和两条前沿维护到随时可以交接的程度。最近的邻居是 wayfinder，它解的是一块看不清路的工作，解完即止；当规划本身成为长期对象，就轮到 Atlas。整张技能地图见 [ask-matt](https://aihero.dev/skills-ask-matt)。

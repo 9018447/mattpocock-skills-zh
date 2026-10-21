@@ -22,7 +22,7 @@ disable-model-invocation: true
    - **`/prototype`** 用一次性代码回答问题，
    - **`/handoff`** 把你学到的东西带回来，并在原始想法线程中引用它。
 3. **分支：这是多会话构建吗？**
-   - **是** → **`/to-spec`**（通过 acpx 派发给用户指定的 Agent，把对话变成 spec），然后 **`/to-tickets`** 经用户批准拆票方案后由指定 Agent 发布示踪子弹式 ticket，每个都声明自己的**阻塞边**。接着用两种方式之一推进 ticket：
+   - **是** → **`/acpx-to-spec`**（通过 acpx 派发给用户指定的 Agent，把对话变成 spec），然后 **`/acpx-to-tickets`** 经用户批准拆票方案后由指定 Agent 发布示踪子弹式 ticket，每个都声明自己的**阻塞边**。接着用两种方式之一推进 ticket：
      - **`/implement`** 逐个 ticket 实现，**每个之间用 `/clear` 清空上下文**。在本地跟踪器上，每个 ticket 是 `.scratch/<feature>/issues/` 下的一个文件，按阻塞优先的顺序人工推进；在真实跟踪器上，阻塞边变成原生阻塞链接，所以任何阻塞项已完成的 ticket 都可以被领取。每个 ticket 自包含，所以上一个的上下文可以丢弃。
      - **`/implement-spec`** 一次性实现整份 spec。它把 ticket 读成一张**任务图**，在可领取的**前沿**上并行运行实施者子代理，把一切落到一条**集成分支**上。当你更想编排整个构建、而不是亲自逐张驱动 ticket 时用它。
    - **否** → 就在同一个上下文窗口里 **`/implement`**。
@@ -35,9 +35,9 @@ disable-model-invocation: true
 
 ### 上下文卫生
 
-把步骤 1–3 保持在**一个不间断的上下文窗口**里（在 `/to-tickets` 之前不要压缩或清空），这样盘问、spec 和 ticket 都建立在同一个思考之上。之后每次 `/implement` 从 ticket 出发、重新开始。在它所回顾的那次会话里、清空之前运行 `/retro`；清空之后，就把它指向那次会话的日志。
+把步骤 1–3 保持在**一个不间断的上下文窗口**里（在 `/acpx-to-tickets` 之前不要压缩或清空），这样盘问、spec 和 ticket 都建立在同一个思考之上。之后每次 `/implement` 从 ticket 出发、重新开始。在它所回顾的那次会话里、清空之前运行 `/retro`；清空之后，就把它指向那次会话的日志。
 
-这里的上限是**[智能区](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**：模型仍能敏锐推理的窗口（最先进模型约 150k token）。如果会话在 `/to-tickets` 之前就逼近它，不要在劣化的状态下硬撑：在最近的阶段边界 **`/compact`** 然后继续（见"阶段边界"）。
+这里的上限是**[智能区](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**：模型仍能敏锐推理的窗口（最先进模型约 150k token）。如果会话在 `/acpx-to-tickets` 之前就逼近它，不要在劣化的状态下硬撑：在最近的阶段边界 **`/compact`** 然后继续（见"阶段边界"）。
 
 ## 入口匝道
 
@@ -45,15 +45,15 @@ disable-model-invocation: true
 
 - **bug 和请求堆积** → **`/triage`**。它让 issue 走过分类角色，产出 agent 就绪的 issue，之后由 **`/implement`** 接手。
 
-  分类只适用于**不是你创建**的 issue：bug 报告、外来的功能请求、任何以原始形态到达的东西。`/to-tickets` 产出的 ticket 已经是 agent 就绪的，所以**不要分类它们**。
+  分类只适用于**不是你创建**的 issue：bug 报告、外来的功能请求、任何以原始形态到达的东西。`/acpx-to-tickets` 产出的 ticket 已经是 agent 就绪的，所以**不要分类它们**。
 
 - **有东西坏了** → **`/diagnosing-bugs`**。用于那些难啃的：一眼看不出的 bug、间歇性偶发（flake）、在两个已知正常状态之间悄悄溜进来的回归。在拥有**紧反馈循环**之前它拒绝空谈理论（一条已经能对*这个* bug 变红的命令），然后用回归测试修复。修复完成后，在同一会话中运行 **`/retro`**，追问什么本可以避免这个 bug；如果真正的发现是缺少合适的接缝来锁定它，就由 **`/improve-codebase-architecture`** 处理。
 
 - **一项庞大而模糊的工作：绿地项目或大型功能构建，大到一次会话装不下** → **`/wayfinder`**，这是这里认知负荷最高的流程。当从这里到目的地的路还看不见时，它在 issue 跟踪器上绘制一张由**决策 ticket** 组成的**共享地图**，一次解决一个：产出**决策，而非交付物**，直到迷雾被推后、道路清晰。**`/grill-with-docs`** 打磨的是你能在一次会话里 hold 住的想法，wayfinder 则是为你 hold 不住的想法准备的：它更慢、更密，所以只留给这种情况，绝不要用于范围明确的功能。
 
-  当地图清晰时，**它交接，不构建**：在 **`/to-spec`** 并入主干流程，把地图上相互关联的决策折叠成可构建的计划，然后照常 `/to-tickets` 和 `/implement`。把地图直接循环进 `/implement` 会跳过这个折叠，把关联的细节丢掉，所以只有当工作量确实很小的时候才直接进 `/implement`。
+  当地图清晰时，**它交接，不构建**：在 **`/acpx-to-spec`** 并入主干流程，把地图上相互关联的决策折叠成可构建的计划，然后照常 `/acpx-to-tickets` 和 `/implement`。把地图直接循环进 `/implement` 会跳过这个折叠，把关联的细节丢掉，所以只有当工作量确实很小的时候才直接进 `/implement`。
 
-- **一个跨会话、长期演进的项目规划：问题不断生长，新决策会推翻已发布的规格** → **`/problem-atlas`**。它维护一张权威的 **Map**：以 **Problem**（不补足就无法实现 Goal 的重大缺口）为规划待办主体，以 **Tension**（Problem 内的真实取舍或重大不确定性）为决策推进单位，并让两条**工作前沿**始终可见：**决策前沿**是下一个可以调查或 `/grilling` 的 Tension，**执行前沿**是 `/to-tickets` 已发布的就绪 Issues。它自己不写产物：ADR 由用户指定的 Agent 经 `/domain-modeling` 判断并产出，SPEC 由 `/to-spec` 派发发布，实施 Issues 由 `/to-tickets` 派发拆出，Atlas 只登记证据、状态、依赖与指针，再把真实链接写回地图。对*一块*大到装不下、路线未明的工作，用 `/wayfinder`；对*一个项目*需要长期维护的规划账本，用 `/problem-atlas`。
+- **一个跨会话、长期演进的项目规划：问题不断生长，新决策会推翻已发布的规格** → **`/problem-atlas`**。它维护一张权威的 **Map**：以 **Problem**（不补足就无法实现 Goal 的重大缺口）为规划待办主体，以 **Tension**（Problem 内的真实取舍或重大不确定性）为决策推进单位，并让两条**工作前沿**始终可见：**决策前沿**是下一个可以调查或 `/grilling` 的 Tension，**执行前沿**是 `/acpx-to-tickets` 已发布的就绪 Issues。它自己不写产物：ADR 由用户指定的 Agent 经 `/acpx-domain-modeling` 判断并产出，SPEC 由 `/acpx-to-spec` 派发发布，实施 Issues 由 `/acpx-to-tickets` 派发拆出，Atlas 只登记证据、状态、依赖与指针，再把真实链接写回地图。对*一块*大到装不下、路线未明的工作，用 `/wayfinder`；对*一个项目*需要长期维护的规划账本，用 `/problem-atlas`。
 
 ## 代码库健康
 
@@ -63,9 +63,9 @@ disable-model-invocation: true
 
 ## 底层词汇
 
-这里有两种不同的词汇工具。`/domain-modeling` 现在是**用户调用的 acpx 派发入口**，必须由用户指定目标 Agent；其他技能不能自动触发它。`/codebase-design` 仍是模型调用的模块设计参考。
+这里有两种不同的词汇工具。`/acpx-domain-modeling` 现在是**用户调用的 acpx 派发入口**，必须由用户指定目标 Agent；其他技能不能自动触发它。`/codebase-design` 仍是模型调用的模块设计参考。
 
-- **`/domain-modeling`**：打磨项目的*领域*语言：挑战含糊的术语、消解过载的词（"account" 身兼三职）、把难以逆转的决策记为 ADR。它通过 acpx 派发，由用户指定的 Agent 负责核对术语、澄清概念，并让 `GLOSSARY.md` 保持为干净词汇表。
+- **`/acpx-domain-modeling`**：打磨项目的*领域*语言：挑战含糊的术语、消解过载的词（"account" 身兼三职）、把难以逆转的决策记为 ADR。它通过 acpx 派发，由用户指定的 Agent 负责核对术语、澄清概念，并让 `GLOSSARY.md` 保持为干净词汇表。
 - **`/codebase-design`**：设计模块*形态*的深度模块词汇（module、interface、depth、seam、adapter、leverage、locality）：在干净的接缝后面，用一个小接口承载大量行为。`/tdd` 和 `/improve-codebase-architecture` 都讲这套语言。
 
 ## 阶段边界
@@ -88,7 +88,7 @@ disable-model-invocation: true
 - **`/grilling`**：盘问原语本身：轮次、前沿，事实是 agent 的工作而决策是你的。`/grill-me` 和 `/grill-with-docs` 是两条具名的入口，`/triage`、`/wayfinder` 和 `/improve-codebase-architecture` 都在内部跑它。只有当你想盘问、但不要任何外壳时才直接伸手去拿。
 - **`/prototype`**：一个回答某个设计问题的小型一次性程序：这个状态模型感觉对吗，或者这个 UI 应该长什么样。一次性是对代码写法的约束，而不是销毁它的承诺：答案折进真实代码，原型本身作为**一手来源**保留在 main 之外名为 `prototype/<name>` 的分支上，由实现 issue 指向它。它是主干流程第 2 步的绕道，但任何时候一个设计问题难以在纸上定案，都可以用它。
 - **`/research`**：把阅读跑腿委托给**后台 agent**：它对照**一手来源**调查一个问题，然后在仓库里留下一份带引用的 Markdown 文件。它读的时候你继续干活。它产出的文件是要带*进*主干流程、在 `/grill-with-docs` 用的；研究喂养思考，不取代思考。
-- **`/to-questionnaire`**：当挡着你的东西不在你脑子里、也不在代码库里，而在**别人**脑子里时，这个技能给他们写一份问卷来填。它是 `/grill-me` 的反面：不是盘问你关于主题的事，而是盘问你关于**发送**的事（发给谁、你需要拿回什么），然后把问题对准缺口。拿回来的东西是 `/grill-with-docs` 或 `/to-spec` 的素材。
+- **`/to-questionnaire`**：当挡着你的东西不在你脑子里、也不在代码库里，而在**别人**脑子里时，这个技能给他们写一份问卷来填。它是 `/grill-me` 的反面：不是盘问你关于主题的事，而是盘问你关于**发送**的事（发给谁、你需要拿回什么），然后把问题对准缺口。拿回来的东西是 `/grill-with-docs` 或 `/acpx-to-spec` 的素材。
 - **`/wizard`**：用于只有**人**能做的步骤：配置基础设施、设置凭据或 CI 密钥、在一个陌生的第三方仪表盘上点点点、跑一次性的迁移或切换。它生成一个交互式 bash 脚本，逐个打开 URL、捕获每个值，写进 `.env` 和 GitHub secrets，这样这个流程就不再需要每次向 agent 重新解释一遍。模型调用，所以 agent 一撞上只有你能通过的墙就会伸手去拿。如果 agent 自己能做，它就该自己做；这是给真正需要人在环里的场景的。
 - **`/wait-what`**：对一条没被接住的消息的矫正。在任何其他技能内部、对话中途使用它，agent 会用你缺失的上下文、用 `GLOSSARY.md` 的词汇，以大白话重新讲一遍它刚说过的话。它是事后补救；`/grill-with-docs` 是事前的解药，因为早早约定共同语言才不会让行话出现。
 - **`/teach`**：跨多个会话学习一个概念，把当前目录当作有状态的工作空间。

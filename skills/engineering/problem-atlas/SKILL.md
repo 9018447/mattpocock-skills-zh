@@ -1,6 +1,6 @@
 ---
 name: problem-atlas
-description: 为跨会话大型项目维护 Goal、Problem、核心矛盾与双工作前沿；基于研究和用户决策追踪 ADR、SPEC 与实施 Issues，并把产物生成交给 domain-modeling、to-spec、to-tickets。
+description: 为跨会话大型项目维护 Goal、Problem、核心矛盾与双工作前沿；基于研究和用户决策追踪 ADR、SPEC 与实施 Issues，并把产物生成交给 acpx-domain-modeling、acpx-to-spec、acpx-to-tickets。
 disable-model-invocation: true
 ---
 
@@ -17,9 +17,9 @@ disable-model-invocation: true
 ## 推进地图
 
 1. 读取 Map，选取用户指定或第一个未阻塞、未认领的 Tension；先认领，再调查。具体状态和追溯规则见 [model.md](references/model.md) 与 [tracker.md](references/tracker.md)。
-2. 检索事实、验证推理，并以 `/grilling` 和用户解决真实取舍；涉及领域语言或架构决策时，提示用户显式运行 `/domain-modeling` 并指定执行 Agent，通过 acpx 处理文档沉淀；本 Skill 不自行调用该用户调用型 Skill。**仅由获派发的 `domain-modeling` Agent 决定是否值得形成 ADR**；没有 ADR 的决定仍须记录来源与确认历史。
-3. 决策足够明确、需要多会话实施时，准备 Goal、Problem、已确认决策、ADR 指针及范围约束，交接给 **`/to-spec`** 生成 SPEC；再交接给 **`/to-tickets`** 生成单会话实施 Issues。**不套用本 Skill 的 ADR、SPEC 或 Issue 模板。**
-4. `domain-modeling`、`to-spec`、`to-tickets` 都需要用户显式调用并指定派发 Agent；提示用户运行对应命令，获得产物后再把真实链接、依赖及最新状态写回 Map。不要声称已自动运行。默认不执行 Issues。
+2. 检索事实、验证推理，并以 `/grilling` 和用户解决真实取舍；涉及领域语言或架构决策时，提示用户显式运行 `/acpx-domain-modeling` 并指定执行 Agent，通过 acpx 处理文档沉淀；本 Skill 不自行调用该用户调用型 Skill。**仅由获派发的 `acpx-domain-modeling` Agent 决定是否值得形成 ADR**；没有 ADR 的决定仍须记录来源与确认历史。
+3. 决策足够明确、需要多会话实施时，准备 Goal、Problem、已确认决策、ADR 指针及范围约束，交接给 **`/acpx-to-spec`** 生成 SPEC；再交接给 **`/acpx-to-tickets`** 生成单会话实施 Issues。**不套用本 Skill 的 ADR、SPEC 或 Issue 模板。**
+4. `acpx-domain-modeling`、`acpx-to-spec`、`acpx-to-tickets` 都需要用户显式调用并指定派发 Agent；提示用户运行对应命令，获得产物后再把真实链接、依赖及最新状态写回 Map。不要声称已自动运行。默认不执行 Issues。
 5. 更新 Problem、决策变更历史、**决策前沿**与**执行前沿**；变更已确认决策时追踪受影响的规格及 Issues。默认每次只推进一个 Tension。
 
 ## 按需读取

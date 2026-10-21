@@ -1,22 +1,22 @@
 ## 它的作用
 
-`domain-modeling` 通过 acpx 把领域建模工作交给**用户明确指定的 Agent**。该 Agent 对照项目代码、Glossary 和 ADR，核对冲突的术语、用具体场景检验概念边界，并维护已确认的统一语言（ubiquitous language）。编排者只派发和转交澄清，不自行写文档。
+`acpx-domain-modeling` 通过 acpx 把领域建模工作交给**用户明确指定的 Agent**。该 Agent 对照项目代码、Glossary 和 ADR，核对冲突的术语、用具体场景检验概念边界，并维护已确认的统一语言（ubiquitous language）。编排者只派发和转交澄清，不自行写文档。
 
-它是**主动**的纪律，不是单纯读取 `GLOSSARY.md`。Agent 需要根据证据挑战术语、向用户澄清必要的边界，在术语敲定时及时写入，而不是最后批量生成词汇表。未确认的推测不能写成定义。领域执行规则在 Skill 的 `references` 中，Glossary 和 ADR 格式在 `templates` 中，派发时均全文交付。
+它是**主动**的纪律，不是单纯读取 `GLOSSARY.md`。Agent 需要根据证据挑战术语、向用户澄清必要的边界，在术语敲定时及时写入，而不是最后批量生成词汇表。未确认的推测不能写成定义。
 
 ## 何时使用
 
-你通过键入 `/domain-modeling` 来调用它；它不再由模型自动触发。**你必须为本次任务明确指定一个执行 Agent**，编排者只能通过 acpx 派发。目标 Agent 需要澄清时，编排者负责转交问题和答复，再由同一 Agent 继续执行。没有指定 Agent 就不会派发。
+你通过键入 `/acpx-domain-modeling` 来调用它；它不再由模型自动触发。**你必须为本次任务明确指定一个执行 Agent**，编排者只能通过 acpx 派发。目标 Agent 需要澄清时，编排者负责转交问题和答复，再由同一 Agent 继续执行。没有指定 Agent 就不会派发。
 
 当*话术*本身是问题时使用它：
 
 | 情况 | 动作 |
 | --- | --- |
-| 两个人对 "cancellation" 的理解不同 | `domain-modeling`：挑出规范术语，把另一个放在 `_Avoid_` 下 |
-| "Account" 在三个文件里干着三件事 | `domain-modeling`：把它拆成 Customer 和 User |
-| 你刚做了一个难以逆转的架构选择 | `domain-modeling`：如果选择过关，它会出一份 ADR |
+| 两个人对 "cancellation" 的理解不同 | `acpx-domain-modeling`：挑出规范术语，把另一个放在 `_Avoid_` 下 |
+| "Account" 在三个文件里干着三件事 | `acpx-domain-modeling`：把它拆成 Customer 和 User |
+| 你刚做了一个难以逆转的架构选择 | `acpx-domain-modeling`：如果选择过关，它会出一份 ADR |
 | 模块的*形状*是问题——接缝放哪里、接口有多深 | [codebase-design](https://aihero.dev/skills-codebase-design) |
-| 你想在动手前把整个计划审一遍 | [grill-with-docs](https://aihero.dev/skills-grill-with-docs)，它在下面驱动这个技能 |
+| 你想在动手前把整个计划审一遍 | [grill-with-docs](https://aihero.dev/skills-grill-with-docs)，盘问后按它的提示显式派发本技能 |
 | 你想查一个术语，而不是改它 | 没有。读 `GLOSSARY.md`。它是个文件。 |
 
 ## 先决条件
@@ -61,7 +61,7 @@ ADR 的三条测试缺任何一条，就不写 ADR。一个容易逆转的决策
 
 **`/ubiquitous-language` 去哪了？**
 
-它被移除了，并不是被废弃。它的工作转入 `domain-modeling`，后者持续维护整个模型，而不是从一次对话里倒出一份词汇表。词汇规范如今更重要了：它在盘问、triage 和 mapping 的底层持续发挥作用，而不是一个你得记得单独执行的步骤。
+它被移除了，并不是被废弃。它的工作转入 `acpx-domain-modeling`，后者持续维护整个模型，而不是从一次对话里倒出一份词汇表。词汇规范如今更重要了：它在盘问、triage 和 mapping 的底层持续发挥作用，而不是一个你得记得单独执行的步骤。
 
 **我怎样为一个没有词汇表的代码库弄出一份？**
 
@@ -91,4 +91,4 @@ ADR 的三条测试缺任何一条，就不写 ADR。一个容易逆转的决策
 
 ## 它的定位
 
-`domain-modeling` 是一个需要用户显式调用的**领域建模派发入口**。它在 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 澄清需求后帮助落实领域词汇和必要的 ADR；只想查看既有术语时直接读 Glossary 即可，不必派发。与它相邻的 [codebase-design](https://aihero.dev/skills-codebase-design) 负责模块形态和接口设计，而非概念定义。整个技能集合的入口见 [ask-matt](https://aihero.dev/skills-ask-matt)。
+`acpx-domain-modeling` 是一个需要用户显式调用的**领域建模派发入口**。它在 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 澄清需求后帮助落实领域词汇和必要的 ADR；只想查看既有术语时直接读 Glossary 即可，不必派发。与它相邻的 [codebase-design](https://aihero.dev/skills-codebase-design) 负责模块形态和接口设计，而非概念定义。整个技能集合的入口见 [ask-matt](https://aihero.dev/skills-ask-matt)。

@@ -10,7 +10,7 @@
 
 你通过键入 `/setup-matt-pocock-skills` 来调用它；[agent](https://www.aihero.dev/ai-coding-dictionary/agent) 不会主动使用它。它的 metadata 刻意将其标记为不可调用，所以也没有其他技能能替你触发它。
 
-每个仓库调一次，在第一次使用任何其他工程技能之前。如果 [triage](https://aihero.dev/skills-triage)、[to-spec](https://aihero.dev/skills-to-spec)、[to-tickets](https://aihero.dev/skills-to-tickets) 或 [wayfinder](https://aihero.dev/skills-wayfinder) 开始猜你的 issue 该去哪、或应用你追踪器里没有的标签，那说明它们还没在这里被 setup。一个已经进行到一半的仓库是跑它的合适位置；技能读已存在的内容，没有先前的活儿被浪费。
+每个仓库调一次，在第一次使用任何其他工程技能之前。如果 [triage](https://aihero.dev/skills-triage)、[acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)、[acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 或 [wayfinder](https://aihero.dev/skills-wayfinder) 开始猜你的 issue 该去哪、或应用你追踪器里没有的标签，那说明它们还没在这里被 setup。一个已经进行到一半的仓库是跑它的合适位置；技能读已存在的内容，没有先前的活儿被浪费。
 
 ## 先决条件
 
@@ -86,9 +86,9 @@ v1.1 之后直接问，Matt 说要。技能自己的收尾消息更软：它告�
 - `docs/agents/issue-tracker.md` 和 `docs/agents/domain.md` 存在，如果 `triage` 已安装再加上 `triage-labels.md`。
 - 一个 `## Agent skills` 小节出现在你 harness 真正读的指令文件里，每份那份文件带一条指向这些文件之一的一行摘要。
 - 它提议的追踪器匹配你真正用的 remote，标签字符串匹配你追踪器里真正存在的标签。
-- 之后 `/to-tickets` 发布时不再问你 issue 住哪里，`/triage` 应用的是标签而不是凭空发明。
+- 之后 `/acpx-to-tickets` 发布时不再问你 issue 住哪里，`/triage` 应用的是标签而不是凭空发明。
 - 技能文件本身没有任何改动。如果 setup 编辑了一份 `SKILL.md`，那就是哪里出错了。
 
 ## 它的定位
 
-`setup-matt-pocock-skills` 是工程流程的**一次性 setup**，是其他一切假设的先决条件，而不是链上的一步。它的邻居是它的读者们：[triage](https://aihero.dev/skills-triage) 应用这里写下的标签词汇；[to-spec](https://aihero.dev/skills-to-spec) 和 [to-tickets](https://aihero.dev/skills-to-tickets) 发布到此处命名的追踪器；[wayfinder](https://aihero.dev/skills-wayfinder) 则读取同一份追踪器文件的"Wayfinding operations"小节，了解地图和子 [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) 的存放方式。[domain-modeling](https://aihero.dev/skills-domain-modeling) 之后会填充这里记录的领域文档布局。它只在术语或决策敲定时创建 `GLOSSARY.md` 和 ADR，所以 setup 后仓库里没有领域文档是正常的。下一步该用哪个技能时，[ask-matt](https://aihero.dev/skills-ask-matt) 路由整套集合。
+`setup-matt-pocock-skills` 是工程流程的**一次性 setup**，是其他一切假设的先决条件，而不是链上的一步。它的邻居是它的读者们：[triage](https://aihero.dev/skills-triage) 应用这里写下的标签词汇；[acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 和 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 发布到此处命名的追踪器；[wayfinder](https://aihero.dev/skills-wayfinder) 则读取同一份追踪器文件的"Wayfinding operations"小节，了解地图和子 [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) 的存放方式。[acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling) 之后会填充这里记录的领域文档布局。它只在术语或决策敲定时创建 `GLOSSARY.md` 和 ADR，所以 setup 后仓库里没有领域文档是正常的。下一步该用哪个技能时，[ask-matt](https://aihero.dev/skills-ask-matt) 路由整套集合。

@@ -14,8 +14,8 @@
 | --- | --- |
 | 一个范围良好的功能，你能在一次坐下里敲定 | [grill-me](https://aihero.dev/skills-grill-me)，有代码库时用 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) |
 | 一个绿地项目，或跨多会话的构建，并且路线仍不清楚 | `/wayfinder` |
-| 一段决定已经做完的对话线程 | [to-spec](https://aihero.dev/skills-to-spec)：跳过地图 |
-| 一张已经清空的 wayfinder 地图 | [to-spec](https://aihero.dev/skills-to-spec)，然后 [to-tickets](https://aihero.dev/skills-to-tickets) 和 [implement](https://aihero.dev/skills-implement) |
+| 一段决定已经做完的对话线程 | [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)：跳过地图 |
+| 一张已经清空的 wayfinder 地图 | [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，然后 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 和 [implement](https://aihero.dev/skills-implement) |
 | 一次已经长出边界的现存会话 | 说"hand off to `/wayfinder`"（[handoff](https://aihero.dev/skills-handoff) 既能进入一张地图、也能从一张地图出来） |
 
 不要求是绿地项目。人们经常在遗留和半成品代码库上使用 wayfinder，而且在那里可能更有用，因为许多迷雾在于"这里已经有什么是真的"，而不是"我们应该做什么"。
@@ -45,7 +45,7 @@
 
 | 类型 | 模式 | 在什么时候用 | 由什么解决 |
 | --- | --- | --- | --- |
-| `grilling` | HITL | 默认。问题能靠谈开解决。 | [grilling](https://aihero.dev/skills-grilling)；需要更新领域文档时，用户另行显式调用 [domain-modeling](https://aihero.dev/skills-domain-modeling) 并指定 Agent 经 acpx 派发 |
+| `grilling` | HITL | 默认。问题能靠谈开解决。 | [grilling](https://aihero.dev/skills-grilling)；需要更新领域文档时，用户另行显式调用 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling) 并指定 Agent 经 acpx 派发 |
 | `prototype` | HITL | "这应该长什么样"或"这应该怎么行为"：一个谈话敲不定的问题。 | [prototype](https://aihero.dev/skills-prototype)，并从 ticket 链接到做出的原型 |
 | `research` | AFK | 工作目录之外的一个事实正卡着一个决策。 | 一个 [research](https://aihero.dev/skills-research) [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent)，绘制地图时启动，并在 `research/<name>` 分支上并行运行 |
 | `task` | 任意 | 没有要决定的事，但手工工作卡着决策，例如开通访问、注册服务、搬动数据以查看其形状。 | agent 能独自完成的就由它做，否则给人类一份精确清单 |
@@ -64,9 +64,9 @@ Research 是*一张 ticket 一次会话*规则之外唯一的例外。
 
 整张地图。那意味着整张地图的目的地，不只是最初的会话。这个问题读起来有歧义，因为 wayfinder 在定义上是一个多会话工具，所以一个会话范围内的答案永远说不通。典型的目的地是一份要交付的 [spec](https://www.aihero.dev/ai-coding-dictionary/spec)、一个在规划开始前锁定的决策、一个概念验证、或一次就地完成的变更（比如数据迁移）。
 
-**地图清空了。wayfinder 不是已经把 spec 写好、tickets 做好了？我为什么还需要 `/to-spec` 和 `/to-tickets`？**
+**地图清空了。wayfinder 不是已经把 spec 写好、tickets 做好了？我为什么还需要 `/acpx-to-spec` 和 `/acpx-to-tickets`？**
 
-不。Wayfinder 的 tickets 是决策 tickets，当地图关闭时它们也都已关闭。剩下的是一张装满链接决策的地图，它不是一份构建计划。[to-spec](https://aihero.dev/skills-to-spec) 把那些链接决策折成一份 spec（`/to-spec #<map_issue>`），[to-tickets](https://aihero.dev/skills-to-tickets) 把它切成示踪弹实现 tickets。把地图直接接进 [implement](https://aihero.dev/skills-implement) 跳过了那次折叠、把链接的细节扔了。只有工作量最终真的很小时，才直接进实现。确实有人跑那条缩写版的流水线并报告它能用；多出来的两步给你一份评审员或同事能读的显式 spec 工件，你越不是一个人它就越重要。
+不。Wayfinder 的 tickets 是决策 tickets，当地图关闭时它们也都已关闭。剩下的是一张装满链接决策的地图，它不是一份构建计划。[acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 把那些链接决策折成一份 spec（`/acpx-to-spec #<map_issue>`），[acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 把它切成示踪弹实现 tickets。把地图直接接进 [implement](https://aihero.dev/skills-implement) 跳过了那次折叠、把链接的细节扔了。只有工作量最终真的很小时，才直接进实现。确实有人跑那条缩写版的流水线并报告它能用；多出来的两步给你一份评审员或同事能读的显式 spec 工件，你越不是一个人它就越重要。
 
 **我的 agent 在一次 wayfinder 会话中间开始写生产代码。**
 
@@ -108,6 +108,6 @@ Research 是*一张 ticket 一次会话*规则之外唯一的例外。
 
 ## 它的定位
 
-`wayfinder` 是一个**情境性入口**，不是默认前门。由盘问领起的 idea → ship 链仍然是大多数工作的起点；wayfinder 是当一个主意大到一次会话装不下时你爬上去的东西，并因为一张清空的地图交班而非构建而在 [to-spec](https://aihero.dev/skills-to-spec) 回到那条链。
+`wayfinder` 是一个**情境性入口**，不是默认前门。由盘问领起的 idea → ship 链仍然是大多数工作的起点；wayfinder 是当一个主意大到一次会话装不下时你爬上去的东西，并因为一张清空的地图交班而非构建而在 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 回到那条链。
 
-在底下，它大多是披着 wayfinder 调度的其他技能：[grilling](https://aihero.dev/skills-grilling) 和 [domain-modeling](https://aihero.dev/skills-domain-modeling) 解决默认 ticket 类型；[prototype](https://aihero.dev/skills-prototype) 解决那些谈话敲不定的 tickets；[research](https://aihero.dev/skills-research) 作为 subagent 跑、它的阅读从不落进你的会话。[handoff](https://aihero.dev/skills-handoff) 是进和出的桥梁：从一次超出自身的对话进一张地图；会话中途出现一个旁支 quest 时从一张地图出来。任何其他东西，[ask-matt](https://aihero.dev/skills-ask-matt) 在整套集合上给你路由。
+在底下，它大多是披着 wayfinder 调度的其他技能：[grilling](https://aihero.dev/skills-grilling) 和 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling) 解决默认 ticket 类型；[prototype](https://aihero.dev/skills-prototype) 解决那些谈话敲不定的 tickets；[research](https://aihero.dev/skills-research) 作为 subagent 跑、它的阅读从不落进你的会话。[handoff](https://aihero.dev/skills-handoff) 是进和出的桥梁：从一次超出自身的对话进一张地图；会话中途出现一个旁支 quest 时从一张地图出来。任何其他东西，[ask-matt](https://aihero.dev/skills-ask-matt) 在整套集合上给你路由。

@@ -73,7 +73,7 @@ disable-model-invocation: true
 
 3. **验证主张。** 在任何盘问之前，先确认主张站得住脚。对 bug，按报告人的步骤复现。对 PR，确认 diff 确实做了它声称的事——checkout 下来，运行相关测试或命令。报告发生了什么：已确认（附代码路径）、失败、或细节不足（强烈的 `needs-info` 信号）。确认过的验证能产生强得多的 agent brief。
 
-4. **盘问（如需）。** 如果请求需要补充打磨，调用 Skill 工具并传入 "grilling"，一轮一轮地把它盘问成型。若决策需要改动领域术语或记录 ADR，提示用户显式运行 `/domain-modeling` 并指定 acpx 执行 Agent；本 Skill 不自动调用用户调用型 Skill，也不自行代写 `GLOSSARY.md`/ADR。
+4. **盘问（如需）。** 如果请求需要补充打磨，调用 Skill 工具并传入 "grilling"，一轮一轮地把它盘问成型。若决策需要改动领域术语或记录 ADR，提示用户显式运行 `/acpx-domain-modeling` 并指定 acpx 执行 Agent；本 Skill 不自动调用用户调用型 Skill，也不自行代写 `GLOSSARY.md`/ADR。
 
 5. **应用结果：**
    - `ready-for-agent` — 发布 agent brief 评论（[AGENT-BRIEF.md](AGENT-BRIEF.md)）。

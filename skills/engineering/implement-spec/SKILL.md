@@ -1,6 +1,6 @@
 ---
 name: implement-spec
-description: "在代码中实现 /to-spec 与 /to-tickets 的产物。"
+description: "在代码中实现 /acpx-to-spec 与 /acpx-to-tickets 的产物。"
 disable-model-invocation: true
 ---
 

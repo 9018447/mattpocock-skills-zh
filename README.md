@@ -210,7 +210,7 @@ npx skills@latest add devcxl/mattpocock-skills-zh -a <agent>  # cursor, opencode
 
 这一点已内置到这些技能的每一层：
 
-- [`/to-spec`](./skills/engineering/to-spec/SKILL.md) 在创建规格之前先测验你要触及哪些模块
+- [`/acpx-to-spec`](./skills/engineering/acpx-to-spec/SKILL.md) 在创建规格之前先测验你要触及哪些模块
 
 而关键的是，[`/improve-codebase-architecture`](./skills/engineering/improve-codebase-architecture/SKILL.md) 会扫描代码库里的深化机会，再把候选项呈现出来。建议每隔几天在自己的代码库上运行一次。它是一次扫描而不是一次救援：在一份真正老的代码库上它会找到真实的候选，但它不会替你把泥团解开。
 
@@ -233,12 +233,12 @@ npx skills@latest add devcxl/mattpocock-skills-zh -a <agent>  # cursor, opencode
 - **[triage](./skills/engineering/triage/SKILL.md)**：让 Issue 在 triage 角色状态机中流转。
 - **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)**：扫描代码库中的深化机会，将它们以可视化的 HTML 报告呈现，然后盘问你选中的那一个。
 - **[setup-matt-pocock-skills](./skills/engineering/setup-matt-pocock-skills/SKILL.md)**：为工程类技能配置本仓库（Issue 跟踪器、triage 标签、领域文档布局）。在使用其他工程技能之前，每个仓库运行一次。
-- **[domain-modeling](./skills/engineering/domain-modeling/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，核对领域术语并维护 Glossary 与必要的 ADR。
-- **[to-spec](./skills/engineering/to-spec/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，由它综合当前对话并发布 spec Issue。
-- **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，将计划或 spec 拆成 tracer-bullet Issues；经用户批准后发布并建立阻塞边。
+- **[acpx-domain-modeling](./skills/engineering/acpx-domain-modeling/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，核对领域术语并维护 Glossary 与必要的 ADR。
+- **[acpx-to-spec](./skills/engineering/acpx-to-spec/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，由它综合当前对话并发布 spec Issue。
+- **[acpx-to-tickets](./skills/engineering/acpx-to-tickets/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，将计划或 spec 拆成 tracer-bullet Issues；经用户批准后发布并建立阻塞边。
 - **[implement](./skills/engineering/implement/SKILL.md)**：按规格或工单集合构建工作，在预先约定的 seam 上驱动 `/tdd`，并在提交前以 `/code-review` 收尾。
 - **[implement-spec](./skills/engineering/implement-spec/SKILL.md)**：在一条集成分支上实现整份规格。把工单当任务图推进，在可领取的前沿并行运行实施者子代理以获得最大并发，最后以 `/code-review` 收尾。
-- **[problem-atlas](./skills/engineering/problem-atlas/SKILL.md)**：为跨会话的大型项目维护一份目标/问题地图：记录 Goal、Problem、核心矛盾与双工作前沿，基于研究与你的决策更新 ADR、SPEC 与实施 issue，并把产物生成交给 `domain-modeling`、`to-spec`、`to-tickets`。
+- **[problem-atlas](./skills/engineering/problem-atlas/SKILL.md)**：为跨会话的大型项目维护一份目标/问题地图：记录 Goal、Problem、核心矛盾与双工作前沿，基于研究与你的决策更新 ADR、SPEC 与实施 issue，并把产物生成交给 `acpx-domain-modeling`、`acpx-to-spec`、`acpx-to-tickets`。
 - **[wayfinder](./skills/engineering/wayfinder/SKILL.md)**：把一项远大于一次 agent 会话能装下的工作，作为一份共享的决策 ticket 地图规划到 Issue 跟踪器上：一次解析一个，直到通往目的地的路清晰。
 - **[retro](./skills/engineering/retro/SKILL.md)**：在一次会话之后，为编码 agent 的**环境**（导航、自动化检查、编码规范、引导文件、工具）提出改进建议，按严重程度排序。
 

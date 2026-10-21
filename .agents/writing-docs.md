@@ -22,7 +22,7 @@
 
 ## 它的作用
 
-一两段通俗语言。以技能的一句话职责开头，再陈述**定义性约束**：使这个技能不同于显而易见默认行为的那一条事实（以 `to-spec` 为例：它不再对用户做访谈，而是综合已经谈过的内容）。用一句直接的陈述句写：绝不要写成"定义性约束："或"要点："这种带标签的旁白；那种写法读起来像填充。这句话是页面上最有价值的一行；永远不要省。
+一两段通俗语言。以技能的一句话职责开头，再陈述**定义性约束**：使这个技能不同于显而易见默认行为的那一条事实（以 `acpx-to-spec` 为例：它不再对用户做访谈，而是综合已经谈过的内容）。用一句直接的陈述句写：绝不要写成"定义性约束："或"要点："这种带标签的旁白；那种写法读起来像填充。这句话是页面上最有价值的一行；永远不要省。
 
 ## 何时使用
 
@@ -33,7 +33,7 @@
 
 ## 先决条件
 
-可选：只有当技能需要某些前置条件才能工作时才包含；否则整个标题省略。涵盖：**它写入的工作区**（像 `grill-with-docs` 这样的有状态技能会写入 `GLOSSARY.md` 和 ADR；`teach` 会构建整个目录：说明它写什么、在哪里写），**前置设置**（`triage` / `to-spec` / `to-tickets` 需要 `setup-matt-pocock-skills` 已经配置好 issue 跟踪器），或**仓库特定工具**。一个可以在任何地方运行的无状态技能没有先决条件：把这一节删掉。
+可选：只有当技能需要某些前置条件才能工作时才包含；否则整个标题省略。涵盖：**它写入的工作区**（像 `grill-with-docs` 这样的有状态技能会写入 `GLOSSARY.md` 和 ADR；`teach` 会构建整个目录：说明它写什么、在哪里写），**前置设置**（`triage` / `acpx-to-spec` / `acpx-to-tickets` 需要 `setup-matt-pocock-skills` 已经配置好 issue 跟踪器），或**仓库特定工具**。一个可以在任何地方运行的无状态技能没有先决条件：把这一节删掉。
 
 ## <自由形式中部>
 
@@ -63,7 +63,7 @@
 
 每页必出现。用一两句话把技能放入系统中：
 
-- **角色。** 直接命名：**链步骤**（`grill-with-docs → to-spec → to-tickets → implement → code-review`），**一次性设置**（`setup-matt-pocock-skills`），**定期维护**（`improve-codebase-architecture`，"每几天一次"），或**可随时取用的独立工具**（`diagnosing-bugs`、`prototype`、`handoff`）。独立工具的地图用一句诚实的话即可：远胜于把这一节省略。
+- **角色。** 直接命名：**链步骤**（`grill-with-docs → acpx-to-spec → acpx-to-tickets → implement → code-review`），**一次性设置**（`setup-matt-pocock-skills`），**定期维护**（`improve-codebase-architecture`，"每几天一次"），或**可随时取用的独立工具**（`diagnosing-bugs`、`prototype`、`handoff`）。独立工具的地图用一句诚实的话即可：远胜于把这一节省略。
 - **邻居。** 一到两个重要的兄弟技能，每个带一个 because 从句，使用绝对链接。
 - **地图。** 指向 [ask-matt](https://aihero.dev/skills-ask-matt)，即整个集合的路由器，让本页保持为一个节点，而不必重画整张图。
 

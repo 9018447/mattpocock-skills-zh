@@ -63,7 +63,7 @@ disable-model-invocation: true
 
 一旦用户选中一个候选方案，调用 Skill 工具并传入 "grilling" 与他们一起遍历决策树——约束条件、依赖关系、deepened module 的形状、seam 背后是什么、哪些测试能够存活。
 
-领域文档写入现由用户显式调用的 `/domain-modeling` 执行。决策明确时收集下列证据并提示用户指定 Agent，通过 acpx 派发领域建模，不得自动调用此 Skill 或自行代写 Glossary/ADR：
+领域文档写入现由用户显式调用的 `/acpx-domain-modeling` 执行。决策明确时收集下列证据并提示用户指定 Agent，通过 acpx 派发领域建模，不得自动调用此 Skill 或自行代写 Glossary/ADR：
 
 - **将一个 deepened module 命名为 `GLOSSARY.md` 中不存在的概念？** 把该术语及其确认依据交给获派发的 Agent，由它按规则懒创建或更新 `GLOSSARY.md`。
 - **在对话过程中澄清了一个模糊的术语？** 把澄清结果交给获派发的 Agent，由它更新 `GLOSSARY.md`。

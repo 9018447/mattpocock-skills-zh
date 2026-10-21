@@ -12,13 +12,13 @@
 | --- | --- |
 | 一份 spec 已拆成带阻塞边的 ticket，你想一次运行全部落地 | `/implement-spec` |
 | 一次一张 ticket，在你自己的[上下文窗口](https://www.aihero.dev/ai-coding-dictionary/context-window)里，ticket 之间 [clear](https://www.aihero.dev/ai-coding-dictionary/clearing) | [implement](https://aihero.dev/skills-implement) |
-| 一份还没拆成 ticket 的 spec | 先做 [to-tickets](https://aihero.dev/skills-to-tickets) |
+| 一份还没拆成 ticket 的 spec | 先做 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) |
 | 一件没有真正图形结构的小工作 | 直接用 [implement](https://aihero.dev/skills-implement) |
 
 ## 先决条件
 
 - **一个 issue 跟踪器。** 技能从 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 配置的跟踪器上读取 ticket、并在其上解决它们。如果还没有配置，它会停下并让你先运行那个技能，而不是瞎猜。
-- **带阻塞边的 ticket**，即 [to-tickets](https://aihero.dev/skills-to-tickets) 写出的那种。没有边，图就是平的，每张 ticket 会同时开跑。
+- **带阻塞边的 ticket**，即 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 写出的那种。没有边，图就是平的，每张 ticket 会同时开跑。
 - **一个能在后台运行 subagent、并给每个 subagent 一个 git worktree 的 [harness](https://www.aihero.dev/ai-coding-dictionary/harness)。** 并发是重点；一次只跑一个 subagent 的 harness，得到的只是一个更慢的 `implement`。
 
 ## 集成分支
@@ -80,7 +80,7 @@ worktree 只装 git 跟踪的东西。读取 gitignore 的 fixture、本地数�
 `implement-spec` 是主链上的构建步骤，作为主流程里"每张 ticket 跑一次 [implement](https://aihero.dev/skills-implement)"的并行替代：
 
 ```txt
-grill-with-docs → to-spec → to-tickets → implement-spec → retro
+grill-with-docs → acpx-to-spec → acpx-to-tickets → implement-spec → retro
 ```
 
-它的邻居是 [to-tickets](https://aihero.dev/skills-to-tickets)——它声明被读成任务图的阻塞边；以及 [code-review](https://aihero.dev/skills-code-review)——它在收尾前对集成分支运行。拿不准自己在哪条流程里时，[ask-matt](https://aihero.dev/skills-ask-matt) 是整个技能集合之上的路由器。
+它的邻居是 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets)——它声明被读成任务图的阻塞边；以及 [code-review](https://aihero.dev/skills-code-review)——它在收尾前对集成分支运行。拿不准自己在哪条流程里时，[ask-matt](https://aihero.dev/skills-ask-matt) 是整个技能集合之上的路由器。

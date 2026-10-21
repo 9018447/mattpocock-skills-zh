@@ -75,4 +75,4 @@
 
 `to-questionnaire` 是一个可随时取用的独立工具。它站在你自己知识的边界上，下一步是另一个人而不是另一个技能：最常发生在流程中途，计划卡在一个不属于你决策的东西上。
 
-它的邻居是 [grill-me](https://aihero.dev/skills-grill-me)，两者按答案住在哪里来划分：grilling 挖的是你自己，问卷挖的是别人。回来的是生料：喂给另一轮 grilling，或者喂给 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 或 [to-spec](https://aihero.dev/skills-to-spec)，如果工作是奔着构建去的话。不确定哪个技能适合当下时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。
+它的邻居是 [grill-me](https://aihero.dev/skills-grill-me)，两者按答案住在哪里来划分：grilling 挖的是你自己，问卷挖的是别人。回来的是生料：喂给另一轮 grilling，或者喂给 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) 或 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，如果工作是奔着构建去的话。不确定哪个技能适合当下时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。
