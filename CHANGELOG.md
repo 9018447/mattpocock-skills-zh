@@ -1,5 +1,11 @@
 # mattpocock-skills
 
+## 1.4.9
+
+### Patch Changes
+
+- 更新了spec不让他产生tickets
+
 ## 1.4.8
 
 ### Patch Changes

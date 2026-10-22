@@ -27,6 +27,7 @@ disable-model-invocation: true
    - 相关 spec、ADR、代码路径、测试路径及探索发现；
    - 外部资料的链接与对应结论；
    - 明确目标：完成所有列出的 tickets，并报告每张票的结果；
+   - 指示目标 Agent 按其环境中可用的 `/ponytail` 编码原则进行编码；
    - 指示目标 Agent 按其环境中可用的 `/implement` 工作流逐张实施，并遵循 ticket 的依赖顺序；
    - 说明目标 Agent 是执行末端，不得继续派发任务或调用 acpx、subagent；
    - 未知事项、冲突和边界，以及完成后需要回报的提交、测试、阻塞和未完成项。
