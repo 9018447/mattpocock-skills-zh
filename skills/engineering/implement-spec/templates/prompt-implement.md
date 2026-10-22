@@ -11,11 +11,12 @@
 - **整体目标**：{{一段话说清整个 Spec 的目标和当前主要矛盾}}
 - **本票作用**：{{当前 Ticket 对解决主要矛盾的作用，一两句}}
 - **ADR和PRD**: {{写清本票的ADR和SPEC文件路径}}
-
+- **ticktes**: {{写清本票的tickets的文件路径和序号}}
+- 
 ## 工作环境（固定段）
 
 - 你的工作目录是独立 worktree `.worktrees/{{tNN}}`，分支 `ticket/{{tNN}}`，**只在该目录内工作**。
-- worktree 内 GitNexus 用主检出的绝对路径调启动器并 `--repo` 指主检出：`node {{主检出绝对路径}}/.gitnexus/run.cjs impact|query|trace <目标> --repo {{主检出绝对路径}}`。图谱只覆盖主检出的已索引提交（worktree 未提交/新增代码不在图里，索引可能落后 main），图谱结论编辑前用 Read 对照 worktree 源码核实；不要因为 worktree 就裸 grep。
+- 你只做一票, 不要超范围工作, 你保持克制的工作原则,触发一次`/ponytail`skill, 按照他的工作原则进行编码工作
 
 ## 工作方式（固定段）
 

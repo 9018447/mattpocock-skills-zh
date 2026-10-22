@@ -2,7 +2,7 @@
 
 `tdd` 以测试先行的方式构建一个功能或修复一个 bug：一条失败的测试，然后是恰好让它通过的代码，然后是下一个行为。它带有让循环产出值得保留的测试所需的标准：什么是好测试、测试放哪里、mock 是做什么用的，以及会让测试套件失去价值的三个反模式。
 
-它不在一个你还没事先同意的接缝上写任何测试。在任何测试存在之前，它点名将打算在其上测试的公共边界，并停下来等你确认，因为测试的精力是有限的，而这里就是把它花在关键路径而不是每一条边角情况上的地方。另外要知道的是 `tdd` 是一份**参考**，而不是驱动器。它持有循环的规则，由别人（你，或 [implement](https://aihero.dev/skills-implement)）来跑套用规则的 [session](https://www.aihero.dev/ai-coding-dictionary/session)。
+它不在一个你还没事先同意的接缝上写任何测试。在任何测试存在之前，它点名将打算在其上测试的公共边界，并停下来等你确认，因为测试的精力是有限的，而这里就是把它花在关键路径而不是每一条边角情况上的地方。另外要知道的是 `tdd` 是一份**参考**，而不是驱动器。它持有循环的规则，由调用它的本地 agent 或外部实现 Agent 来跑套用规则的 [session](https://www.aihero.dev/ai-coding-dictionary/session)。
 
 ## 何时使用
 
@@ -15,7 +15,7 @@
 | 一个带定义好的输入和输出的行为（业务逻辑、请求/响应契约、一次转换、校验） | `tdd` |
 | 那个行为还没钉死 | [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，它也在任何代码写下之前约定测试接缝 |
 | 真正的问题是接口的形状，而不是测试 | [codebase-design](https://aihero.dev/skills-codebase-design) |
-| 你有一份 [spec](https://www.aihero.dev/ai-coding-dictionary/spec) 或 [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)、并且希望整个构建替你跑 | [implement](https://aihero.dev/skills-implement)，它按 ticket 驱动 `tdd` |
+| 你有一组已确定的 tickets，并想交给指定 Agent 实现 | [implement-acpx](https://aihero.dev/skills-implement-acpx)，它负责派发与传递上下文 |
 | 配置、接线、粘合、类型标注、直白的 CRUD 委托 | 这里没有合适的；见下面那条开放的缺口 |
 
 最后那一行是一个真实的缺口，不是风格偏好。技能决定接缝*放哪里*，却没有判断一次变更是否值得走这个循环。如果变更没有独立的真值来源可供断言，跑它就会得到一条重述实现的测试。这正是技能所警告的重言式反模式，只是从另一个方向出现。它是 [issue #746](https://github.com/mattpocock/skills/issues/746)，目前仍开放。在问题解决之前，这个判断由你自己做，或把规则写进 `CLAUDE.md`。
@@ -62,9 +62,9 @@ Mocks 只用于系统边界：外部 API、时间、随机性，有时也包括�
 
 通常不应该，技能不会阻止它。一位用户报告 agent 先写了一条 Playwright 测试，然后花很长时间反复运行，最后认定*测试*坏了，实际上只是功能还不存在。在你的 `CLAUDE.md` 里配置这点。浏览器测试慢到让红绿反馈循环不再划算；在仓库的 `CLAUDE.md` 里声明它们应在行为实现后再写。
 
-**`/tdd` 会替代 `/implement` 或课程里的 `/do-work` 吗？**
+**`/tdd` 会替代实现工作流吗？**
 
-不会。`/tdd` 记录方法论；`/implement` 是一个非常简单的 work→feedback→commit 循环，是 `/do-work` 的直接替身。课程里的单一 `/do-work` 步骤现在被拆成 `/implement`、`/tdd` 和 `/code-review`。如果你在问对着一个 ticket 该跑哪一个，答案几乎总是 `/implement`。
+不会。`/tdd` 记录测试先行的方法；[implement-acpx](https://aihero.dev/skills-implement-acpx) 负责把已确定的一组 tickets 派发给指定 Agent。目标 Agent 使用的实现流程取决于它的 harness 与可用技能。
 
 **Deep-modules 和接口设计指引去哪了？**
 
@@ -88,7 +88,7 @@ v1.0 进了 [codebase-design](https://aihero.dev/skills-codebase-design)，泛�
 `tdd` 在主链的构建步骤中运行，不是独立的一步：
 
 ```txt
-grill-with-docs → acpx-to-spec → acpx-to-tickets → implement → code-review → retro
+grill-with-docs → acpx-to-spec → acpx-to-tickets → implement-acpx → review → retro
 ```
 
-[acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 预先约定测试接缝，[implement](https://aihero.dev/skills-implement) 按 ticket 驱动 `tdd`，[code-review](https://aihero.dev/skills-code-review) 事后检查是否只用了约定好的接缝，并负责 `tdd` 不再做的重构。另一个邻居是 [codebase-design](https://aihero.dev/skills-codebase-design)，它是 `tdd` 使用的接缝与深模块词汇的共享来源。只要有具体行为要构建、又没有完整 spec，也可以单独调用 `tdd`。拿不准哪个技能适合你的情况时，[ask-matt](https://aihero.dev/skills-ask-matt) 为你路由。
+[acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 负责在适用时预先约定测试接缝；[implement-acpx](https://aihero.dev/skills-implement-acpx) 将 tickets 和这些约定交给目标 Agent；[code-review](https://aihero.dev/skills-code-review) 可在实现后检查 diff，并负责 `tdd` 不再做的重构。另一个邻居是 [codebase-design](https://aihero.dev/skills-codebase-design)，它是 `tdd` 使用的接缝与深模块词汇的共享来源。只要有具体行为要构建、又没有完整 spec，也可以单独调用 `tdd`。拿不准哪个技能适合你的情况时，[ask-matt](https://aihero.dev/skills-ask-matt) 为你路由。

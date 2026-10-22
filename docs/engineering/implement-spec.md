@@ -11,15 +11,15 @@
 | 你的情况 | 用什么 |
 | --- | --- |
 | 一份 spec 已拆成带阻塞边的 ticket，你想一次运行全部落地 | `/implement-spec` |
-| 一次一张 ticket，在你自己的[上下文窗口](https://www.aihero.dev/ai-coding-dictionary/context-window)里，ticket 之间 [clear](https://www.aihero.dev/ai-coding-dictionary/clearing) | [implement](https://aihero.dev/skills-implement) |
+| 一组 tickets 交给一个指定 Agent | [implement-acpx](https://aihero.dev/skills-implement-acpx) |
 | 一份还没拆成 ticket 的 spec | 先做 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) |
-| 一件没有真正图形结构的小工作 | 直接用 [implement](https://aihero.dev/skills-implement) |
+| 一件没有真正图形结构的小工作 | 直接用适合当前 harness 的实现方式；已拆 ticket 并要交给指定 Agent 时用 [implement-acpx](https://aihero.dev/skills-implement-acpx) |
 
 ## 先决条件
 
 - **一个 issue 跟踪器。** 技能从 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 配置的跟踪器上读取 ticket、并在其上解决它们。如果还没有配置，它会停下并让你先运行那个技能，而不是瞎猜。
 - **带阻塞边的 ticket**，即 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 写出的那种。没有边，图就是平的，每张 ticket 会同时开跑。
-- **一个能在后台运行 subagent、并给每个 subagent 一个 git worktree 的 [harness](https://www.aihero.dev/ai-coding-dictionary/harness)。** 并发是重点；一次只跑一个 subagent 的 harness，得到的只是一个更慢的 `implement`。
+- **一个能在后台运行 subagent、并给每个 subagent 一个 git worktree 的 [harness](https://www.aihero.dev/ai-coding-dictionary/harness)。** 并发是重点；一次只跑一个 subagent 的 harness，无法发挥这个技能的并行优势。
 
 ## 集成分支
 
@@ -35,9 +35,9 @@
 
 ## 常见问题
 
-**这和我自己逐张跑 `/implement` 有什么不同？**
+**这和用 `/implement-acpx` 派发一组 tickets 有什么不同？**
 
-这正是这个技能为了回答而存在的问题。在它发布之前，人们不断自己造轮子，一位用户把这种痒处描述得很准：他想要"subagent 来实现 ticket"，而不是"在新会话里逐个地告诉它们实现某张 ticket，当一份 spec 可能包含 5 张以上 ticket 的时候"。用 `implement`，你就是调度员：一张 ticket 一个 [session](https://www.aihero.dev/ai-coding-dictionary/session)，之间清空，还要自己记录哪些 ticket 已解除阻塞。`implement-spec` 把这份工作交给单个编排会话。代价是：你不再在每张 ticket 落地时逐张读它的工作；你在最后评审集成分支。要发起一次运行，清空上下文，输入 `/implement-spec` 并带上指向 spec 的指针（issue 编号或文件路径）。对没有真正图形结构的小改动，跳过它，直接用 `implement`。
+`implement-acpx` 把一组 tickets 交给一个目标 Agent；`implement-spec` 则读取整张依赖图，按可领取前沿并行派发实施者，并将工作合并到集成分支。前者适合希望把执行交给一个指定 Agent 的情况；后者适合需要并行推进且由本次运行负责编排和集成的 spec。
 
 **它需要 GitHub 吗？我想让它在分支处停下。**
 
@@ -49,7 +49,7 @@
 
 **它会像 implement 那样驱动 tdd 吗？**
 
-现在会了，尽管一开始不会。跑 in-progress 版本的用户注意到"实施者 subagent 没有继承 /tdd 指令"，所以从单张 ticket 扩展到整份 spec 的那一刻，红-绿就掉队了。现在每个实施者都用 `tdd` 构建自己的 ticket。仍然没有像 `implement` 会话里那样交互式约定接缝的步骤，所以如果你想把接缝钉住，就在 spec 或 ticket 里写明它们。
+现在会了，尽管一开始不会。跑 in-progress 版本的用户注意到"实施者 subagent 没有继承 /tdd 指令"，所以从单张 ticket 扩展到整份 spec 的那一刻，红-绿就掉队了。现在每个实施者都用 `tdd` 构建自己的 ticket。运行仍然没有交互式约定接缝的步骤，所以如果你想把接缝钉住，就在 spec 或 ticket 里写明它们。
 
 **两个并行跑的实施者在同一个文件上撞了，或者给同一件事取了不同的名字。**
 
@@ -77,7 +77,7 @@ worktree 只装 git 跟踪的东西。读取 gitignore 的 fixture、本地数�
 
 ## 它的定位
 
-`implement-spec` 是主链上的构建步骤，作为主流程里"每张 ticket 跑一次 [implement](https://aihero.dev/skills-implement)"的并行替代：
+`implement-spec` 是主链上的构建步骤，作为 [implement-acpx](https://aihero.dev/skills-implement-acpx) 的并行替代：
 
 ```txt
 grill-with-docs → acpx-to-spec → acpx-to-tickets → implement-spec → retro

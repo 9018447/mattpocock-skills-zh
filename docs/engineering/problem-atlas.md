@@ -56,4 +56,4 @@ wayfinder 面向一块工作：地图清空、路线清晰，它就交班，地�
 
 ## 它的定位
 
-一个常设的规划层。它不在 grill-with-docs → acpx-to-spec → acpx-to-tickets → implement 这条主干链上，而是从项目层面喂养这条链：把规划待办和两条前沿维护到随时可以交接的程度。最近的邻居是 wayfinder，它解的是一块看不清路的工作，解完即止；当规划本身成为长期对象，就轮到 Atlas。整张技能地图见 [ask-matt](https://aihero.dev/skills-ask-matt)。
+一个常设的规划层。它不在 grill-with-docs → acpx-to-spec → acpx-to-tickets → 实现这条主干链上，而是从项目层面喂养这条链：把规划待办和两条前沿维护到随时可以交接的程度。最近的邻居是 wayfinder，它解的是一块看不清路的工作，解完即止；当规划本身成为长期对象，就轮到 Atlas。整张技能地图见 [ask-matt](https://aihero.dev/skills-ask-matt)。

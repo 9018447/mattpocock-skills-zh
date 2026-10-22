@@ -13,7 +13,7 @@
 | 你在哪 | 跑什么 |
 | --- | --- |
 | 你什么都还没决定 | 先 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) |
-| 已经决定，并且工作装得下一次 [context window](https://www.aihero.dev/ai-coding-dictionary/context-window) | [implement](https://aihero.dev/skills-implement)：跳过 spec |
+| 已经决定，已有 tickets，且要交给指定 Agent | [implement-acpx](https://aihero.dev/skills-implement-acpx)；如尚无 tickets，先拆票 |
 | 已经决定，并且工作跨几次会话 | `/acpx-to-spec`，然后 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) |
 | 一张 [wayfinder](https://aihero.dev/skills-wayfinder) 地图已经清完 | `/acpx-to-spec #<map_issue>` |
 
@@ -45,11 +45,11 @@ spec 之所以存在，是因为 context window 有尽头。你在 [盘问（gri
 
 **为什么不直接从盘问到 `/acpx-to-tickets`、跳过 spec？**
 
-多数情况下你应该这么做；spec 只在多会话的工作上才挣回它的那一步。它值在哪里：tickets 是用完即弃的、spec 不是。每张 ticket 的大小被调到恰好装下一次全新的 context window，会被删除或关闭，而 spec 留下来作为住在它们背后的那份推理的唯一居所。在一次单会话变更上，那给你的是零，而你付了一笔额外的综合步骤，[model](https://www.aihero.dev/ai-coding-dictionary/model) 还可能漂移。直接走盘问 → `/implement`。
+多数情况下你应该这么做；spec 只在多会话工作上才挣回它的那一步。它值在哪里：tickets 是用完即弃的、spec 不是。每张 ticket 的大小被调到恰好装下一次全新的 context window，会被删除或关闭，而 spec 留下来作为住在它们背后的那份推理的唯一居所。一次小变更若已有 ticket，可以直接交给 `/implement-acpx`；尚无 ticket 时，可按当前 harness 的实现方式直接构建。
 
 **我刚完成一张 wayfinder 地图。我该喂它什么？**
 
-那张主图 issue：`/acpx-to-spec #<map_issue>`，不是那些单独的决策 tickets。[wayfinder](https://aihero.dev/skills-wayfinder) 产出散落在地图上的决策、而不是可交付物；`acpx-to-spec` 是把它们折成一份可构建文档的那一步。把地图直接接进 `/implement` 把那次折叠扔掉了。
+那张主图 issue：`/acpx-to-spec #<map_issue>`，不是那些单独的决策 tickets。[wayfinder](https://aihero.dev/skills-wayfinder) 产出散落在地图上的决策、而不是可交付物；`acpx-to-spec` 是把它们折成一份可构建文档的那一步。把地图直接交给实现 Agent 会跳过那次折叠。
 
 **spec 是给我审的，还是只给 agent 的？**
 
@@ -84,7 +84,7 @@ spec 之所以存在，是因为 context window 有尽头。你在 [盘问（gri
 `acpx-to-spec` 是主构建链上的一步，而且只在多会话的那条分支上：
 
 ```txt
-grill-with-docs → acpx-to-spec → acpx-to-tickets → implement → code-review → retro
+grill-with-docs → acpx-to-spec → acpx-to-tickets → implement-acpx → code-review → retro
 ```
 
-它的上游邻居是 [grill-with-docs](https://aihero.dev/skills-grill-with-docs)——做这份技能只负责记录的决定；以及 [wayfinder](https://aihero.dev/skills-wayfinder)——它的完成图就在这里合上这条链。下游，[acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 把 spec 切成供 [implement](https://aihero.dev/skills-implement) 构建的示踪弹 tickets。拿不准哪个技能或流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。
+它的上游邻居是 [grill-with-docs](https://aihero.dev/skills-grill-with-docs)，它只负责记录这份技能所需的决定；以及 [wayfinder](https://aihero.dev/skills-wayfinder)，它的完成图在这里合上这条链。下游，[acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 把 spec 切成供 [implement-acpx](https://aihero.dev/skills-implement-acpx) 使用的示踪弹 tickets。拿不准哪个技能或流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。

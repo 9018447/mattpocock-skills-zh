@@ -1,0 +1,5 @@
+interface:
+  display_name: "Implement with ACPX"
+  short_description: "用 acpx 派发一组 tickets 给指定 Agent 实现"
+policy:
+  allow_implicit_invocation: false

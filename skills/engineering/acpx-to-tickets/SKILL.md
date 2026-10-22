@@ -19,7 +19,7 @@ disable-model-invocation: true
 1. **确认目标 Agent**。按前置条件取得用户指定的标识。完成标准：拿到 Agent 标识。
 2. **总结上下文为 prompt 并落盘**。把计划、spec 或对话中已确定的信息输入整理成派发 prompt，使用`\writing-for-agents`写入项目目录下的 prompt 文件（如 `prompts/`），并指向相关的 ADR 和 spec。只总结用户说过的内容，不添加对话之外的推断。prompt 中显式写明五点：
    - 触发 `\to-tickets` skill（执行侧技能名，保持无前缀），由目标 Agent 拆分为 tracer-bullet issue 并生成阻塞关系；
-   - 用户对话上下文的详细总结
+   - **用户对话上下文和仓库探索**的详细总结(重要)
    - 相关 ADR 和 spec 的位置；
    - 产出直接落盘到项目目录，无需回询确认；
    - 目标 Agent 是执行末端，不得继续向下派发，不得使用 acpx 或 subagent。

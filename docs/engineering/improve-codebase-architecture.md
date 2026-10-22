@@ -53,7 +53,7 @@
 
 ## 你挑了之后会发生什么
 
-选中候选后，会围绕它启动一次 [盘问（grilling）](https://aihero.dev/skills-grilling) 会话，讨论约束、接缝后面的内容、哪些测试可以保留，以及加深后的接口应该是什么样。该会话产出的是决策，而不是 diff。之后进入正常流程：把决策带入 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，再到 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets)，最后交给 [implement](https://aihero.dev/skills-implement)。
+选中候选后，会围绕它启动一次 [盘问（grilling）](https://aihero.dev/skills-grilling) 会话，讨论约束、接缝后面的内容、哪些测试可以保留，以及加深后的接口应该是什么样。该会话产出的是决策，而不是 diff。之后进入正常流程：把决策带入 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，再到 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets)，最后交给 [implement-acpx](https://aihero.dev/skills-implement-acpx)。
 
 ## 常见问题
 

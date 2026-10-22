@@ -1,5 +1,11 @@
 # mattpocock-skills
 
+## 1.4.8
+
+### Patch Changes
+
+- 更新了prompts生成方法
+
 ## 1.4.7
 
 ### Patch Changes

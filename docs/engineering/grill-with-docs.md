@@ -64,7 +64,7 @@
 
 **会话结束时我该怎么办？**
 
-技能的收尾消息往往是开放式的，这是一个已知的粗糙边缘。在主流程里，答案是 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，在同一个对话里。如果变更小到可以立即构建，直接去 [implement](https://aihero.dev/skills-implement) 也行。
+技能的收尾消息往往是开放式的，这是一个已知的粗糙边缘。在主流程里，答案是 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，在同一个对话里。如果小变更已经有 tickets，并要交给指定 Agent，使用 [implement-acpx](https://aihero.dev/skills-implement-acpx)。
 
 **它为什么叫这个名字？**
 
@@ -83,7 +83,7 @@
 `grill-with-docs` 是主构建链的起点：
 
 ```txt
-grill-with-docs → acpx-to-spec → acpx-to-tickets → implement → code-review → retro
+grill-with-docs → acpx-to-spec → acpx-to-tickets → implement-acpx → code-review → retro
 ```
 
-它出现在任何东西被写成 spec 之前：它产出 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 随后无需再访谈你就能综合的共识理解和敲定的词汇。它近旁的邻居是 [grill-me](https://aihero.dev/skills-grill-me)——同一场访谈但没有仓库、没有文件——以及 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling)，它驱动的词汇表与 ADR 纪律；两者都坐在 [grilling](https://aihero.dev/skills-grilling) 原语之上。在它上游，[wayfinder](https://aihero.dev/skills-wayfinder) 为一次会话装不下的大工作量绘制地图，可以把地图的部分交还给它。拿不准哪个技能或流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 为你路由。
+它出现在任何东西被写成 spec 之前：它产出 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 随后无需再访谈你就能综合的共识理解和敲定的词汇。它近旁的邻居是 [grill-me](https://aihero.dev/skills-grill-me)，同一场访谈但没有仓库、没有文件；以及 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling)，它驱动的词汇表与 ADR 纪律。两者都坐在 [grilling](https://aihero.dev/skills-grilling) 原语之上。在它上游，[wayfinder](https://aihero.dev/skills-wayfinder) 为一次会话装不下的大工作量绘制地图，可以把地图的部分交还给它。拿不准哪个技能或流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 为你路由。

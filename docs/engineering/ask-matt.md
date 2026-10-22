@@ -20,13 +20,13 @@
 
 路由器只点名技能，不负责安装。它指向的一切都必须已安装，推荐才可执行；而且它只认识本仓库中晋升出来的技能。
 
-依赖追踪器的路由（triage、`acpx-to-spec`、`acpx-to-tickets`、`implement`）假设 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 已经在仓库中配置好了一个 issue 追踪器；即使尚未配置，路由器仍会推荐它们。
+依赖追踪器的路由（triage、`acpx-to-spec`、`acpx-to-tickets`、`implement-acpx`）假设 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) 已经在仓库中配置好了一个 issue 追踪器；即使尚未配置，路由器仍会推荐它们。
 
 ## 是流程，不是技能
 
 这个技能的核心词是**流程（flow）**：一条*穿过*多个技能的路径，而不是单个技能。你说出自己的情况后，路由器会把你放到某条流程的某一步上。这不同于"给你一个匹配关键词的技能"。路由分五类，技能本身完整描述了它们：
 
-- **主流程**，从想法到上线。grill、spec、tickets、implement（一次一张 ticket，或用 [implement-spec](https://aihero.dev/skills-implement-spec) 并行推进整张任务图）、review，然后是 [retro](https://aihero.dev/skills-retro)，它把构建学到的东西喂回 agent 的环境。它有两条分支：一条是 prototype 绕行，适用于需要可运行代码才能敲定的问题；另一条是 spec-and-tickets 拆分，只有当构建跨越多个会话时才值得付出成本。
+- **主流程**，从想法到上线。grill、spec、tickets、实现、review，然后是 [retro](https://aihero.dev/skills-retro)，它把构建学到的东西喂回 agent 的环境。已确定的 tickets 可交给一个指定 Agent，由 [implement-acpx](https://aihero.dev/skills-implement-acpx) 派发整组工作；需要多个实施 Agent 并行推进整份 spec 时用 [implement-spec](https://aihero.dev/skills-implement-spec)。它有两条分支：一条是 prototype 绕行，适用于需要可运行代码才能敲定的问题；另一条是 spec-and-tickets 拆分，只有当构建跨越多个会话时才值得付出成本。
 - **入口（on-ramps）**，为那种产生工作再合入主流程的情况：涌入的 bug 报告、某样东西坏了、或一个太模糊、太庞大、无法在一次会话里容纳的工作量。
 - **代码库健康**，是维护而非功能工作：[improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) 巡视代码寻找深化机会，每找到一个，就作为想法重新进入主流程。
 - **独立技能**，不在任何流程上，按各自的节奏被调用：prototype、问卷、research 运行。
@@ -50,7 +50,7 @@
 
 **难道就没有一个按正确顺序排列的技能清单吗？**
 
-人们一直要求在 README 里放一个。这份技能就是那份清单——它就是为此而存在的。一张静态表格会写成 `wayfinder → acpx-to-spec → acpx-to-tickets → implement → code-review → retro`，而对大多数情况来说是错的，因为有趣的在于分支：有没有现成的代码库、构建是否跨会话、这个问题能否靠对话解决。诚实的代价是路由器人工维护，会落后于仓库。`/grilling` 在路由器能点名它之前很久就已发布。
+人们一直要求在 README 里放一个。这份技能就是那份清单，因为它负责回答这件事。一张静态表格会写成 `wayfinder → acpx-to-spec → acpx-to-tickets → implement-acpx → code-review → retro`，而对大多数情况来说是错的，因为有趣的在于分支：有没有现成的代码库、构建是否跨会话、这个问题能否靠对话解决。诚实的代价是路由器人工维护，会落后于仓库。`/grilling` 在路由器能点名它之前很久就已发布。
 
 **它告诉我一半的技能没安装。**
 
@@ -70,7 +70,7 @@
 
 **它让我编辑 SKILL.md。**
 
-这个建议常常是对的，但很少能持久。有人问它如何让 [implement](https://aihero.dev/skills-implement) 关闭 tickets，得到的建议是给技能加一行，然后立刻发现了问题：`npx skills update` 会覆盖该文件，而插件安装是只读的。把持久性的行为写进你自己的 `CLAUDE.md` 或 `AGENTS.md`，或者在调用时说清楚。提示词层面的适配能挺过更新——把流程指向 Linear 而不是 GitHub，或者问它哪些打开的 tickets 可以并行，都是人们这样做的例子。
+如果目标是让建议跨更新保留，把本地偏好写进自己的 `CLAUDE.md` 或 `AGENTS.md`，或者在调用时说清楚。`implement-acpx` 会把这类已确认偏好写入派发 prompt，让目标 Agent 也能看到，例如指定 Linear 或说明 ticket 状态由谁更新。
 
 **它点名了一个我没有的技能，或者漏掉了一个我有的。**
 

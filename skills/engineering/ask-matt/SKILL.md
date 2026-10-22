@@ -23,11 +23,11 @@ disable-model-invocation: true
    - **`/handoff`** 把你学到的东西带回来，并在原始想法线程中引用它。
 3. **分支：这是多会话构建吗？**
    - **是** → **`/acpx-to-spec`**（通过 acpx 派发给用户指定的 Agent，把对话变成 spec），然后 **`/acpx-to-tickets`** 经用户批准拆票方案后由指定 Agent 发布示踪子弹式 ticket，每个都声明自己的**阻塞边**。接着用两种方式之一推进 ticket：
-     - **`/implement`** 逐个 ticket 实现，**每个之间用 `/clear` 清空上下文**。在本地跟踪器上，每个 ticket 是 `.scratch/<feature>/issues/` 下的一个文件，按阻塞优先的顺序人工推进；在真实跟踪器上，阻塞边变成原生阻塞链接，所以任何阻塞项已完成的 ticket 都可以被领取。每个 ticket 自包含，所以上一个的上下文可以丢弃。
+     - **`/implement-acpx`** 把已确定的一组 tickets 派发给用户指定的 Agent，由它按依赖顺序实现全部 tickets。适合你想把整组工作交给一个外部 Agent、并在当前会话中查看结果的情况。
      - **`/implement-spec`** 一次性实现整份 spec。它把 ticket 读成一张**任务图**，在可领取的**前沿**上并行运行实施者子代理，把一切落到一条**集成分支**上。当你更想编排整个构建、而不是亲自逐张驱动 ticket 时用它。
-   - **否** → 就在同一个上下文窗口里 **`/implement`**。
+   - **否** → 已有 tickets 时用 **`/implement-acpx`** 派发；小到无需 tickets 的明确行为可直接用 **`/tdd`**。
 
-   无论哪种方式，代码都靠驱动 **`/tdd`**（一次一个红-绿切片）来构建，并以 **`/code-review`** 收尾，对 diff 做双轴审查（标准 + 规格）。`/implement` 对每张 ticket 各跑一遍这两步；`/implement-spec` 的每个实施者各自驱动 `/tdd`，然后在集成分支上跑一次 `/code-review`。只想在没有完整 spec 的情况下测试优先地构建一个具体行为时，单独用 **`/tdd`**；任何时候想对照固定点审查分支或 PR，单独用 **`/code-review`**。
+   无论哪种方式，都要让实现遵循已约定的测试边界，并以 **`/code-review`** 收尾，对 diff 做双轴审查（标准 + 规格）。`/implement-acpx` 会在 prompt 中指示目标 Agent 按其环境可用的 `/implement` 工作流逐张实现；`/implement-spec` 则在集成分支上并行实现整份 spec 并完成审查。只想测试优先地构建一个具体行为时，单独用 **`/tdd`**；任何时候想对照固定点审查分支或 PR，单独用 **`/code-review`**。
 
    当工作要以 PR 提交时，**`/pr`** 负责塑造 PR body：能说清变更的最小可视化、证明其可行的 before/after 证据、以及单向门/双向门的判断。它是模型调用的，所以 agent 每次写 PR 都会主动拿起来用。
 
@@ -35,7 +35,7 @@ disable-model-invocation: true
 
 ### 上下文卫生
 
-把步骤 1–3 保持在**一个不间断的上下文窗口**里（在 `/acpx-to-tickets` 之前不要压缩或清空），这样盘问、spec 和 ticket 都建立在同一个思考之上。之后每次 `/implement` 从 ticket 出发、重新开始。在它所回顾的那次会话里、清空之前运行 `/retro`；清空之后，就把它指向那次会话的日志。
+把步骤 1–3 保持在**一个不间断的上下文窗口**里（在 `/acpx-to-tickets` 之前不要压缩或清空），这样盘问、spec 和 ticket 都建立在同一个思考之上。随后用 `/implement-acpx` 派发已确定的 tickets；如果改用 `/implement-spec`，它会独立编排整份 spec。在它所回顾的那次会话里、清空之前运行 `/retro`；清空之后，就把它指向那次会话的日志。
 
 这里的上限是**[智能区](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**：模型仍能敏锐推理的窗口（最先进模型约 150k token）。如果会话在 `/acpx-to-tickets` 之前就逼近它，不要在劣化的状态下硬撑：在最近的阶段边界 **`/compact`** 然后继续（见"阶段边界"）。
 
@@ -43,7 +43,7 @@ disable-model-invocation: true
 
 一个会产生工作的起点场景，然后并入主干流程。
 
-- **bug 和请求堆积** → **`/triage`**。它让 issue 走过分类角色，产出 agent 就绪的 issue，之后由 **`/implement`** 接手。
+- **bug 和请求堆积** → **`/triage`**。它让 issue 走过分类角色，产出 agent 就绪的 issue，之后由 **`/implement-acpx`** 或 **`/implement-spec`** 接手。
 
   分类只适用于**不是你创建**的 issue：bug 报告、外来的功能请求、任何以原始形态到达的东西。`/acpx-to-tickets` 产出的 ticket 已经是 agent 就绪的，所以**不要分类它们**。
 
@@ -51,7 +51,7 @@ disable-model-invocation: true
 
 - **一项庞大而模糊的工作：绿地项目或大型功能构建，大到一次会话装不下** → **`/wayfinder`**，这是这里认知负荷最高的流程。当从这里到目的地的路还看不见时，它在 issue 跟踪器上绘制一张由**决策 ticket** 组成的**共享地图**，一次解决一个：产出**决策，而非交付物**，直到迷雾被推后、道路清晰。**`/grill-with-docs`** 打磨的是你能在一次会话里 hold 住的想法，wayfinder 则是为你 hold 不住的想法准备的：它更慢、更密，所以只留给这种情况，绝不要用于范围明确的功能。
 
-  当地图清晰时，**它交接，不构建**：在 **`/acpx-to-spec`** 并入主干流程，把地图上相互关联的决策折叠成可构建的计划，然后照常 `/acpx-to-tickets` 和 `/implement`。把地图直接循环进 `/implement` 会跳过这个折叠，把关联的细节丢掉，所以只有当工作量确实很小的时候才直接进 `/implement`。
+  当地图清晰时，**它交接，不构建**：在 **`/acpx-to-spec`** 并入主干流程，把地图上相互关联的决策折叠成可构建的计划，然后照常 `/acpx-to-tickets` 和 `/implement-acpx` 或 `/implement-spec`。把地图直接交给实施会跳过这个折叠，把关联的细节丢掉，所以只有当工作量确实很小的时候才直接进入实现。
 
 - **一个跨会话、长期演进的项目规划：问题不断生长，新决策会推翻已发布的规格** → **`/problem-atlas`**。它维护一张权威的 **Map**：以 **Problem**（不补足就无法实现 Goal 的重大缺口）为规划待办主体，以 **Tension**（Problem 内的真实取舍或重大不确定性）为决策推进单位，并让两条**工作前沿**始终可见：**决策前沿**是下一个可以调查或 `/grilling` 的 Tension，**执行前沿**是 `/acpx-to-tickets` 已发布的就绪 Issues。它自己不写产物：ADR 由用户指定的 Agent 经 `/acpx-domain-modeling` 判断并产出，SPEC 由 `/acpx-to-spec` 派发发布，实施 Issues 由 `/acpx-to-tickets` 派发拆出，Atlas 只登记证据、状态、依赖与指针，再把真实链接写回地图。对*一块*大到装不下、路线未明的工作，用 `/wayfinder`；对*一个项目*需要长期维护的规划账本，用 `/problem-atlas`。
 

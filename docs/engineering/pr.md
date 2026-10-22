@@ -32,7 +32,7 @@
 
 **它会替我开 PR 吗？**
 
-不会。`pr` 只管 body。[implement](https://aihero.dev/skills-implement) 的收尾是提交到当前分支，而"要一个开 PR 的技能或选项"（一个 `/to-pr`，或让 `implement` 开 PR 而不是提交）仍是开放提案；一位用户的变通做法是在本地给 `implement` 加一句覆盖指令，让它开 PR。[implement-spec](https://aihero.dev/skills-implement-spec) 是例外：当你的 issue 跟踪器通过 PR 关闭工作、或你主动要求时，它会开一个 draft PR。因为 `pr` 是模型调用的，任何时候你让 agent 开 PR，它的描述就用这个形状。
+不会。`pr` 只管 body。[implement-acpx](https://aihero.dev/skills-implement-acpx) 负责向目标 Agent 派发工作，不规定是否提交或开 PR；这些要求应写进 prompt。 [implement-spec](https://aihero.dev/skills-implement-spec) 会在跟踪器通过 PR 关闭工作、或你主动要求时开 draft PR。因为 `pr` 是模型调用的，任何时候你让 agent 开 PR，它的描述就用这个形状。
 
 **它不会又产出一堵文字加图表的墙吗？**
 
@@ -71,9 +71,9 @@
 
 ## 它的定位
 
-当构建以 pull request 的形式交付时，`pr` 位于 review 和 retro 之间：`acpx-to-spec → acpx-to-tickets → implement → code-review → pr → retro`。它是模型调用的，所以 agent 在这条链之外写 PR body 时也会自动触发它。
+当构建以 pull request 的形式交付时，`pr` 位于 review 和 retro 之间：`acpx-to-spec → acpx-to-tickets → implement-acpx → code-review → pr → retro`。它是模型调用的，所以 agent 在这条链之外写 PR body 时也会自动触发它。
 
 - [code-review](https://aihero.dev/skills-code-review) 在它之前运行，因为 PR body 应当描述一份已经评审过的 diff。
-- [implement](https://aihero.dev/skills-implement) 产出 body 所描述的 commit。
+- [implement-acpx](https://aihero.dev/skills-implement-acpx) 可将实现工作交给目标 Agent；PR body 仍由 `pr` 塑形。
 
 拿不准处境需要哪个技能时，[ask-matt](https://aihero.dev/skills-ask-matt) 在整个技能集合上为你路由。

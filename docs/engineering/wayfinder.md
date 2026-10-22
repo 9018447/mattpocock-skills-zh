@@ -15,7 +15,7 @@
 | 一个范围良好的功能，你能在一次坐下里敲定 | [grill-me](https://aihero.dev/skills-grill-me)，有代码库时用 [grill-with-docs](https://aihero.dev/skills-grill-with-docs) |
 | 一个绿地项目，或跨多会话的构建，并且路线仍不清楚 | `/wayfinder` |
 | 一段决定已经做完的对话线程 | [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)：跳过地图 |
-| 一张已经清空的 wayfinder 地图 | [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，然后 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 和 [implement](https://aihero.dev/skills-implement) |
+| 一张已经清空的 wayfinder 地图 | [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，然后 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets)，再按实现方式选 [implement-acpx](https://aihero.dev/skills-implement-acpx) 或 [implement-spec](https://aihero.dev/skills-implement-spec) |
 | 一次已经长出边界的现存会话 | 说"hand off to `/wayfinder`"（[handoff](https://aihero.dev/skills-handoff) 既能进入一张地图、也能从一张地图出来） |
 
 不要求是绿地项目。人们经常在遗留和半成品代码库上使用 wayfinder，而且在那里可能更有用，因为许多迷雾在于"这里已经有什么是真的"，而不是"我们应该做什么"。
@@ -66,7 +66,7 @@ Research 是*一张 ticket 一次会话*规则之外唯一的例外。
 
 **地图清空了。wayfinder 不是已经把 spec 写好、tickets 做好了？我为什么还需要 `/acpx-to-spec` 和 `/acpx-to-tickets`？**
 
-不。Wayfinder 的 tickets 是决策 tickets，当地图关闭时它们也都已关闭。剩下的是一张装满链接决策的地图，它不是一份构建计划。[acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 把那些链接决策折成一份 spec（`/acpx-to-spec #<map_issue>`），[acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 把它切成示踪弹实现 tickets。把地图直接接进 [implement](https://aihero.dev/skills-implement) 跳过了那次折叠、把链接的细节扔了。只有工作量最终真的很小时，才直接进实现。确实有人跑那条缩写版的流水线并报告它能用；多出来的两步给你一份评审员或同事能读的显式 spec 工件，你越不是一个人它就越重要。
+不。Wayfinder 的 tickets 是决策 tickets，当地图关闭时它们也都已关闭。剩下的是一张装满链接决策的地图，它不是一份构建计划。[acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 把那些链接决策折成一份 spec（`/acpx-to-spec #<map_issue>`），[acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 把它切成示踪弹实现 tickets。把地图直接交给实现 Agent 会跳过那次折叠、把链接的细节扔了。只有工作量最终真的很小时，才直接进实现；如需派发已确定的 tickets，再用 [implement-acpx](https://aihero.dev/skills-implement-acpx)。确实有人跑那条缩写版的流水线并报告它能用；多出来的两步给你一份评审员或同事能读的显式 spec 工件，你越不是一个人它就越重要。
 
 **我的 agent 在一次 wayfinder 会话中间开始写生产代码。**
 

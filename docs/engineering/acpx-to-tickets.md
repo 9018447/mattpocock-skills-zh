@@ -12,7 +12,7 @@
 | --- | --- |
 | 你有一份 spec issue，构建跨几次会话 | `/acpx-to-tickets`，或 `/acpx-to-tickets #<spec_issue>` |
 | 计划只在对话里，从未被写成 spec | `/acpx-to-tickets` 直接读线程，不需要 spec |
-| 整个变更装得下一次 context window | [implement](https://aihero.dev/skills-implement)，跳过 tickets |
+| 一个小变更已有明确 ticket，且你想交给指定 Agent | [implement-acpx](https://aihero.dev/skills-implement-acpx) |
 | 什么都还没决定 | [grill-with-docs](https://aihero.dev/skills-grill-with-docs)，然后 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) |
 | 一张 [wayfinder](https://aihero.dev/skills-wayfinder) 地图已经清完 | 先 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 把地图折成一份 spec，然后 `/acpx-to-tickets` |
 
@@ -57,7 +57,7 @@
 
 **它为一个三行变更产出了十二个 tickets。**
 
-过度分解是这个技能被报告最多的摩擦点，而且跨从业者一致：[model](https://www.aihero.dev/ai-coding-dictionary/model) 默认原子单元，丢掉会让它们有意义的归组。提问那一步恰恰为此存在：叫它合并，它就会合并。更深的答案是 tickets 有一个下限：如果整个变更装得进一个 context window，你根本不需要这个技能。直接去 [implement](https://aihero.dev/skills-implement)。
+过度分解是这个技能被报告最多的摩擦点，而且跨从业者一致：[model](https://www.aihero.dev/ai-coding-dictionary/model) 默认原子单元，丢掉会让它们有意义的归组。提问那一步恰恰为此存在：叫它合并，它就会合并。更深的答案是 tickets 有一个下限：如果整个变更装得进一个 context window，就不必为了拆票而调用本技能；如果你已有一张 ticket 并想交给指定 Agent，再用 [implement-acpx](https://aihero.dev/skills-implement-acpx)。
 
 **Tickets 出来时是一层一张：所有 schema 在一张，所有 API 在另一张。**
 
@@ -73,7 +73,7 @@
 
 **本地 tickets 放在哪？v1.1 的注释说一份根级 `tickets.md`。**
 
-是这么说的，那是 bug：一份共享文件在并行 agent 写它时会撞车。本地模式现在为每张 ticket 写一份 `.scratch/<feature-slug>/issues/<NN>-<slug>.md` 下的文件，按依赖顺序排，匹配本地追踪器模板原本就描述的布局。`NN` 前缀是真实的 ticket ID，所以 `/implement 03` 能工作，而不必重打一个长长的标题。
+是这么说的，那是 bug：一份共享文件在并行 agent 写它时会撞车。本地模式现在为每张 ticket 写一份 `.scratch/<feature-slug>/issues/<NN>-<slug>.md` 下的文件，按依赖顺序排，匹配本地追踪器模板原本就描述的布局。`NN` 前缀是真实的 ticket ID，所以引用本地 ticket 时可以直接提供文件名或编号。
 
 **它试图读我的 spec 时一直在截断。**
 
@@ -85,7 +85,7 @@
 
 **Tickets 发布了。我到底怎么跑它们？**
 
-本技能用 acpx 派发的是**拆票和发布工作**，不自动派发后续的实现任务。实施派发仍由你安排：查看没有未关闭 blocker 的 ticket，并为它们开启独立的实现会话。一次全新上下文一张 ticket，它们之间清空。要意识到 [implement](https://aihero.dev/skills-implement) 在 GitHub 或本地 markdown 上都不那么可靠地关闭或勾掉 ticket，所以 ticket 的状态由你来更新。
+本技能用 acpx 派发的是**拆票和发布工作**，不自动派发后续的实现任务。草案获批并发布后，你可以用 [implement-acpx](https://aihero.dev/skills-implement-acpx) 把已确定的一组 tickets 交给一个指定 Agent，或用 [implement-spec](https://aihero.dev/skills-implement-spec) 并行推进整份 spec。实现后仍要根据目标 Agent 的报告核对并更新 ticket 状态。
 
 ## 怎样算成功
 
@@ -101,7 +101,7 @@
 `acpx-to-tickets` 是主构建链上的一步：
 
 ```txt
-grill-with-docs → acpx-to-spec → acpx-to-tickets → implement → code-review → retro
+grill-with-docs → acpx-to-spec → acpx-to-tickets → implement-acpx → code-review → retro
 ```
 
-上游是 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)——交给它一份被敲定的 spec 来切；让两者留在同一个未被打断的 context window 里。下游是 [implement](https://aihero.dev/skills-implement)——每次全新会话构建一张 ticket，为测试驱动 [tdd](https://aihero.dev/skills-tdd)、以 [code-review](https://aihero.dev/skills-code-review) 收尾。[implement-spec](https://aihero.dev/skills-implement-spec) 是另一条向下的路：它把同样的阻塞边读成任务图，在一条集成分支上并行构建每一张就绪的 ticket。拿不准哪个技能或流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。
+上游是 [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec)，交给它一份被敲定的 spec 来切；让两者留在同一个未被打断的 context window 里。下游是 [implement-acpx](https://aihero.dev/skills-implement-acpx)，它将整组 tickets 派发给一个用户指定的 Agent；若要按阻塞边并行实施并集成整份 spec，则用 [implement-spec](https://aihero.dev/skills-implement-spec)。拿不准哪个技能或流程合适时，[ask-matt](https://aihero.dev/skills-ask-matt) 给你路由。

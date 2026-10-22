@@ -1,5 +1,0 @@
-interface:
-  display_name: "Implement"
-  short_description: "根据需求说明或工单实现功能"
-policy:
-  allow_implicit_invocation: false

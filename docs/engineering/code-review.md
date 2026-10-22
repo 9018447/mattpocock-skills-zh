@@ -13,7 +13,7 @@
 | 有一个 diff，你想知道它是否构建正确*且*是否是对的 | `code-review` |
 | 你想在 diff 里猎 bug——空指针路径、竞态、差一错误 | Claude Code 自带的审查，不是这个（见下面的命名冲突） |
 | 什么都还没写，你想测试先行地写 | [tdd](https://aihero.dev/skills-tdd) |
-| 整个 spec 需要构建，包括审查 | [implement](https://aihero.dev/skills-implement)，它会自己调用这个技能 |
+| 构建整份 spec 并由技能编排实施与审查 | [implement-spec](https://aihero.dev/skills-implement-spec) |
 | 整个代码库都漂移了，而不只是一个 diff | [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) |
 | 某样东西坏了，你不知道为什么 | [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs) |
 
@@ -62,11 +62,11 @@ Spec 轴需要一个存在且可找到的 spec。它按这个顺序查找：
 
 **我应该在写出代码的那个[会话（session）](https://www.aihero.dev/ai-coding-dictionary/session)里运行它吗？**
 
-最好开一个新会话。正如一位读者所说："同一上下文审查自己不是审查，是带斜杠命令的确认偏误。"写代码会话里的审查代理，持有塑造了那段代码的每一个假设，而这正是独立审查者恰恰不会有的上下文。这也是人们要求 [implement](https://aihero.dev/skills-implement) 去掉内置审查步骤的原因——它是在刚写出 diff 的那个会话里运行审查的。你自己从一个干净的会话调用 `/code-review`，才是诚实的版本。
+最好开一个新会话。正如一位读者所说："同一上下文审查自己不是审查，是带斜杠命令的确认偏误。"写代码会话里的审查代理，持有塑造了那段代码的每一个假设，而这正是独立审查者恰恰不会有的上下文。`implement-acpx` 只负责派发和回传，不规定目标 Agent 如何审查；你可以在干净的会话中调用 `/code-review`，获得独立审查。
 
 **每个 ticket 之后审一次，还是最后统一审一次？**
 
-两者都行，技能不会替你决定。按 ticket 审能让每个 diff 足够小，使 Spec 轴有一个清晰的 spec 可对照，这也是 `implement` 使用的模式。批到分支末尾审，能抓住 ticket 之间的交互，这是逐 ticket 审查各自都会漏掉的。拿不准的话，按 ticket 审，再对分支基点跑一次最终检查。
+两者都行，技能不会替你决定。按 ticket 审能让每个 diff 足够小，使 Spec 轴有一个清晰的 spec 可对照；批到分支末尾审，能抓住 ticket 之间的交互，这是逐 ticket 审查各自都会漏掉的。若使用 `implement-spec`，它会在集成分支上做最终审查。
 
 **我能相信这些发现吗？**
 
@@ -78,7 +78,7 @@ Spec 轴需要一个存在且可找到的 spec。它按这个顺序查找：
 
 **它会审查我未提交的工作吗？**
 
-不会。它 diff `<fixed-point>...HEAD`，三点式，从合并基点（merge-base）量起，排除暂存区和工作树中的变更。如果 `implement` 没有做过中间提交，即将被提交的工作对审查来说是不可见的。先提交，再审查，然后 amend 或加一个 fixup。
+不会。它 diff `<fixed-point>...HEAD`，三点式，从合并基点（merge-base）量起，排除暂存区和工作树中的变更。先提交，再审查，然后 amend 或加一个 fixup。
 
 ## 怎样算成功
 
@@ -90,9 +90,9 @@ Spec 轴需要一个存在且可找到的 spec。它按这个顺序查找：
 
 ## 它的定位
 
-`code-review` 是构建链**接近**尾端的审查步骤——`grill-with-docs → acpx-to-spec → acpx-to-tickets → implement → code-review → retro`——也可以独立地用在任何你指向的分支或 PR 上。
+`code-review` 是构建链**接近**尾端的审查步骤，通常位于 `grill-with-docs → acpx-to-spec → acpx-to-tickets → implement-acpx → code-review → retro`；也可以独立地用在任何你指向的分支或 PR 上。
 
-- [implement](https://aihero.dev/skills-implement) 是最近的邻居：它驱动构建，并在提交前调用这个技能作为自己的收尾审查。[implement-spec](https://aihero.dev/skills-implement-spec) 对整条集成分支做一次同样的事。
+- [implement-acpx](https://aihero.dev/skills-implement-acpx) 是最近的邻居：它派发一组已确定的 tickets；[implement-spec](https://aihero.dev/skills-implement-spec) 则在整份 spec 完成后审查集成分支。
 - [retro](https://aihero.dev/skills-retro) 在它之后运行并调校它：当一次会话暴露出评审漏掉了某类错误时，`retro` 会提出检查或 `CODING_STANDARDS.md` 规则，供 Standards 轴此后读取。
 - [pr](https://aihero.dev/skills-pr) 在评审过的工作要提交时撰写 PR body。
 - [acpx-to-spec](https://aihero.dev/skills-acpx-to-spec) 和 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 产出 Spec 轴对照的文档；一份含糊的 spec 会让那条轴也变得含糊。

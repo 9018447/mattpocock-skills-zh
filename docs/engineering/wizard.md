@@ -93,4 +93,4 @@
 
 ## 它的定位
 
-`wizard` 是一个随时可调用的独立技能，站在自动化停止、人类必须点击的边界线上。它最近的邻居是 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills)，因为两者都是为了把仓库带入可用状态：那个技能配置这套技能集，`wizard` 则为其他一切生成设置路径。它也和 [implement](https://aihero.dev/skills-implement) 配对：当构建出的功能需要凭据或手动切换时，wizard 会覆盖只有人类能完成的步骤。当你不确定哪个技能适合当下时，[ask-matt](https://aihero.dev/skills-ask-matt) 为你路由。
+`wizard` 是一个随时可调用的独立技能，站在自动化停止、人类必须点击的边界线上。它最近的邻居是 [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills)，因为两者都是为了把仓库带入可用状态：那个技能配置这套技能集，`wizard` 则为其他一切生成设置路径。它也和 [implement-acpx](https://aihero.dev/skills-implement-acpx) 配对：当构建出的功能需要凭据或手动切换时，wizard 会覆盖只有人类能完成的步骤。当你不确定哪个技能适合当下时，[ask-matt](https://aihero.dev/skills-ask-matt) 为你路由。

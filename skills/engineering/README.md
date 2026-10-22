@@ -14,7 +14,7 @@
 - **[acpx-domain-modeling](./acpx-domain-modeling/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，核对术语并维护 Glossary 与必要的 ADR。
 - **[acpx-to-spec](./acpx-to-spec/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，把当前对话整理为 spec 并发布 Issue。
 - **[acpx-to-tickets](./acpx-to-tickets/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，将计划或 spec 拆成 tracer-bullet Issues；批准拆票草案后再发布并创建阻塞边。
-- **[implement](./implement/SKILL.md)**：构建 spec 或一组 ticket 所描述的工作，在预先约定的接缝处驱动 `/tdd`，并在提交前用 `/code-review` 收尾。
+- **[implement-acpx](./implement-acpx/SKILL.md)**：通过 acpx 将一组已确定的 tickets 派发给用户指定的 Agent 实现。
 - **[implement-spec](./implement-spec/SKILL.md)**：在一条集成分支上实现整份 spec。把 ticket 当任务图推进，在可领取的前沿并行运行实施者子 agent 以获得最大并发，最后以 `/code-review` 收尾。
 - **[problem-atlas](./problem-atlas/SKILL.md)**：为跨会话的大型项目维护一份目标/问题地图：记录 Goal、Problem、核心矛盾与双工作前沿，基于研究与你的决策更新 ADR、SPEC 与实施 issue，并把产物生成交给 `acpx-domain-modeling`、`acpx-to-spec`、`acpx-to-tickets`。
 - **[wayfinder](./wayfinder/SKILL.md)**：把一大块工作（超过一个 agent 会话能容纳的量）规划成 issue 跟踪器上一张由决策 ticket 组成的共享地图，逐个解决，直到通往目的地的道路清晰。

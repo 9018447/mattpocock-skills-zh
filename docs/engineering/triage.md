@@ -74,7 +74,7 @@
 
 不用。它们已经代理就绪——`acpx-to-tickets` 在发布时应用 `ready-for-agent` 标签，正是为了让 AFK 运行器无需再来一遍就能捡起它们。撞上这个的用户跑了 spec 流程、看到输出上是 `needs-triage`、然后发现自己的 AFK 运行器忽略一切。`triage` 是从外部到达的工作的入口；spec 流程是你发起的工作的车道。它们在 `ready-for-agent` 处汇合，而不是更早。
 
-**既然有了 `acpx-to-spec` → `acpx-to-tickets` → `implement` 流程，`triage` 还相关吗？**
+**既然有了 `acpx-to-spec` → `acpx-to-tickets` → `implement-acpx` 流程，`triage` 还相关吗？**
 
 只有在你有人境工作时才相关。`triage` 先于那条主干存在，做的是不同的工作：它是别人提交的报告的车道。如果你追踪器里的一切都来自你自己的规划，你很少会打开它。如果你维护任何公开的东西，或者你的团队向你报 bug，它就是前门。主要用途是接收外部贡献者 issues 的开源仓库。
 
@@ -115,4 +115,4 @@ blocked 的情况已被接受为真实问题，但名称（`blocked` 还是 `pau
 
 ## 它的定位
 
-`triage` 是一个**入口（on-ramp）**，不是主链里的一步。主流程从你有的一个想法出发——盘问、spec、tickets、implement、review——而 `triage` 是为"到达的"工作准备的平行车道。它在同一个地方汇合：一个标着 `ready-for-agent`、带着简报的 issue，[implement](https://aihero.dev/skills-implement) 捡起它，正如它会捡起 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 的 ticket 一样。当一个请求在被简报之前需要打磨时，`triage` 用 [盘问（grilling）](https://aihero.dev/skills-grilling) 一次一轮问题地把它盘问成型；需要改动领域术语或补写 ADR 时，提示你显式调用 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling) 并指定执行 Agent，不自动代写领域文档。拿不准自己在哪条车道上时，[ask-matt](https://aihero.dev/skills-ask-matt) 会为你路由。
+`triage` 是一个**入口（on-ramp）**，不是主链里的一步。主流程从你有的一个想法出发：盘问、spec、tickets、实现、review；而 `triage` 是为"到达的"工作准备的平行车道。它在同一个地方汇合：一个标着 `ready-for-agent`、带着简报的 issue，可以交给 [implement-acpx](https://aihero.dev/skills-implement-acpx) 派发，正如它会接上 [acpx-to-tickets](https://aihero.dev/skills-acpx-to-tickets) 产出的 ticket 一样。当一个请求在被简报之前需要打磨时，`triage` 用 [盘问（grilling）](https://aihero.dev/skills-grilling) 一次一轮问题地把它盘问成型；需要改动领域术语或补写 ADR 时，提示你显式调用 [acpx-domain-modeling](https://aihero.dev/skills-acpx-domain-modeling) 并指定执行 Agent，不自动代写领域文档。拿不准自己在哪条车道上时，[ask-matt](https://aihero.dev/skills-ask-matt) 会为你路由。

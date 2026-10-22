@@ -236,7 +236,7 @@ npx skills@latest add devcxl/mattpocock-skills-zh -a <agent>  # cursor, opencode
 - **[acpx-domain-modeling](./skills/engineering/acpx-domain-modeling/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，核对领域术语并维护 Glossary 与必要的 ADR。
 - **[acpx-to-spec](./skills/engineering/acpx-to-spec/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，由它综合当前对话并发布 spec Issue。
 - **[acpx-to-tickets](./skills/engineering/acpx-to-tickets/SKILL.md)**：通过 acpx 派发给用户指定的 Agent，将计划或 spec 拆成 tracer-bullet Issues；经用户批准后发布并建立阻塞边。
-- **[implement](./skills/engineering/implement/SKILL.md)**：按规格或工单集合构建工作，在预先约定的 seam 上驱动 `/tdd`，并在提交前以 `/code-review` 收尾。
+- **[implement-acpx](./skills/engineering/implement-acpx/SKILL.md)**：通过 acpx 将一组已确定的 tickets 派发给用户指定的 Agent 实现。
 - **[implement-spec](./skills/engineering/implement-spec/SKILL.md)**：在一条集成分支上实现整份规格。把工单当任务图推进，在可领取的前沿并行运行实施者子代理以获得最大并发，最后以 `/code-review` 收尾。
 - **[problem-atlas](./skills/engineering/problem-atlas/SKILL.md)**：为跨会话的大型项目维护一份目标/问题地图：记录 Goal、Problem、核心矛盾与双工作前沿，基于研究与你的决策更新 ADR、SPEC 与实施 issue，并把产物生成交给 `acpx-domain-modeling`、`acpx-to-spec`、`acpx-to-tickets`。
 - **[wayfinder](./skills/engineering/wayfinder/SKILL.md)**：把一项远大于一次 agent 会话能装下的工作，作为一份共享的决策 ticket 地图规划到 Issue 跟踪器上：一次解析一个，直到通往目的地的路清晰。
