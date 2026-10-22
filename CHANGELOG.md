@@ -1,5 +1,11 @@
 # mattpocock-skills
 
+## 1.4.7
+
+### Patch Changes
+
+- 修复插件校验告警：CLAUDE.md 改为 AGENTS.md，新增 icon
+
 ## 1.4.6
 
 ### Patch Changes
