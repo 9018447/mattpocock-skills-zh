@@ -17,7 +17,7 @@ disable-model-invocation: true
 ## 派发流程
 
 1. **确认目标 Agent**。按前置条件取得用户指定的标识。完成标准：拿到 Agent 标识。
-2. **总结上下文为 prompt 并落盘**。把当前对话中已确定的领域术语、争议、决策、约束及项目位置整理成派发 prompt，写入项目目录下的 prompt 文件（如 `prompts/`）。没有证据的内容注明“未提供”，不做推断。prompt 中显式写明四点：
+2. **总结上下文为 prompt 并落盘**。把当前对话中已确定的领域术语、争议、决策、约束及项目位置整理成派发 prompt，使用`writing-for-agents`写入项目目录下的 prompt 文件（如 `prompts/`）。没有证据的内容注明“未提供”，不做推断。prompt 中显式写明四点：
    - 触发 `\domain-modeling` skill（执行侧技能名，保持无前缀）执行领域建模；
    - 产出直接落盘到项目目录（GLOSSARY.md 与必要的 ADR），无需回询确认；
    - 目标 Agent 是执行末端，不得继续向下派发，不得使用 acpx 或 subagent；

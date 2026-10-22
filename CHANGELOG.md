@@ -1,5 +1,12 @@
 # mattpocock-skills
 
+## 1.4.6
+
+### Patch Changes
+
+- 改为acpx派发
+- 发布 1.4.5：acpx 技能小修流程简化
+
 ## 1.4.5
 
 ### Patch Changes
